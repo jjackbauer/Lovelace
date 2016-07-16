@@ -4,8 +4,9 @@ using namespace std;
 
 int main()
 {
-	cout << "teste1" << endl;
-	cin.get();
+	InteiroLovelace A;
+
+	A.SetDigito(0,1);
 
 	return 0;
 }

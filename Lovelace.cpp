@@ -1,4 +1,7 @@
 #include "Lovelace.h"
+#include <iostream>
+#include<cstdlib>
+using namespace std;
 
 
 
@@ -21,11 +24,49 @@ Lovelace::~Lovelace()
 
 void Lovelace::SetBitWise(long long int Posicao,char A, char B)
 {
-	if(posicao>=0 && posicao < GetTamanho())
+	long long int tamanho = GetTamanho();
+	A<<=4;
+	A+=B;
+
+	if(Posicao>=0 && Posicao/2 < tamanho)
 	{
-		A<<=4;
-		A+=B;
 		Algarismos[Posicao/2]=A;
+	}
+	else
+	if(Posicao/2 == tamanho)
+	{
+		SetTamanho(tamanho+1);
+		if(!tamanho)
+		{
+			Algarismos = (char *)malloc(sizeof(char));
+
+			if(Algarismos)
+			{
+				Algarismos[Posicao/2]=A;
+			}
+			else
+			{
+				cout<<"Erro de alocacao"<<endl;
+
+			}
+
+			return;
+		}
+		else
+		{
+			Algarismos = (char *)realloc(Algarismos,tamanho*sizeof(char));
+			if(Algarismos)
+			{
+				Algarismos[Posicao/2]=A;
+			}
+			else
+			{
+				cout<<"Erro de alocacao"<<endl;
+			}
+
+			return;
+		}
+
 	}
 	else
 	{
@@ -35,7 +76,7 @@ void Lovelace::SetBitWise(long long int Posicao,char A, char B)
 
 void Lovelace::GetBitWise(long long int Posicao,char &A, char &B)
 {	
-	if(posicao>=0 && posicao < GetTamanho())
+	if(Posicao>=0 && Posicao < GetTamanho())
 	{
 			
 		char coded = Algarismos[Posicao/2];
@@ -51,7 +92,7 @@ void Lovelace::GetBitWise(long long int Posicao,char &A, char &B)
 
 char Lovelace::GetDigito(long long int Posicao)
 {
-	if(posicao>=0 && posicao < GetTamanho())
+	if(Posicao>=0 && Posicao < GetTamanho())
 	{
 		char A,B;
 		GetBitWise(Posicao/2,A,B);
@@ -63,12 +104,14 @@ char Lovelace::GetDigito(long long int Posicao)
 		cout<<"Atribuicao erronea"<<endl;
 	}
 	
+	return 0;
+
 }
 void Lovelace::SetDigito(long long int Posicao, char Digito)
 {	
-	if(posicao>=0 && posicao < GetTamanho())
+	if(Posicao>=0 && Posicao < GetTamanho())
 	{
-		char A,B,aux;
+		char A,B;
 		GetBitWise(Posicao/2,A,B);
 		Posicao%2?(B=Digito):(A=Digito);
 		SetBitWise(Posicao/2,A,B);
@@ -81,53 +124,15 @@ void Lovelace::SetDigito(long long int Posicao, char Digito)
 	}
 }
 
-&Lovelace Lovelace::Atribuicao(int A)
-{
-	return Lovelace();
-}
-
-&Lovelace Lovelace::Atribuicao(Lovelace &A, Lovelace B)
-{
-	return Lovelace();
-}
-
-&Lovelace Lovelace::Soma(Lovelace A, Lovelace B)
-{
-	return Lovelace();
-}
-
-&Lovelace Lovelace::Subtracao(Lovelace A, Lovelace B)
-{
-	return Lovelace();
-}
-
-&Lovelace Lovelace::Multiplicacao(Lovelace A, Lovelace B)
-{
-	return Lovelace();
-}
-
-&Lovelace Lovelace::Divisao(Lovelace A, Lovelace B)
-{
-	return Lovelace();
-}
-
-&Lovelace Lovelace::InversaoDeSinal(Lovelace A)
-{
-	return Lovelace();
-}
-
-&Lovelace Lovelace::Inversao(Lovelace A)
-{
-	return Lovelace();
-}
 
 void Lovelace::SetTamanho(long long int Tamanho)
 {
+	Lovelace::Tamanho=Tamanho;
 }
 
 long long int Lovelace::GetTamanho()
 {
-	return 0;
+	return Lovelace::Tamanho;
 }
 
 int Lovelace::GetSinal()
@@ -138,17 +143,6 @@ int Lovelace::GetSinal()
 void Lovelace::SetSinal(int Sinal)
 {
 }
-
-&Lovelace Lovelace::Exponenciacao(Lovelace A, Lovelace X)
-{
-	return Lovelace();
-}
-
-&Lovelace Lovelace::Fatorial(Lovelace N)
-{
-	return Lovelace();
-}
-
 bool Lovelace::VerificaEzero()
 {
 	return false;
@@ -159,6 +153,10 @@ void Lovelace::SetZero(bool Zero)
 }
 void Lovelace::Imprime()
 {
+	for(int c=0;c<GetTamanho;c++)
+	{
+
+	}
 }
 
 void Lovelace::SetAlgarismosExibicao(long long int Numero)
@@ -169,3 +167,60 @@ long long int Lovelace::GetAlgarismosExibicao()
 {
 	return 0;
 }
+Lovelace& Lovelace::Soma(Lovelace A, Lovelace B)
+{
+	Lovelace *res=(Lovelace*)malloc(sizeof(Lovelace));
+
+	return *res;
+}
+
+Lovelace& Lovelace::Subtracao(Lovelace A, Lovelace B)
+{
+	Lovelace *res=(Lovelace*)malloc(sizeof(Lovelace));
+
+	return *res;
+}
+
+Lovelace& Lovelace::Multiplicacao(Lovelace A, Lovelace B)
+{
+	Lovelace *res=(Lovelace*)malloc(sizeof(Lovelace));
+
+	return *res;
+}
+
+Lovelace& Lovelace::Divisao(Lovelace A, Lovelace B)
+{
+	Lovelace *res=(Lovelace*)malloc(sizeof(Lovelace));
+
+	return *res;
+}
+
+Lovelace& Lovelace::InversaoDeSinal(Lovelace A)
+{
+	Lovelace *res=(Lovelace*)malloc(sizeof(Lovelace));
+
+	return *res;
+}
+
+Lovelace& Lovelace::Inversao(Lovelace A)
+{
+	Lovelace *res=(Lovelace*)malloc(sizeof(Lovelace));
+
+	return *res;
+}
+
+Lovelace& Lovelace::Exponenciacao(Lovelace A, Lovelace X)
+{
+	Lovelace *res=(Lovelace*)malloc(sizeof(Lovelace));
+
+	return *res;
+}
+
+Lovelace& Lovelace::Fatorial(Lovelace N)
+{
+	Lovelace *res=(Lovelace*)malloc(sizeof(Lovelace));
+
+	return *res;
+}
+
+
