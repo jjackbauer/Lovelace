@@ -146,19 +146,21 @@ void Lovelace::SetQuantidadeAlgarismos(long long int Tamanho)
 }
 int Lovelace::GetSinal()
 {
-	return 0;
+	return Sinal?1:-1;
 }
 
 void Lovelace::SetSinal(int Sinal)
 {
+	Lovelace::Sinal = Sinal>0?true:false;
 }
 bool Lovelace::VerificaEzero()
 {
-	return false;
+	return Ezero;
 }
 
 void Lovelace::SetZero(bool Zero)
 {
+	Ezero=Zero;
 }
 void Lovelace::Imprime()
 {
@@ -182,11 +184,12 @@ void Lovelace::Imprime()
 
 void Lovelace::SetAlgarismosExibicao(long long int Numero)
 {
+	AlgarismosExibicao=Numero;
 }
 
 long long int Lovelace::GetAlgarismosExibicao()
 {
-	return 0;
+	return AlgarismosExibicao;
 }
 Lovelace& Lovelace::Soma(Lovelace A, Lovelace B)
 {
