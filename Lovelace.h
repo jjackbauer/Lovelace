@@ -29,6 +29,8 @@ class Lovelace
 		void SetDigito(long long int Posicao, char Digito);
 		long long int GetTamanho();
 		void SetTamanho(long long int Tamanho);
+		long long int GetQuantidadeAlgarismos();
+		void SetQuantidadeAlgarismos(long long int Tamanho);
 		long long int GetAlgarismosExibicao();
 		void SetAlgarismosExibicao(long long int Numero);
 		int GetSinal();

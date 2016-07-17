@@ -17,7 +17,7 @@ void Lovelace::ExpandeAlgarismos()
 	{
 		Saida[c]=Algarismos[c];
 	}
-	Tamanho++;
+	SetTamanho(GetTamanho()+1);
 
 	if(Algarismos)
 		free(Algarismos);
@@ -115,8 +115,8 @@ void Lovelace::SetDigito(long long int Posicao, char Digito)
 			A=Digito;
 		}
 
-		if(Posicao>=QuantidadeAlgarismos)
-			QuantidadeAlgarismos++;
+		if(Posicao>=GetQuantidadeAlgarismos())
+			SetQuantidadeAlgarismos(GetQuantidadeAlgarismos()+1);
 		SetBitWise(Posicao/2,A,B);
 
 	}
@@ -136,7 +136,14 @@ long long int Lovelace::GetTamanho()
 {
 	return Lovelace::Tamanho;
 }
-
+long long int Lovelace::GetQuantidadeAlgarismos()
+{
+	return QuantidadeAlgarismos;
+}
+void Lovelace::SetQuantidadeAlgarismos(long long int Tamanho)
+{
+	QuantidadeAlgarismos=Tamanho;
+}
 int Lovelace::GetSinal()
 {
 	return 0;
