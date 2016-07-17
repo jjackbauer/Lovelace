@@ -7,7 +7,7 @@ using namespace std;
 
 class InteiroLovelace: public Lovelace
 {
-
+	public:
 		InteiroLovelace();
 		~InteiroLovelace();
 

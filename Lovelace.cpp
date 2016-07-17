@@ -3,12 +3,36 @@
 #include<cstdlib>
 using namespace std;
 
+char Lovelace::TabelaDeConversao[] = {'0','1','2','3','4','5','6','7','8','9'};
+void Lovelace::ExpandeAlgarismos()
+{
+	char *Saida=(char*)malloc(sizeof(char)*(GetTamanho()+1));
+	if(!Saida)
+	{
+		cout<<"Erro ao expandir"<<endl;
+		exit(1);
+	}
+
+	for(int c=0;c<GetTamanho();c++)
+	{
+		Saida[c]=Algarismos[c];
+	}
+	Tamanho++;
+
+	if(Algarismos)
+		free(Algarismos);
+
+	Algarismos=Saida;
+
+	return;
 
 
+
+}
 Lovelace::Lovelace()
 {
 	Algarismos=NULL;
-	Tamanho=0;
+	QuantidadeAlgarismos=Tamanho=0;
 	Sinal=true;
 	Ezero=true;
 }
@@ -25,52 +49,20 @@ Lovelace::~Lovelace()
 void Lovelace::SetBitWise(long long int Posicao,char A, char B)
 {
 	long long int tamanho = GetTamanho();
-	A<<=4;
-	A+=B;
 
-	if(Posicao>=0 && Posicao/2 < tamanho)
+	if(Posicao>=0 && Posicao <= tamanho)
 	{
-		Algarismos[Posicao/2]=A;
-	}
-	else
-	if(Posicao/2 == tamanho)
-	{
-		SetTamanho(tamanho+1);
-		if(!tamanho)
-		{
-			Algarismos = (char *)malloc(sizeof(char));
+		A<<=4;
+		A+=B;
 
-			if(Algarismos)
-			{
-				Algarismos[Posicao/2]=A;
-			}
-			else
-			{
-				cout<<"Erro de alocacao"<<endl;
+		if(Posicao == tamanho)
+			ExpandeAlgarismos();
 
-			}
-
-			return;
-		}
-		else
-		{
-			Algarismos = (char *)realloc(Algarismos,tamanho*sizeof(char));
-			if(Algarismos)
-			{
-				Algarismos[Posicao/2]=A;
-			}
-			else
-			{
-				cout<<"Erro de alocacao"<<endl;
-			}
-
-			return;
-		}
-
+		Algarismos[Posicao]=A;
 	}
 	else
 	{
-		cout<<"Atribuicao erronea"<<endl;
+		cout<<"Atribuicao erronea BitWise"<<endl;
 	}
 }
 
@@ -79,14 +71,14 @@ void Lovelace::GetBitWise(long long int Posicao,char &A, char &B)
 	if(Posicao>=0 && Posicao < GetTamanho())
 	{
 			
-		char coded = Algarismos[Posicao/2];
+		char coded = Algarismos[Posicao];
 		
 		A=((coded&(240))>>4);
 		B=coded&(15);
 	}
 	else
 	{
-		cout<<"Atribuicao erronea"<<endl;
+		cout<<"Acesso Invalido BitWise"<<endl;
 	}
 }
 
@@ -101,7 +93,7 @@ char Lovelace::GetDigito(long long int Posicao)
 	}
 	else
 	{
-		cout<<"Atribuicao erronea"<<endl;
+		cout<<"Acesso Invalido Digito"<<endl;
 	}
 	
 	return 0;
@@ -109,18 +101,28 @@ char Lovelace::GetDigito(long long int Posicao)
 }
 void Lovelace::SetDigito(long long int Posicao, char Digito)
 {	
-	if(Posicao>=0 && Posicao < GetTamanho())
+	if(Posicao>=0 && Posicao/2 <= GetTamanho())
 	{
 		char A,B;
-		GetBitWise(Posicao/2,A,B);
-		Posicao%2?(B=Digito):(A=Digito);
+		if(Posicao/2 < GetTamanho())
+		{
+			GetBitWise(Posicao/2,A,B);
+			Posicao%2?(B=Digito):(A=Digito);
+		}
+		else
+		{
+			B=15;
+			A=Digito;
+		}
+
+		if(Posicao>=QuantidadeAlgarismos)
+			QuantidadeAlgarismos++;
 		SetBitWise(Posicao/2,A,B);
-		
-		
+
 	}
 	else
 	{
-		cout<<"Atribuicao erronea"<<endl;
+		cout<<"Atribuicao erronea Digito"<<endl;
 	}
 }
 
@@ -153,10 +155,22 @@ void Lovelace::SetZero(bool Zero)
 }
 void Lovelace::Imprime()
 {
-	for(int c=0;c<GetTamanho;c++)
-	{
+	int c,aux=QuantidadeAlgarismos;
+	char A,B;
+	GetBitWise(GetTamanho()-1,A,B);
+	//cout<<aux<<endl;
 
+	if(!(aux%2))
+		cout<<TabelaDeConversao[(int)B]<<TabelaDeConversao[(int)A];
+	else
+		cout<<TabelaDeConversao[(int)A];
+
+	for(c=GetTamanho()-2;c>-1;c--)
+	{
+		GetBitWise(c,A,B);
+		cout<<TabelaDeConversao[(int)B]<<TabelaDeConversao[(int)A];
 	}
+	cout<<endl;
 }
 
 void Lovelace::SetAlgarismosExibicao(long long int Numero)

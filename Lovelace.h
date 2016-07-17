@@ -10,12 +10,14 @@ class Lovelace
 	private:
 		char *Algarismos;
 		long long int Tamanho;
+		long long int QuantidadeAlgarismos;
 		bool Sinal;
 		bool Ezero;
+		void ExpandeAlgarismos();
 		
 	public:
 		static long long int Precisao;
-		static char* TabelaDeConversao;
+		static char TabelaDeConversao[10];
 		static long long int AlgarismosExibicao;
 		
 		Lovelace();
