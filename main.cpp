@@ -6,16 +6,17 @@ int main()
 {
 	Lovelace A,B;
 	int c;
+	A.SetDigito(0,1);
 
-	for(c=0;c<100;c++)
-		A.SetDigito(c,9);
-	for(c=0;c<100;c++)
-			B.SetDigito(c,9);
+	while(1){
+		B=A.Soma(&B,&A);
+		B.Imprime();
+		getchar();
+	}
 
-	A.Imprime();
+	/*A.Imprime();
 	B.Imprime();
 	A = A.Soma(&A,&B);
-	A.Imprime();
-	getchar();
+	A.Imprime();//*/
 	return 0;
 }

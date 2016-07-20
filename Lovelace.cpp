@@ -107,7 +107,8 @@ char Lovelace::GetDigito(long long int Posicao)
 	}
 	else
 	{
-		cout<<"Acesso Invalido Digito"<<endl;
+		//cout<<"Acesso Invalido Digito"<<endl;
+		return 0;
 	}
 
 	return 0;
@@ -213,13 +214,14 @@ Lovelace& Lovelace::Lovelace::Soma(Lovelace *A, Lovelace *B)
 	res->SetDigito(0,sum);
 	Oflow=((A->GetDigito(0)+B->GetDigito(0))/10);
 
-	for(c=1;c<MaxDigi;c++)
+	for(c=1;c<=MaxDigi;c++)
 	{
 		//cout<<"C = "<<c<<endl;
 		//cout<<"Numero Digitos = "<<(res->GetQuantidadeAlgarismos())<<endl;
 		sum=((A->GetDigito(c)+B->GetDigito(c))%10);
+		Oflow=((A->GetDigito(c-1)+B->GetDigito(c-1)+Oflow)/10);
+		//if(sum+Oflow)//Isso vai ter de voltar apos corrige lovelace....
 		res->SetDigito(c,(sum+Oflow)%10);
-		Oflow=((A->GetDigito(c-1)+B->GetDigito(c-1))/10);
 		//cout<<"SUM = "<<sum<<" Oflow = "<<Oflow<<endl;
 		//res->Imprime();
 		//getchar();
