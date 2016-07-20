@@ -220,6 +220,7 @@ Lovelace& Lovelace::Lovelace::Soma(Lovelace *A, Lovelace *B)
 
 	}
 	Oflow=((A->GetDigito(c-1)+B->GetDigito(c-1))/10);
+	if(Oflow)
 	res->SetDigito(c,Oflow);
 	return *res;
 	//res->Imprime();
