@@ -49,28 +49,6 @@ public:
 	Lovelace& Exponenciacao(Lovelace *A, Lovelace *X);
 
 
-
-
-}(Lovelace *A, Lovelace *X);
-
-
-
-
-};
-
-
-
-
-};
-
-
-
-
-};
-
-
-
-
 };
 
 #endif
