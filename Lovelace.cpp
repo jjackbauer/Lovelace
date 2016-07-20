@@ -27,21 +27,26 @@ void Lovelace::ExpandeAlgarismos(int numeroDeCasas)
 	Algarismos=Saida;
 
 	return;
+
+
+
 }
 
-void Lovelace::reduzAlgarismos(int numeroDeCasas)
+void Lovelace::reduzAlgarismos(int casasParaRemover)
 {
-	char *Saida=(char*)malloc(sizeof(char)*(GetTamanho()-numeroDeCasas));
+	char *Saida=(char*)malloc(sizeof(char)*(GetTamanho()-casasParaRemover));
 	if(!Saida)
 	{
 		cout<<"Erro ao expandir"<<endl;
 		exit(1);
 	}
-	SetTamanho(GetTamanho()-numeroDeCasas);
+
+	SetTamanho(GetTamanho()-casasParaRemover);
 	for(int c=0;c<GetTamanho();c++)
 	{
 		Saida[c]=Algarismos[c];
 	}
+
 
 	if(Algarismos)
 		free(Algarismos);
@@ -49,7 +54,9 @@ void Lovelace::reduzAlgarismos(int numeroDeCasas)
 	Algarismos=Saida;
 
 	return;
+
 }
+
 
 
 void Lovelace::setAlgarismosExibicao(long long int novoAlgarismosExibicao)
@@ -79,7 +86,7 @@ Lovelace::~Lovelace()
 	}
 }
 
-void Lovelace::SetBitwise(long long int Posicao,char A, char B)
+void Lovelace::SetBitWise(long long int Posicao,char A, char B)
 {
 	long long int tamanho = GetTamanho();
 
@@ -95,11 +102,11 @@ void Lovelace::SetBitwise(long long int Posicao,char A, char B)
 	}
 	else
 	{
-		cout<<"Atribuicao erronea Bitwise"<<endl;
+		cout<<"Atribuicao erronea BitWise"<<endl;
 	}
 }
 
-void Lovelace::GetBitwise(long long int Posicao,char &A, char &B)
+void Lovelace::GetBitWise(long long int Posicao,char &A, char &B)
 {	
 	if(Posicao>=0 && Posicao < GetTamanho())
 	{
@@ -111,7 +118,7 @@ void Lovelace::GetBitwise(long long int Posicao,char &A, char &B)
 	}
 	else
 	{
-		cout<<"Acesso invalido Bitwise"<<endl;
+		cout<<"Acesso Invalido BitWise"<<endl;
 	}
 }
 
@@ -120,7 +127,7 @@ char Lovelace::GetDigito(long long int Posicao)
 	if(Posicao>=0 && Posicao < GetQuantidadeAlgarismos())//Tinha bug aqui, bug maldito kkkkkkkkk
 	{
 		char A,B;
-		GetBitwise(Posicao/2,A,B);
+		GetBitWise(Posicao/2,A,B);
 
 		return Posicao%2?B:A;
 	}
@@ -138,9 +145,9 @@ void Lovelace::SetDigito(long long int Posicao, char Digito)
 	if(Posicao>=0 && Posicao <= GetQuantidadeAlgarismos())
 	{
 			char A,B;
-			if(Posicao < GetQuantidadeAlgarismos())
+			if(Posicao/2 < GetTamanho())
 			{
-				GetBitwise(Posicao/2,A,B);
+				GetBitWise(Posicao/2,A,B);
 				Posicao%2?(B=Digito):(A=Digito);
 			}
 			else
@@ -153,7 +160,7 @@ void Lovelace::SetDigito(long long int Posicao, char Digito)
 				SetQuantidadeAlgarismos(GetQuantidadeAlgarismos()+1);
 			if(Posicao==0)
 				SetZero(false);
-			SetBitwise(Posicao/2,A,B);
+			SetBitWise(Posicao/2,A,B);
 	}
 	else
 	{
@@ -201,7 +208,7 @@ void Lovelace::Imprime()
 {
 	int c,aux=QuantidadeAlgarismos;
 	char A,B;
-	GetBitwise(GetTamanho()-1,A,B);
+	GetBitWise(GetTamanho()-1,A,B);
 	//cout<<aux<<endl;
 
 	if(!(aux%2))
@@ -211,7 +218,7 @@ void Lovelace::Imprime()
 
 	for(c=GetTamanho()-2;c>-1;c--)
 	{
-		GetBitwise(c,A,B);
+		GetBitWise(c,A,B);
 		cout<<TabelaDeConversao[(int)B]<<TabelaDeConversao[(int)A];
 	}
 	cout<<endl;
@@ -221,18 +228,20 @@ void Lovelace::Imprime()
 Lovelace& Lovelace::Lovelace::Soma(Lovelace *A, Lovelace *B)
 {
 	Lovelace *res = new Lovelace;
-	int c,Oflow=0,sum=((A->GetDigito(0)+B->GetDigito(0))%10),MaxDigi;
+	int c,Oflow = 0,sum=((A->GetDigito(0)+B->GetDigito(0))%10),MaxDigi;
 
 	{//I love gambiarra <3 <3
 		int NdA=A->GetQuantidadeAlgarismos(),NdB=B->GetQuantidadeAlgarismos();
 		MaxDigi=NdA>NdB?NdA:NdB;
+
 	}
 
+
 	res->SetDigito(0,sum);
+	//Oflow=((A->GetDigito(0)+B->GetDigito(0))/10);
 
 	for(c=1;c<=MaxDigi;c++)
 	{
-		//cout <<endl;
 		//cout<<"C = "<<c<<endl;
 		//cout<<"Numero Digitos = "<<(res->GetQuantidadeAlgarismos())<<endl;
 		sum=((A->GetDigito(c)+B->GetDigito(c))%10);
@@ -242,14 +251,20 @@ Lovelace& Lovelace::Lovelace::Soma(Lovelace *A, Lovelace *B)
 		//cout<<"SUM = "<<sum<<" Oflow = "<<Oflow<<endl;
 		//res->Imprime();
 		//getchar();
+
 	}
-	system("clear || cls");
 	Oflow=((A->GetDigito(c-1)+B->GetDigito(c-1))/10);
 	if (Oflow)
 		res->SetDigito(c,Oflow);
+	/*
+	for (c=res->GetQuantidadeAlgarismos()-1;c > -1 && !res->GetDigito(c);c--);
+	if (int aux = (res->GetQuantidadeAlgarismos()-1 - c))
+		res->reduzAlgarismos(aux);
+	cout << "teste" << endl;
+	getchar();
+	//*/
+
 	return *res;
-
-
 	//res->Imprime();
 
 	/*

@@ -14,7 +14,6 @@ int main()
 
 		cout << "Numero abaixo: " << endl;
 		B.Imprime();
-		getchar();
 	}
 	//*/
 	/*

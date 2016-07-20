@@ -1,7 +1,7 @@
 #ifndef LOVELACE_H
 #define LOVELACE_H
 #include <iostream>
-#include <cstdlib>
+#include<cstdlib>
 
 using namespace std;
 
@@ -28,8 +28,8 @@ public:
 	Lovelace();
 	~Lovelace();
 	void Imprime();
-	void GetBitwise(long long int Posicao,char &A, char &B);//Correção do diagrama: setor desnecessário
-	void SetBitwise(long long int Posicao,char A, char B);//Faltou parametro posição no UML.
+	void GetBitWise(long long int Posicao,char &A, char &B);//Correção do diagrama: setor desnecessário
+	void SetBitWise(long long int Posicao,char A, char B);//Faltou parametro posição no UML.
 	char GetDigito(long long int Posicao);
 	void SetDigito(long long int Posicao, char Digito);
 	long long int GetTamanho();
