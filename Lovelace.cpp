@@ -6,9 +6,9 @@ using namespace std;
 char Lovelace::TabelaDeConversao[] = {'0','1','2','3','4','5','6','7','8','9'};
 long long int Lovelace::algarismosExibicao = 0;
 
-void Lovelace::ExpandeAlgarismos()
+void Lovelace::ExpandeAlgarismos(int numeroDeCasas)
 {
-	char *Saida=(char*)malloc(sizeof(char)*(GetTamanho()+1));
+	char *Saida=(char*)malloc(sizeof(char)*(GetTamanho()+numeroDeCasas));
 	if(!Saida)
 	{
 		cout<<"Erro ao expandir"<<endl;
@@ -19,7 +19,7 @@ void Lovelace::ExpandeAlgarismos()
 	{
 		Saida[c]=Algarismos[c];
 	}
-	SetTamanho(GetTamanho()+1);
+	SetTamanho(GetTamanho()+numeroDeCasas);
 
 	if(Algarismos)
 		free(Algarismos);
@@ -27,9 +27,28 @@ void Lovelace::ExpandeAlgarismos()
 	Algarismos=Saida;
 
 	return;
+}
 
+void Lovelace::reduzAlgarismos(int numeroDeCasas)
+{
+	char *Saida=(char*)malloc(sizeof(char)*(GetTamanho()-numeroDeCasas));
+	if(!Saida)
+	{
+		cout<<"Erro ao expandir"<<endl;
+		exit(1);
+	}
+	SetTamanho(GetTamanho()-numeroDeCasas);
+	for(int c=0;c<GetTamanho();c++)
+	{
+		Saida[c]=Algarismos[c];
+	}
 
+	if(Algarismos)
+		free(Algarismos);
 
+	Algarismos=Saida;
+
+	return;
 }
 
 
@@ -60,7 +79,7 @@ Lovelace::~Lovelace()
 	}
 }
 
-void Lovelace::SetBitWise(long long int Posicao,char A, char B)
+void Lovelace::SetBitwise(long long int Posicao,char A, char B)
 {
 	long long int tamanho = GetTamanho();
 
@@ -76,11 +95,11 @@ void Lovelace::SetBitWise(long long int Posicao,char A, char B)
 	}
 	else
 	{
-		cout<<"Atribuicao erronea BitWise"<<endl;
+		cout<<"Atribuicao erronea Bitwise"<<endl;
 	}
 }
 
-void Lovelace::GetBitWise(long long int Posicao,char &A, char &B)
+void Lovelace::GetBitwise(long long int Posicao,char &A, char &B)
 {	
 	if(Posicao>=0 && Posicao < GetTamanho())
 	{
@@ -92,7 +111,7 @@ void Lovelace::GetBitWise(long long int Posicao,char &A, char &B)
 	}
 	else
 	{
-		cout<<"Acesso Invalido BitWise"<<endl;
+		cout<<"Acesso invalido Bitwise"<<endl;
 	}
 }
 
@@ -101,7 +120,7 @@ char Lovelace::GetDigito(long long int Posicao)
 	if(Posicao>=0 && Posicao < GetQuantidadeAlgarismos())//Tinha bug aqui, bug maldito kkkkkkkkk
 	{
 		char A,B;
-		GetBitWise(Posicao/2,A,B);
+		GetBitwise(Posicao/2,A,B);
 
 		return Posicao%2?B:A;
 	}
@@ -119,9 +138,9 @@ void Lovelace::SetDigito(long long int Posicao, char Digito)
 	if(Posicao>=0 && Posicao <= GetQuantidadeAlgarismos())
 	{
 			char A,B;
-			if(Posicao/2 < GetTamanho())
+			if(Posicao < GetQuantidadeAlgarismos())
 			{
-				GetBitWise(Posicao/2,A,B);
+				GetBitwise(Posicao/2,A,B);
 				Posicao%2?(B=Digito):(A=Digito);
 			}
 			else
@@ -134,7 +153,7 @@ void Lovelace::SetDigito(long long int Posicao, char Digito)
 				SetQuantidadeAlgarismos(GetQuantidadeAlgarismos()+1);
 			if(Posicao==0)
 				SetZero(false);
-			SetBitWise(Posicao/2,A,B);
+			SetBitwise(Posicao/2,A,B);
 	}
 	else
 	{
@@ -182,7 +201,7 @@ void Lovelace::Imprime()
 {
 	int c,aux=QuantidadeAlgarismos;
 	char A,B;
-	GetBitWise(GetTamanho()-1,A,B);
+	GetBitwise(GetTamanho()-1,A,B);
 	//cout<<aux<<endl;
 
 	if(!(aux%2))
@@ -192,7 +211,7 @@ void Lovelace::Imprime()
 
 	for(c=GetTamanho()-2;c>-1;c--)
 	{
-		GetBitWise(c,A,B);
+		GetBitwise(c,A,B);
 		cout<<TabelaDeConversao[(int)B]<<TabelaDeConversao[(int)A];
 	}
 	cout<<endl;
@@ -202,20 +221,18 @@ void Lovelace::Imprime()
 Lovelace& Lovelace::Lovelace::Soma(Lovelace *A, Lovelace *B)
 {
 	Lovelace *res = new Lovelace;
-	int c,Oflow,sum=((A->GetDigito(0)+B->GetDigito(0))%10),MaxDigi;
+	int c,Oflow=0,sum=((A->GetDigito(0)+B->GetDigito(0))%10),MaxDigi;
 
 	{//I love gambiarra <3 <3
 		int NdA=A->GetQuantidadeAlgarismos(),NdB=B->GetQuantidadeAlgarismos();
 		MaxDigi=NdA>NdB?NdA:NdB;
-
 	}
 
-
 	res->SetDigito(0,sum);
-	Oflow=((A->GetDigito(0)+B->GetDigito(0))/10);
 
 	for(c=1;c<=MaxDigi;c++)
 	{
+		//cout <<endl;
 		//cout<<"C = "<<c<<endl;
 		//cout<<"Numero Digitos = "<<(res->GetQuantidadeAlgarismos())<<endl;
 		sum=((A->GetDigito(c)+B->GetDigito(c))%10);
@@ -225,12 +242,14 @@ Lovelace& Lovelace::Lovelace::Soma(Lovelace *A, Lovelace *B)
 		//cout<<"SUM = "<<sum<<" Oflow = "<<Oflow<<endl;
 		//res->Imprime();
 		//getchar();
-
 	}
+	system("clear || cls");
 	Oflow=((A->GetDigito(c-1)+B->GetDigito(c-1))/10);
-	if(Oflow)
-	res->SetDigito(c,Oflow);
+	if (Oflow)
+		res->SetDigito(c,Oflow);
 	return *res;
+
+
 	//res->Imprime();
 
 	/*
