@@ -15,10 +15,14 @@ private:
 	bool Ezero;
 	void ExpandeAlgarismos();
 
-public:
+	static long long int algarismosExibicao;
 	static long long int Precisao;
+
+public:
 	static char TabelaDeConversao[10];
-	static long long int AlgarismosExibicao;
+
+	static long long int getAlgarismosExibicao();
+	static void setAlgarismosExibicao(long long int novoAlgarismosExibicao);
 
 	Lovelace();
 	~Lovelace();
@@ -31,8 +35,7 @@ public:
 	void SetTamanho(long long int Tamanho);
 	long long int GetQuantidadeAlgarismos();
 	void SetQuantidadeAlgarismos(long long int Tamanho);
-	long long int GetAlgarismosExibicao();
-	void SetAlgarismosExibicao(long long int Numero);
+
 	int GetSinal();
 	void SetSinal(int Sinal);
 	bool VerificaEzero(); // Nome redefinido por possuir nome conflitante com atributo no diagrama UML.
@@ -44,6 +47,26 @@ public:
 	Lovelace& InversaoDeSinal(Lovelace *A);
 	Lovelace& Inversao(Lovelace *A);
 	Lovelace& Exponenciacao(Lovelace *A, Lovelace *X);
+
+
+
+
+}(Lovelace *A, Lovelace *X);
+
+
+
+
+};
+
+
+
+
+};
+
+
+
+
+};
 
 
 

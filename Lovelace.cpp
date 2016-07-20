@@ -1,9 +1,11 @@
 #include "Lovelace.h"
 #include <iostream>
-#include<cstdlib>
+#include <cstdlib>
 using namespace std;
 
 char Lovelace::TabelaDeConversao[] = {'0','1','2','3','4','5','6','7','8','9'};
+long long int Lovelace::algarismosExibicao = 0;
+
 void Lovelace::ExpandeAlgarismos()
 {
 	char *Saida=(char*)malloc(sizeof(char)*(GetTamanho()+1));
@@ -29,6 +31,18 @@ void Lovelace::ExpandeAlgarismos()
 
 
 }
+
+
+void Lovelace::setAlgarismosExibicao(long long int novoAlgarismosExibicao)
+{
+	algarismosExibicao=novoAlgarismosExibicao;
+}
+
+long long int Lovelace::getAlgarismosExibicao()
+{
+	return algarismosExibicao;
+}
+
 Lovelace::Lovelace()
 {
 	Algarismos=NULL;
@@ -183,15 +197,7 @@ void Lovelace::Imprime()
 	cout<<endl;
 }
 
-void Lovelace::SetAlgarismosExibicao(long long int Numero)
-{
-	//AlgarismosExibicao=Numero;//Why god?
-}
 
-long long int Lovelace::GetAlgarismosExibicao()
-{
-	//return AlgarismosExibicao;//Why god?
-}
 Lovelace& Lovelace::Lovelace::Soma(Lovelace *A, Lovelace *B)
 {
 	Lovelace *res = new Lovelace;
