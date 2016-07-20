@@ -70,9 +70,9 @@ void Lovelace::GetBitWise(long long int Posicao,char &A, char &B)
 {	
 	if(Posicao>=0 && Posicao < GetTamanho())
 	{
-			
+
 		char coded = Algarismos[Posicao];
-		
+
 		A=((coded&(240))>>4);
 		B=coded&(15);
 	}
@@ -84,41 +84,42 @@ void Lovelace::GetBitWise(long long int Posicao,char &A, char &B)
 
 char Lovelace::GetDigito(long long int Posicao)
 {
-	if(Posicao>=0 && Posicao < GetTamanho())
+	if(Posicao>=0 && Posicao < GetQuantidadeAlgarismos())//Tinha bug aqui, bug maldito kkkkkkkkk
 	{
 		char A,B;
 		GetBitWise(Posicao/2,A,B);
-		
+
 		return Posicao%2?B:A;
 	}
 	else
 	{
 		cout<<"Acesso Invalido Digito"<<endl;
 	}
-	
+
 	return 0;
 
 }
 void Lovelace::SetDigito(long long int Posicao, char Digito)
 {	
-	if(Posicao>=0 && Posicao/2 <= GetTamanho())
+	if(Posicao>=0 && Posicao <= GetQuantidadeAlgarismos())
 	{
-		char A,B;
-		if(Posicao/2 < GetTamanho())
-		{
-			GetBitWise(Posicao/2,A,B);
-			Posicao%2?(B=Digito):(A=Digito);
-		}
-		else
-		{
-			B=15;
-			A=Digito;
-		}
+			char A,B;
+			if(Posicao/2 < GetTamanho())
+			{
+				GetBitWise(Posicao/2,A,B);
+				Posicao%2?(B=Digito):(A=Digito);
+			}
+			else
+			{
+				B=15;
+				A=Digito;
+			}
 
-		if(Posicao>=GetQuantidadeAlgarismos())
-			SetQuantidadeAlgarismos(GetQuantidadeAlgarismos()+1);
-		SetBitWise(Posicao/2,A,B);
-
+			if(Posicao>=GetQuantidadeAlgarismos())
+				SetQuantidadeAlgarismos(GetQuantidadeAlgarismos()+1);
+			if(Posicao==0)
+				SetZero(false);
+			SetBitWise(Posicao/2,A,B);
 	}
 	else
 	{
@@ -184,67 +185,71 @@ void Lovelace::Imprime()
 
 void Lovelace::SetAlgarismosExibicao(long long int Numero)
 {
-	AlgarismosExibicao=Numero;
+	//AlgarismosExibicao=Numero;//Why god?
 }
 
 long long int Lovelace::GetAlgarismosExibicao()
 {
-	return AlgarismosExibicao;
+	//return AlgarismosExibicao;//Why god?
 }
-Lovelace& Lovelace::Soma(Lovelace A, Lovelace B)
+Lovelace& Lovelace::Lovelace::Soma(Lovelace *A, Lovelace *B)
 {
-	Lovelace *res=(Lovelace*)malloc(sizeof(Lovelace));
+	Lovelace *res = new Lovelace;
+	int c,Oflow,sum=((A->GetDigito(0)+B->GetDigito(0))%10),MaxDigi;
 
+	{//I love gambiarra <3 <3
+		int NdA=A->GetQuantidadeAlgarismos(),NdB=B->GetQuantidadeAlgarismos();
+		MaxDigi=NdA>NdB?NdA:NdB;
+
+	}
+
+
+	res->SetDigito(0,sum);
+	Oflow=((A->GetDigito(0)+B->GetDigito(0))/10);
+
+	for(c=1;c<MaxDigi;c++)
+	{
+		//cout<<"C = "<<c<<endl;
+		//cout<<"Numero Digitos = "<<(res->GetQuantidadeAlgarismos())<<endl;
+		sum=((A->GetDigito(c)+B->GetDigito(c))%10);
+		res->SetDigito(c,(sum+Oflow)%10);
+		Oflow=((A->GetDigito(c-1)+B->GetDigito(c-1))/10);
+		//cout<<"SUM = "<<sum<<" Oflow = "<<Oflow<<endl;
+		//res->Imprime();
+		//getchar();
+
+	}
+	Oflow=((A->GetDigito(c-1)+B->GetDigito(c-1))/10);
+	res->SetDigito(c,Oflow);
 	return *res;
-}
+	//res->Imprime();
 
-Lovelace& Lovelace::Subtracao(Lovelace A, Lovelace B)
+	/*
+	 res->Imprime();
+	  cout<<"A= "<<A->GetQuantidadeAlgarismos()<<"B= "<<B->GetQuantidadeAlgarismos()<<endl;
+	//*/
+}
+Lovelace& Lovelace::Lovelace::Subtracao(Lovelace *A, Lovelace *B)
 {
-	Lovelace *res=(Lovelace*)malloc(sizeof(Lovelace));
 
-	return *res;
 }
-
-Lovelace& Lovelace::Multiplicacao(Lovelace A, Lovelace B)
+Lovelace& Lovelace::Lovelace::Multiplicacao(Lovelace *A, Lovelace *B)
 {
-	Lovelace *res=(Lovelace*)malloc(sizeof(Lovelace));
 
-	return *res;
 }
-
-Lovelace& Lovelace::Divisao(Lovelace A, Lovelace B)
+Lovelace& Lovelace::Divisao(Lovelace *A, Lovelace *B)
 {
-	Lovelace *res=(Lovelace*)malloc(sizeof(Lovelace));
 
-	return *res;
 }
-
-Lovelace& Lovelace::InversaoDeSinal(Lovelace A)
+Lovelace& Lovelace::InversaoDeSinal(Lovelace *A)
 {
-	Lovelace *res=(Lovelace*)malloc(sizeof(Lovelace));
 
-	return *res;
 }
-
-Lovelace& Lovelace::Inversao(Lovelace A)
+Lovelace& Lovelace::Inversao(Lovelace *A)
 {
-	Lovelace *res=(Lovelace*)malloc(sizeof(Lovelace));
 
-	return *res;
 }
-
-Lovelace& Lovelace::Exponenciacao(Lovelace A, Lovelace X)
+Lovelace& Lovelace::Exponenciacao(Lovelace *A, Lovelace *X)
 {
-	Lovelace *res=(Lovelace*)malloc(sizeof(Lovelace));
 
-	return *res;
 }
-
-Lovelace& Lovelace::Fatorial(Lovelace N)
-{
-	Lovelace *res=(Lovelace*)malloc(sizeof(Lovelace));
-
-	return *res;
-}
-
-
