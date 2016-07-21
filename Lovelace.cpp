@@ -238,8 +238,26 @@ void Lovelace::Imprime()
 	}
 	cout<<endl;
 }
+Lovelace& Lovelace::incrementar()
+{
+	Lovelace aux;
+	aux.setDigito(0,1);
 
+	return ((*this) = somar(*this,aux));
 
+}
+Lovelace& Lovelace::operator++()
+{
+	return (this->incrementar());
+}
+Lovelace& Lovelace::operator++(int semuso)
+{
+	Lovelace *aux = new Lovelace;
+
+	*aux = *this;
+	this->incrementar();
+	return *aux;
+}
 Lovelace& Lovelace::somar(Lovelace &A, Lovelace &B)
 {
 	Lovelace *res = new Lovelace;

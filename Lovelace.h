@@ -71,6 +71,9 @@ public:
 	Lovelace& operator-=(Lovelace &B);
 	Lovelace& operator*=(Lovelace &B);
 	Lovelace& operator/=(Lovelace &B);
+	Lovelace& operator++();
+	Lovelace& operator++(int semuso);
+
 
 	/* Operações de Comparação */
 	friend bool operator==(Lovelace &A, Lovelace &B);

@@ -11,7 +11,7 @@ int main()
 	/*A.SetDigito(0,0);
 	A.SetDigito(1,1);//*///10 em 10
 
-	A.setDigito(0,1);//1 em 1
+	/*A.setDigito(0,1);//1 em 1
 
 	B.setDigito(0,3);
 
@@ -30,17 +30,15 @@ int main()
 
 	cout << "C " << ((C>=B)?"":"nao ") << "eh maior ou igual a B" << endl;
 
-	getchar();
+	getchar();//*/
 	//*
 	while(1){
-		B=A+B+C;
-
-		//cout << "Numero abaixo: " << endl;
-		B.Imprime();
+		(++A).Imprime();
 		getchar();
+
 	}
 	//*///FIM CONTADOR
-	getchar();
+
 
 	//*/
 	/*
