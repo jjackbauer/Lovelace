@@ -13,8 +13,8 @@ private:
 	long long int QuantidadeAlgarismos;
 	bool Sinal;//Deve ser removido
 	bool Ezero;
-	void ExpandeAlgarismos(int numeroDeCasas = 1);
-	void reduzAlgarismos(int numeroDeCasas = 1);
+	void ExpandeAlgarismos();
+	void reduzAlgarismos();
 
 	static long long int algarismosExibicao;
 	static long long int Precisao;

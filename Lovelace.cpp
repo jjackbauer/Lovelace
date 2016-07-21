@@ -4,11 +4,11 @@
 using namespace std;
 
 char Lovelace::TabelaDeConversao[] = {'0','1','2','3','4','5','6','7','8','9'};
-long long int Lovelace::algarismosExibicao = 0;
+long long int Lovelace::algarismosExibicao = -1;
 
-void Lovelace::ExpandeAlgarismos(int numeroDeCasas)
+void Lovelace::ExpandeAlgarismos()
 {
-	char *Saida=(char*)malloc(sizeof(char)*(GetTamanho()+numeroDeCasas));
+	char *Saida=(char*)malloc(sizeof(char)*(GetTamanho()+1));
 	if(!Saida)
 	{
 		cout<<"Erro ao expandir"<<endl;
@@ -19,7 +19,7 @@ void Lovelace::ExpandeAlgarismos(int numeroDeCasas)
 	{
 		Saida[c]=Algarismos[c];
 	}
-	SetTamanho(GetTamanho()+numeroDeCasas);
+	SetTamanho(GetTamanho()+1);
 
 	if(Algarismos)
 		free(Algarismos);
@@ -32,27 +32,42 @@ void Lovelace::ExpandeAlgarismos(int numeroDeCasas)
 
 }
 
-void Lovelace::reduzAlgarismos(int casasParaRemover)
+void Lovelace::reduzAlgarismos()
 {
-	char *Saida=(char*)malloc(sizeof(char)*(GetTamanho()-casasParaRemover));
-	if(!Saida)
+	if(GetQuantidadeAlgarismos()%2)
 	{
-		cout<<"Erro ao expandir"<<endl;
-		exit(1);
-	}
+		//cout<<"Entrou REDUX IF true"<<endl;
+		char *Saida=(char*)malloc(sizeof(char)*(GetTamanho()-1));
+		if(!Saida)
+		{
+			cout<<"Erro ao expandir"<<endl;
+			exit(1);
+		}
+		//cout<<"Tamanho -1 = "<<GetTamanho()-1<<endl;
+		for(int c=0;c<GetTamanho()-1;c++)
+		{	/*char A,B;
+			GetBitWise(c,A,B);
+			cout<<"A = "<<(int)A<<"B = "<<(int)B<<endl;//*/
+			Saida[c]=Algarismos[c];
 
-	SetTamanho(GetTamanho()-casasParaRemover);
-	for(int c=0;c<GetTamanho();c++)
+		}
+		SetTamanho(GetTamanho()-1);
+
+		if(Algarismos)
+			free(Algarismos);
+
+		Algarismos=Saida;
+
+	}
+	else
 	{
-		Saida[c]=Algarismos[c];
+		char A,B;
+
+		GetBitWise(GetTamanho()-1,A,B);
+		B=15;
+		SetBitWise(GetTamanho()-1,A,B);
 	}
-
-
-	if(Algarismos)
-		free(Algarismos);
-
-	Algarismos=Saida;
-
+	SetQuantidadeAlgarismos(GetQuantidadeAlgarismos()-1);
 	return;
 
 }
@@ -160,6 +175,7 @@ void Lovelace::SetDigito(long long int Posicao, char Digito)
 				SetQuantidadeAlgarismos(GetQuantidadeAlgarismos()+1);
 			if(Posicao==0)
 				SetZero(false);
+
 			SetBitWise(Posicao/2,A,B);
 	}
 	else
@@ -256,12 +272,18 @@ Lovelace& Lovelace::Lovelace::Soma(Lovelace *A, Lovelace *B)
 	Oflow=((A->GetDigito(c-1)+B->GetDigito(c-1))/10);
 	if (Oflow)
 		res->SetDigito(c,Oflow);
-	/*
+
 	for (c=res->GetQuantidadeAlgarismos()-1;c > -1 && !res->GetDigito(c);c--);
 	if (int aux = (res->GetQuantidadeAlgarismos()-1 - c))
-		res->reduzAlgarismos(aux);
-	cout << "teste" << endl;
-	getchar();
+	{	//cout<<"Entrou com aux = "<<aux<<endl;
+		//res->Imprime();
+		while(aux--)
+		res->reduzAlgarismos();
+		//res->Imprime();
+		//getchar();
+	}
+	//cout << "teste" << endl;
+	//getchar();
 	//*/
 
 	return *res;
