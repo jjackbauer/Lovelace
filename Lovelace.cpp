@@ -8,23 +8,23 @@ long long int Lovelace::algarismosExibicao = -1;
 
 void Lovelace::ExpandeAlgarismos()
 {
-	char *Saida=(char*)malloc(sizeof(char)*(GetTamanho()+1));
+	char *Saida=(char*)malloc(sizeof(char)*(getTamanho()+1));
 	if(!Saida)
 	{
 		cout<<"Erro ao expandir"<<endl;
 		exit(1);
 	}
 
-	for(int c=0;c<GetTamanho();c++)
+	for(int c=0;c<getTamanho();c++)
 	{
-		Saida[c]=Algarismos[c];
+		Saida[c]=algarismos[c];
 	}
-	SetTamanho(GetTamanho()+1);
+	setTamanho(getTamanho()+1);
 
-	if(Algarismos)
-		free(Algarismos);
+	if(algarismos)
+		free(algarismos);
 
-	Algarismos=Saida;
+	algarismos=Saida;
 
 	return;
 
@@ -34,40 +34,40 @@ void Lovelace::ExpandeAlgarismos()
 
 void Lovelace::reduzAlgarismos()
 {
-	if(GetQuantidadeAlgarismos()%2)
+	if(getQuantidadeAlgarismos()%2)
 	{
 		//cout<<"Entrou REDUX IF true"<<endl;
-		char *Saida=(char*)malloc(sizeof(char)*(GetTamanho()-1));
+		char *Saida=(char*)malloc(sizeof(char)*(getTamanho()-1));
 		if(!Saida)
 		{
 			cout<<"Erro ao expandir"<<endl;
 			exit(1);
 		}
 		//cout<<"Tamanho -1 = "<<GetTamanho()-1<<endl;
-		for(int c=0;c<GetTamanho()-1;c++)
+		for(int c=0;c<getTamanho()-1;c++)
 		{	/*char A,B;
-			GetBitWise(c,A,B);
+			getBitwise(c,A,B);
 			cout<<"A = "<<(int)A<<"B = "<<(int)B<<endl;//*/
-			Saida[c]=Algarismos[c];
+			Saida[c]=algarismos[c];
 
 		}
-		SetTamanho(GetTamanho()-1);
+		setTamanho(getTamanho()-1);
 
-		if(Algarismos)
-			free(Algarismos);
+		if(algarismos)
+			free(algarismos);
 
-		Algarismos=Saida;
+		algarismos=Saida;
 
 	}
 	else
 	{
 		char A,B;
 
-		GetBitWise(GetTamanho()-1,A,B);
+		getBitwise(getTamanho()-1,A,B);
 		B=15;
-		SetBitWise(GetTamanho()-1,A,B);
+		setBitwise(getTamanho()-1,A,B);
 	}
-	SetQuantidadeAlgarismos(GetQuantidadeAlgarismos()-1);
+	setQuantidadeAlgarismos(getQuantidadeAlgarismos()-1);
 	return;
 
 }
@@ -86,24 +86,24 @@ long long int Lovelace::getAlgarismosExibicao()
 
 Lovelace::Lovelace()
 {
-	Algarismos=NULL;
-	QuantidadeAlgarismos=Tamanho=0;
-	Sinal=true;
-	Ezero=true;
+	algarismos=NULL;
+	setQuantidadeAlgarismos(tamanho=0);
+	setSinal(true);
+	setZero(true);
 }
 
 
 Lovelace::~Lovelace()
 {
-	if(!VerificaEzero())
+	if(!eZero())
 	{
-		free(Algarismos);
+		free(algarismos);
 	}
 }
 
-void Lovelace::SetBitWise(long long int Posicao,char A, char B)
+void Lovelace::setBitwise(long long int Posicao,char A, char B)
 {
-	long long int tamanho = GetTamanho();
+	long long int tamanho = getTamanho();
 
 	if(Posicao>=0 && Posicao <= tamanho)
 	{
@@ -113,7 +113,7 @@ void Lovelace::SetBitWise(long long int Posicao,char A, char B)
 		if(Posicao == tamanho)
 			ExpandeAlgarismos();
 
-		Algarismos[Posicao]=A;
+		algarismos[Posicao]=A;
 	}
 	else
 	{
@@ -121,12 +121,11 @@ void Lovelace::SetBitWise(long long int Posicao,char A, char B)
 	}
 }
 
-void Lovelace::GetBitWise(long long int Posicao,char &A, char &B)
+void Lovelace::getBitwise(long long int Posicao,char &A, char &B)
 {	
-	if(Posicao>=0 && Posicao < GetTamanho())
+	if(Posicao>=0 && Posicao < getTamanho())
 	{
-
-		char coded = Algarismos[Posicao];
+		char coded = algarismos[Posicao];
 
 		A=((coded&(240))>>4);
 		B=coded&(15);
@@ -137,12 +136,12 @@ void Lovelace::GetBitWise(long long int Posicao,char &A, char &B)
 	}
 }
 
-char Lovelace::GetDigito(long long int Posicao)
+char Lovelace::getDigito(long long int Posicao)
 {
-	if(Posicao>=0 && Posicao < GetQuantidadeAlgarismos())//Tinha bug aqui, bug maldito kkkkkkkkk
+	if(Posicao>=0 && Posicao < getQuantidadeAlgarismos())//Tinha bug aqui, bug maldito kkkkkkkkk
 	{
 		char A,B;
-		GetBitWise(Posicao/2,A,B);
+		getBitwise(Posicao/2,A,B);
 
 		return Posicao%2?B:A;
 	}
@@ -155,14 +154,14 @@ char Lovelace::GetDigito(long long int Posicao)
 	return 0;
 
 }
-void Lovelace::SetDigito(long long int Posicao, char Digito)
+void Lovelace::setDigito(long long int Posicao, char Digito)
 {	
-	if(Posicao>=0 && Posicao <= GetQuantidadeAlgarismos())
+	if(Posicao>=0 && Posicao <= getQuantidadeAlgarismos())
 	{
 			char A,B;
-			if(Posicao/2 < GetTamanho())
+			if(Posicao/2 < getTamanho())
 			{
-				GetBitWise(Posicao/2,A,B);
+				getBitwise(Posicao/2,A,B);
 				Posicao%2?(B=Digito):(A=Digito);
 			}
 			else
@@ -171,12 +170,12 @@ void Lovelace::SetDigito(long long int Posicao, char Digito)
 				A=Digito;
 			}
 
-			if(Posicao>=GetQuantidadeAlgarismos())
-				SetQuantidadeAlgarismos(GetQuantidadeAlgarismos()+1);
+			if(Posicao>=getQuantidadeAlgarismos())
+				setQuantidadeAlgarismos(getQuantidadeAlgarismos()+1);
 			if(Posicao==0)
-				SetZero(false);
+				setZero(false);
 
-			SetBitWise(Posicao/2,A,B);
+			setBitwise(Posicao/2,A,B);
 	}
 	else
 	{
@@ -185,46 +184,46 @@ void Lovelace::SetDigito(long long int Posicao, char Digito)
 }
 
 
-void Lovelace::SetTamanho(long long int Tamanho)
+void Lovelace::setTamanho(long long int novoTamanho)
 {
-	Lovelace::Tamanho=Tamanho;
+	tamanho=novoTamanho;
 }
 
-long long int Lovelace::GetTamanho()
+long long int Lovelace::getTamanho()
 {
-	return Lovelace::Tamanho;
+	return tamanho;
 }
-long long int Lovelace::GetQuantidadeAlgarismos()
+long long int Lovelace::getQuantidadeAlgarismos()
 {
-	return QuantidadeAlgarismos;
+	return quantidadeAlgarismos;
 }
-void Lovelace::SetQuantidadeAlgarismos(long long int Tamanho)
+void Lovelace::setQuantidadeAlgarismos(long long int novaQuantidadeAlgarismos)
 {
-	QuantidadeAlgarismos=Tamanho;
+	quantidadeAlgarismos=novaQuantidadeAlgarismos;
 }
-int Lovelace::GetSinal()
+int Lovelace::getSinal()
 {
-	return Sinal?1:-1;
-}
-
-void Lovelace::SetSinal(int Sinal)
-{
-	Lovelace::Sinal = Sinal>0?true:false;
-}
-bool Lovelace::VerificaEzero()
-{
-	return Ezero;
+	return sinal?1:-1;
 }
 
-void Lovelace::SetZero(bool Zero)
+void Lovelace::setSinal(int novoSinal)
 {
-	Ezero=Zero;
+	Lovelace::sinal = novoSinal>0?true:false;
+}
+bool Lovelace::eZero()
+{
+	return zero;
+}
+
+void Lovelace::setZero(bool novoValor)
+{
+	zero=novoValor;
 }
 void Lovelace::Imprime()
 {
-	int c,aux=QuantidadeAlgarismos;
+	int c,aux=quantidadeAlgarismos;
 	char A,B;
-	GetBitWise(GetTamanho()-1,A,B);
+	getBitwise(getTamanho()-1,A,B);
 	//cout<<aux<<endl;
 
 	if(!(aux%2))
@@ -232,49 +231,49 @@ void Lovelace::Imprime()
 	else
 		cout<<TabelaDeConversao[(int)A];
 
-	for(c=GetTamanho()-2;c>-1;c--)
+	for(c=getTamanho()-2;c>-1;c--)
 	{
-		GetBitWise(c,A,B);
+		getBitwise(c,A,B);
 		cout<<TabelaDeConversao[(int)B]<<TabelaDeConversao[(int)A];
 	}
 	cout<<endl;
 }
 
 
-Lovelace& Lovelace::Lovelace::Soma(Lovelace *A, Lovelace *B)
+Lovelace& Lovelace::somar(Lovelace &A, Lovelace &B)
 {
 	Lovelace *res = new Lovelace;
-	int c,Oflow = 0,sum=((A->GetDigito(0)+B->GetDigito(0))%10),MaxDigi;
+	int c,overflow = 0,sum=((A.getDigito(0)+B.getDigito(0))%10),MaxDigi;
 
 	{//I love gambiarra <3 <3
-		int NdA=A->GetQuantidadeAlgarismos(),NdB=B->GetQuantidadeAlgarismos();
+		int NdA=A.getQuantidadeAlgarismos(),NdB=B.getQuantidadeAlgarismos();
 		MaxDigi=NdA>NdB?NdA:NdB;
 
 	}
 
 
-	res->SetDigito(0,sum);
+	res->setDigito(0,sum);
 	//Oflow=((A->GetDigito(0)+B->GetDigito(0))/10);
 
 	for(c=1;c<=MaxDigi;c++)
 	{
 		//cout<<"C = "<<c<<endl;
-		//cout<<"Numero Digitos = "<<(res->GetQuantidadeAlgarismos())<<endl;
-		sum=((A->GetDigito(c)+B->GetDigito(c))%10);
-		Oflow=((A->GetDigito(c-1)+B->GetDigito(c-1)+Oflow)/10);
+		//cout<<"Numero Digitos = "<<(res->getQuantidadeAlgarismos())<<endl;
+		sum=((A.getDigito(c)+B.getDigito(c))%10);
+		overflow=((A.getDigito(c-1)+B.getDigito(c-1)+overflow)/10);
 		//if(sum+Oflow)//Isso vai ter de voltar apos corrige lovelace....
-		res->SetDigito(c,(sum+Oflow)%10);
+		res->setDigito(c,(sum+overflow)%10);
 		//cout<<"SUM = "<<sum<<" Oflow = "<<Oflow<<endl;
 		//res->Imprime();
 		//getchar();
 
 	}
-	Oflow=((A->GetDigito(c-1)+B->GetDigito(c-1))/10);
-	if (Oflow)
-		res->SetDigito(c,Oflow);
+	overflow=((A.getDigito(c-1)+B.getDigito(c-1))/10);
+	if (overflow)
+		res->setDigito(c,overflow);
 
-	for (c=res->GetQuantidadeAlgarismos()-1;c > -1 && !res->GetDigito(c);c--);
-	if (int aux = (res->GetQuantidadeAlgarismos()-1 - c))
+	for (c=res->getQuantidadeAlgarismos()-1;c > -1 && !res->getDigito(c);c--);
+	if (int aux = (res->getQuantidadeAlgarismos()-1 - c))
 	{	//cout<<"Entrou com aux = "<<aux<<endl;
 		//res->Imprime();
 		while(aux--)
@@ -291,22 +290,22 @@ Lovelace& Lovelace::Lovelace::Soma(Lovelace *A, Lovelace *B)
 
 	/*
 	 res->Imprime();
-	  cout<<"A= "<<A->GetQuantidadeAlgarismos()<<"B= "<<B->GetQuantidadeAlgarismos()<<endl;
+	  cout<<"A= "<<A->getQuantidadeAlgarismos()<<"B= "<<B->getQuantidadeAlgarismos()<<endl;
 	//*/
 }
-Lovelace& Lovelace::Lovelace::Subtracao(Lovelace *A, Lovelace *B)
+Lovelace& Lovelace::subtrair(Lovelace *A, Lovelace *B)
 {
 
 }
-Lovelace& Lovelace::Lovelace::Multiplicacao(Lovelace *A, Lovelace *B)
+Lovelace& Lovelace::multiplicar(Lovelace *A, Lovelace *B)
 {
 
 }
-Lovelace& Lovelace::Divisao(Lovelace *A, Lovelace *B)
+Lovelace& Lovelace::dividir(Lovelace *A, Lovelace *B)
 {
 
 }
-Lovelace& Lovelace::InversaoDeSinal(Lovelace *A)
+Lovelace& Lovelace::inverterSinal(Lovelace *A)
 {
 
 }
@@ -317,4 +316,70 @@ Lovelace& Lovelace::Inversao(Lovelace *A)
 Lovelace& Lovelace::Exponenciacao(Lovelace *A, Lovelace *X)
 {
 
+}
+
+bool Lovelace::eIgualA(Lovelace &B){
+	if (this->getQuantidadeAlgarismos() != B.getQuantidadeAlgarismos())
+		return false;
+	else {
+		if (this->eZero() && B.eZero())
+			return true;
+		for (long long int c = 0;c < this->getTamanho();c++)
+			if (this->algarismos[c] != B.algarismos[c])
+				return false;
+	}
+	return true;
+}
+
+bool Lovelace::eDiferenteDe(Lovelace &B){
+	return !(this->eIgualA(B));
+}
+
+bool Lovelace::eMaiorQue(Lovelace &B) {
+	if (this->getQuantidadeAlgarismos() > B.getQuantidadeAlgarismos()){
+		return true;
+	}
+	else if (this->getQuantidadeAlgarismos() == B.getQuantidadeAlgarismos()){
+		if (this->eZero() && B.eZero())
+			return false;
+		for (long long int c = this->getQuantidadeAlgarismos();c >= 0 ;c--){
+			if ((!c && this->getDigito(c) == B.getDigito(c)) || (this->getDigito(c) < B.getDigito(c)))
+				return false;
+		}
+	}
+	else
+		return false;
+	return true;
+}
+
+bool Lovelace::eMenorQue(Lovelace &B){
+
+}
+
+bool Lovelace::eMaiorOuIgualA(Lovelace &B){
+	return (this->eIgualA(B) || this->eMaiorQue(B));
+}
+
+bool Lovelace::eMenorOuIgualA(Lovelace &B){
+
+}
+
+bool operator==(Lovelace &A, Lovelace &B){
+	return (A.eIgualA(B));
+}
+
+bool operator!=(Lovelace &A, Lovelace &B){
+	return A.eDiferenteDe(B);
+}
+
+bool operator>(Lovelace &A, Lovelace &B){
+	return A.eMaiorQue(B);
+}
+
+bool operator>=(Lovelace &A, Lovelace &B){
+	return A.eMaiorOuIgualA(B);
+}
+
+Lovelace& Lovelace::operator+(Lovelace &B){
+	return somar((*this), B);
 }
