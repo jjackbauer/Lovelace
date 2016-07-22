@@ -11,7 +11,6 @@ private:
 	char *algarismos;
 	long long int tamanho;
 	long long int quantidadeAlgarismos;
-	bool sinal;//Deve ser removido
 	bool zero;	//Alterada para melhor uso;
 	void ExpandeAlgarismos();
 	void reduzAlgarismos();
@@ -36,20 +35,14 @@ public:
 	void setTamanho(long long int novoTamanho);
 	long long int getQuantidadeAlgarismos();
 	void setQuantidadeAlgarismos(long long int novaQuantidadeAlgarismos);
-
-	int getSinal();
-	void setSinal(int novoSinal);
 	bool eZero(); 	// Nome Redefinido de VerificarEZero para eZero
 					// Nome redefinido por possuir nome conflitante com atributo no diagrama UML.
 	void setZero(bool novoValor);
 	Lovelace& somar(Lovelace &A, Lovelace &B);
-	Lovelace& subtrair(Lovelace *A, Lovelace *B);
-	Lovelace& multiplicar(Lovelace *A, Lovelace *B);
-	Lovelace& dividir(Lovelace *A, Lovelace *B);
-	Lovelace& inverterSinal(Lovelace *A);
-	Lovelace& Inversao(Lovelace *A);
-	Lovelace& Exponenciacao(Lovelace *A, Lovelace *X);
-
+	Lovelace& subtrair(Lovelace &A, Lovelace &B);
+	Lovelace& multiplicar(Lovelace &A, Lovelace &B);
+	Lovelace& dividir(Lovelace &A, Lovelace &B);
+	Lovelace& Exponenciacao(Lovelace &A, Lovelace &X);
 	Lovelace& incrementar();
 	Lovelace& decrementar();
 

@@ -8,8 +8,14 @@ int main()
 	Lovelace A,B,C;
 	int c;
 
-	A=18446744;
+	A=1235;
+	B=1035;
 	A.Imprime();
+	B.Imprime();
+	getchar();
+	C = C.multiplicar(A,B);
+
+	C.Imprime();
 	getchar();
 	/*A.SetDigito(0,0);
 	A.SetDigito(1,1);//*///10 em 10
@@ -37,7 +43,9 @@ int main()
 	//*
 	/*while(1){
 		B =A++;
+		cout<<"A"<<endl;
 		A.Imprime();
+		cout<<"B"<<endl;
 		B.Imprime();
 		getchar();
 

@@ -88,7 +88,6 @@ Lovelace::Lovelace()
 {
 	algarismos=NULL;
 	setQuantidadeAlgarismos(tamanho=0);
-	setSinal(true);
 	setZero(true);
 }
 
@@ -201,15 +200,7 @@ void Lovelace::setQuantidadeAlgarismos(long long int novaQuantidadeAlgarismos)
 {
 	quantidadeAlgarismos=novaQuantidadeAlgarismos;
 }
-int Lovelace::getSinal()
-{
-	return sinal?1:-1;
-}
 
-void Lovelace::setSinal(int novoSinal)
-{
-	Lovelace::sinal = novoSinal>0?true:false;
-}
 bool Lovelace::eZero()
 {
 	return zero;
@@ -241,7 +232,7 @@ void Lovelace::Imprime()
 Lovelace& Lovelace::incrementar()
 {
 	Lovelace aux;
-	aux.setDigito(0,1);
+	aux.setDigito(0,1);//aux=1; Equivalente após sobrecarga //Remover depois de fazer a base pro java!
 
 	return ((*this) = somar(*this,aux));
 
@@ -249,17 +240,16 @@ Lovelace& Lovelace::incrementar()
 Lovelace& Lovelace::operator=(unsigned long long int A)
 {
 	int c,k;
-	long long int aux=10;
+	unsigned long long int aux=10;
 
-	for(c=0;c<20;c++,aux*=10)
+	for(c=0;c<20 && A ;c++,aux*=10)
 	{
-		if((k = (A%aux)))
-		{
-			A-=k;
-			k=(k*10/aux);
-			this->setDigito(c,(int)k);
-		}
+		k = A%aux;
+		A-=k;
+		k=(k*10/aux);
+		this->setDigito(c,(int)k);
 	}
+
 
 	return *this;
 }
@@ -328,27 +318,39 @@ Lovelace& Lovelace::somar(Lovelace &A, Lovelace &B)
 	  cout<<"A= "<<A->getQuantidadeAlgarismos()<<"B= "<<B->getQuantidadeAlgarismos()<<endl;
 	//*/
 }
-Lovelace& Lovelace::subtrair(Lovelace *A, Lovelace *B)
+Lovelace& Lovelace::subtrair(Lovelace &A, Lovelace &B)
 {
 
 }
-Lovelace& Lovelace::multiplicar(Lovelace *A, Lovelace *B)
+Lovelace& Lovelace::multiplicar(Lovelace &A, Lovelace &B)
+{
+	Lovelace c,aux,*aux2 = new Lovelace;
+	bool log = (A>B);
+	c=1;
+	aux = log?B:A;
+	*aux2= log?A:B;
+
+	while(aux>c)
+	{
+		cout<<"Aux:"<<endl;
+		aux.Imprime();
+		cout<<"c:"<<endl;
+		c.Imprime();
+		(*aux2)=((*aux2)+(log?A:B));
+		cout<<"aux2"<<endl;
+		aux2->Imprime();
+		//getchar();
+		c++;
+	}
+
+	return *aux2;
+
+}
+Lovelace& Lovelace::dividir(Lovelace &A, Lovelace &B)
 {
 
 }
-Lovelace& Lovelace::dividir(Lovelace *A, Lovelace *B)
-{
-
-}
-Lovelace& Lovelace::inverterSinal(Lovelace *A)
-{
-
-}
-Lovelace& Lovelace::Inversao(Lovelace *A)
-{
-
-}
-Lovelace& Lovelace::Exponenciacao(Lovelace *A, Lovelace *X)
+Lovelace& Lovelace::Exponenciacao(Lovelace &A, Lovelace &X)
 {
 
 }
