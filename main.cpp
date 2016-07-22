@@ -8,6 +8,9 @@ int main()
 	Lovelace A,B,C;
 	int c;
 
+	A=18446744;
+	A.Imprime();
+	getchar();
 	/*A.SetDigito(0,0);
 	A.SetDigito(1,1);//*///10 em 10
 
@@ -32,8 +35,10 @@ int main()
 
 	getchar();//*/
 	//*
-	while(1){
-		(++A).Imprime();
+	/*while(1){
+		B =A++;
+		A.Imprime();
+		B.Imprime();
 		getchar();
 
 	}

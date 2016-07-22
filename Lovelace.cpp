@@ -246,6 +246,23 @@ Lovelace& Lovelace::incrementar()
 	return ((*this) = somar(*this,aux));
 
 }
+Lovelace& Lovelace::operator=(unsigned long long int A)
+{
+	int c,k;
+	long long int aux=10;
+
+	for(c=0;c<20;c++,aux*=10)
+	{
+		if((k = (A%aux)))
+		{
+			A-=k;
+			k=(k*10/aux);
+			this->setDigito(c,(int)k);
+		}
+	}
+
+	return *this;
+}
 Lovelace& Lovelace::operator++()
 {
 	return (this->incrementar());

@@ -63,6 +63,7 @@ public:
 	/*	Sobrecarga de Operadores	*/
 	/*	Operações Aritméticas */
 	//Lovelace& operator=(Lovelace &B);
+	Lovelace& operator=(unsigned long long int A);
 	Lovelace& operator+(Lovelace &B);
 	Lovelace& operator-(Lovelace &B);
 	//Lovelace& operator*(Lovelace &B);
