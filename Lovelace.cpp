@@ -27,9 +27,6 @@ void Lovelace::ExpandeAlgarismos()
 	algarismos=Saida;
 
 	return;
-
-
-
 }
 
 void Lovelace::reduzAlgarismos()
@@ -69,7 +66,6 @@ void Lovelace::reduzAlgarismos()
 	}
 	setQuantidadeAlgarismos(getQuantidadeAlgarismos()-1);
 	return;
-
 }
 
 
@@ -92,12 +88,9 @@ Lovelace::Lovelace()
 }
 
 
-Lovelace::~Lovelace()
-{
+Lovelace::~Lovelace(){
 	if(!eZero())
-	{
 		free(algarismos);
-	}
 }
 
 void Lovelace::setBitwise(long long int Posicao,char A, char B)
@@ -192,10 +185,12 @@ long long int Lovelace::getTamanho()
 {
 	return tamanho;
 }
+
 long long int Lovelace::getQuantidadeAlgarismos()
 {
 	return quantidadeAlgarismos;
 }
+
 void Lovelace::setQuantidadeAlgarismos(long long int novaQuantidadeAlgarismos)
 {
 	quantidadeAlgarismos=novaQuantidadeAlgarismos;
@@ -210,9 +205,9 @@ void Lovelace::setZero(bool novoValor)
 {
 	zero=novoValor;
 }
-void Lovelace::Imprime()
+void Lovelace::imprimir()
 {
-	int c,aux=quantidadeAlgarismos;
+	int c,aux=getQuantidadeAlgarismos();
 	char A,B;
 	getBitwise(getTamanho()-1,A,B);
 	//cout<<aux<<endl;
@@ -229,14 +224,24 @@ void Lovelace::Imprime()
 	}
 	cout<<endl;
 }
+
+void Lovelace::imprimirInfo(){
+	cout << "tamanho              : " << getTamanho() << endl;
+	cout << "quantidadeAlgarismos : " << getQuantidadeAlgarismos() << endl;
+	cout << "zero                 : " << eZero() << endl;
+	cout << "Vetor de Algarismos  : ";
+	imprimir();
+	cout << endl;
+}
+
 Lovelace& Lovelace::incrementar()
 {
 	Lovelace aux;
-	aux.setDigito(0,1);//aux=1; Equivalente após sobrecarga //Remover depois de fazer a base pro java!
+	aux.setDigito(0,1);//aux=1; Equivalente apÃ³s sobrecarga //Remover depois de fazer a base pro java!
 
 	return ((*this) = somar(*this,aux));
-
 }
+
 Lovelace& Lovelace::operator=(unsigned long long int A)
 {
 	int c,k;
@@ -249,14 +254,14 @@ Lovelace& Lovelace::operator=(unsigned long long int A)
 		k=(k*10/aux);
 		this->setDigito(c,(int)k);
 	}
-
-
 	return *this;
 }
+
 Lovelace& Lovelace::operator++()
 {
 	return (this->incrementar());
 }
+
 Lovelace& Lovelace::operator++(int semuso)
 {
 	Lovelace *aux = new Lovelace;
@@ -289,7 +294,7 @@ Lovelace& Lovelace::somar(Lovelace &A, Lovelace &B)
 		//if(sum+Oflow)//Isso vai ter de voltar apos corrige lovelace....
 		res->setDigito(c,(sum+overflow)%10);
 		//cout<<"SUM = "<<sum<<" Oflow = "<<Oflow<<endl;
-		//res->Imprime();
+		//res->imprimir();
 		//getchar();
 
 	}
@@ -300,10 +305,10 @@ Lovelace& Lovelace::somar(Lovelace &A, Lovelace &B)
 	for (c=res->getQuantidadeAlgarismos()-1;c > -1 && !res->getDigito(c);c--);
 	if (int aux = (res->getQuantidadeAlgarismos()-1 - c))
 	{	//cout<<"Entrou com aux = "<<aux<<endl;
-		//res->Imprime();
+		//res->imprimir();
 		while(aux--)
 		res->reduzAlgarismos();
-		//res->Imprime();
+		//res->imprimir();
 		//getchar();
 	}
 	//cout << "teste" << endl;
@@ -311,10 +316,10 @@ Lovelace& Lovelace::somar(Lovelace &A, Lovelace &B)
 	//*/
 
 	return *res;
-	//res->Imprime();
+	//res->imprimir();
 
 	/*
-	 res->Imprime();
+	 res->imprimir();
 	  cout<<"A= "<<A->getQuantidadeAlgarismos()<<"B= "<<B->getQuantidadeAlgarismos()<<endl;
 	//*/
 }
@@ -325,27 +330,21 @@ Lovelace& Lovelace::subtrair(Lovelace &A, Lovelace &B)
 Lovelace& Lovelace::multiplicar(Lovelace &A, Lovelace &B)
 {
 	Lovelace c,aux,*aux2 = new Lovelace;
-	bool log = (A>B);
+	bool log = A.eMaiorQue(B);
 	c=1;
 	aux = log?B:A;
 	*aux2= log?A:B;
 
-	while(aux>c)
+	while(aux.eMaiorQue(c))
 	{
-		cout<<"Aux:"<<endl;
-		aux.Imprime();
-		cout<<"c:"<<endl;
-		c.Imprime();
 		(*aux2)=((*aux2)+(log?A:B));
-		cout<<"aux2"<<endl;
-		aux2->Imprime();
-		//getchar();
+		//aux2->imprimir();
 		c++;
 	}
-
+	cout << "Final da *." << endl;
 	return *aux2;
-
 }
+
 Lovelace& Lovelace::dividir(Lovelace &A, Lovelace &B)
 {
 
@@ -379,10 +378,13 @@ bool Lovelace::eMaiorQue(Lovelace &B) {
 	else if (this->getQuantidadeAlgarismos() == B.getQuantidadeAlgarismos()){
 		if (this->eZero() && B.eZero())
 			return false;
-		for (long long int c = this->getQuantidadeAlgarismos();c >= 0 ;c--){
-			if ((!c && this->getDigito(c) == B.getDigito(c)) || (this->getDigito(c) < B.getDigito(c)))
-				return false;
-		}
+		long long int c;
+		for (c = this->getQuantidadeAlgarismos();c && this->getDigito(c) == B.getDigito(c);c--);
+
+		if (this->getDigito(c) > B.getDigito(c))
+			return true;
+		else
+			return false;
 	}
 	else
 		return false;
@@ -390,7 +392,23 @@ bool Lovelace::eMaiorQue(Lovelace &B) {
 }
 
 bool Lovelace::eMenorQue(Lovelace &B){
+	if (this->getQuantidadeAlgarismos() < B.getQuantidadeAlgarismos()){
+		return true;
+	}
+	else if (this->getQuantidadeAlgarismos() == B.getQuantidadeAlgarismos()){
+		if (this->eZero() && B.eZero())
+			return false;
+		long long int c;
+		for (c = this->getQuantidadeAlgarismos();c && this->getDigito(c) == B.getDigito(c);c--);
 
+		if (this->getDigito(c) < B.getDigito(c))
+			return true;
+		else
+			return false;
+	}
+	else
+		return false;
+	return true;
 }
 
 bool Lovelace::eMaiorOuIgualA(Lovelace &B){
@@ -398,7 +416,7 @@ bool Lovelace::eMaiorOuIgualA(Lovelace &B){
 }
 
 bool Lovelace::eMenorOuIgualA(Lovelace &B){
-
+	return (this->eIgualA(B) || this->eMenorQue(B));
 }
 
 bool operator==(Lovelace &A, Lovelace &B){
@@ -417,6 +435,18 @@ bool operator>=(Lovelace &A, Lovelace &B){
 	return A.eMaiorOuIgualA(B);
 }
 
+bool operator<(Lovelace &A, Lovelace &B){
+	return A.eMenorQue(B);
+}
+
+bool operator<=(Lovelace &A, Lovelace &B){
+	return A.eMenorOuIgualA(B);
+}
+
 Lovelace& Lovelace::operator+(Lovelace &B){
 	return somar((*this), B);
+}
+
+Lovelace& Lovelace::operator*(Lovelace &B){
+	return multiplicar((*this), B);
 }
