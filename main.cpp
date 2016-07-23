@@ -13,6 +13,8 @@ int main()
 
 	Num3 = Num1 - Num2;
 
+	Num1.imprimir();
+	Num2.imprimir();
 	Num3.imprimir();
 
 	getchar();
