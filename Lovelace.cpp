@@ -6,8 +6,7 @@ using namespace std;
 char Lovelace::TabelaDeConversao[] = {'0','1','2','3','4','5','6','7','8','9'};
 long long int Lovelace::algarismosExibicao = -1;
 
-void Lovelace::ExpandeAlgarismos()
-{
+void Lovelace::expandirAlgarismos(){
 	char *Saida=(char*)malloc(sizeof(char)*(getTamanho()+1));
 	if(!Saida)
 	{
@@ -29,7 +28,7 @@ void Lovelace::ExpandeAlgarismos()
 	return;
 }
 
-void Lovelace::reduzAlgarismos()
+void Lovelace::reduzirAlgarismos()
 {
 	if(getQuantidadeAlgarismos()%2)
 	{
@@ -103,7 +102,7 @@ void Lovelace::setBitwise(long long int Posicao,char A, char B)
 		A+=B;
 
 		if(Posicao == tamanho)
-			ExpandeAlgarismos();
+			expandirAlgarismos();
 
 		algarismos[Posicao]=A;
 	}
@@ -151,13 +150,11 @@ void Lovelace::setDigito(long long int Posicao, char Digito)
 	if(Posicao>=0 && Posicao <= getQuantidadeAlgarismos())
 	{
 			char A,B;
-			if(Posicao/2 < getTamanho())
-			{
+			if(Posicao/2 < getTamanho()){
 				getBitwise(Posicao/2,A,B);
 				Posicao%2?(B=Digito):(A=Digito);
 			}
-			else
-			{
+			else {
 				B=15;
 				A=Digito;
 			}
@@ -281,52 +278,32 @@ Lovelace& Lovelace::somar(Lovelace &A, Lovelace &B){
 	{//I love gambiarra <3 <3
 		int NdA=A.getQuantidadeAlgarismos(),NdB=B.getQuantidadeAlgarismos();
 		MaxDigi=NdA>NdB?NdA:NdB;
-
 	}
 
 	resultado.setDigito(0,sum);
-	//Oflow=((A->GetDigito(0)+B->GetDigito(0))/10);
+	//overflow=((A->GetDigito(0)+B->GetDigito(0))/10);
 
-	for(c=1;c<=MaxDigi;c++)
-	{
-		//cout<<"C = "<<c<<endl;
-		//cout<<"Numero Digitos = "<<(res->getQuantidadeAlgarismos())<<endl;
+	for(c=1;c<=MaxDigi;c++){
 		sum=((A.getDigito(c)+B.getDigito(c))%10);
 		overflow=((A.getDigito(c-1)+B.getDigito(c-1)+overflow)/10);
-		//if(sum+Oflow)//Isso vai ter de voltar apos corrige lovelace....
+		//if(sum+overflow)	//	Isso vai ter de voltar apos corrige lovelace....
 		resultado.setDigito(c,(sum+overflow)%10);
-		//cout<<"SUM = "<<sum<<" Oflow = "<<Oflow<<endl;
-		//res->imprimir();
-		//getchar();
-
 	}
 	overflow=((A.getDigito(c-1)+B.getDigito(c-1))/10);
 	if (overflow)
 		resultado.setDigito(c,overflow);
 
 	for (c=resultado.getQuantidadeAlgarismos()-1;c > -1 && !resultado.getDigito(c);c--);
-	if (int aux = (resultado.getQuantidadeAlgarismos()-1 - c))
-	{	//cout<<"Entrou com aux = "<<aux<<endl;
-		//res->imprimir();
+
+	if (int aux = (resultado.getQuantidadeAlgarismos()-1 - c)){
 		while(aux--)
-		resultado.reduzAlgarismos();
-		//res->imprimir();
-		//getchar();
+			resultado.reduzirAlgarismos();
 	}
-	//cout << "teste" << endl;
-	//getchar();
-	//*/
 
 	return resultado;
-	//res->imprimir();
-
-	/*
-	 res->imprimir();
-	  cout<<"A= "<<A->getQuantidadeAlgarismos()<<"B= "<<B->getQuantidadeAlgarismos()<<endl;
-	//*/
 }
-Lovelace& Lovelace::subtrair(Lovelace &A, Lovelace &B)
-{
+
+Lovelace& Lovelace::subtrair(Lovelace &A, Lovelace &B){
 	int carry = 0;
 	int i;
 	int QtdAlgarismosIguais = 0;
@@ -508,10 +485,13 @@ Lovelace& Lovelace::operator+=(Lovelace &B){
 	return ((*this) = somar((*this), B));
 }
 
+Lovelace& Lovelace::operator-=(Lovelace &B){
+	return ((*this) = subtrair((*this), B));
+}
+
 Lovelace& Lovelace::operator*=(Lovelace &B){
 	return ((*this) = multiplicar((*this), B));
 }
-
 
 Lovelace& Lovelace::operator=(unsigned long long int A){
 	int c,k;
