@@ -9,7 +9,6 @@ int main()
 
 	Num1 = 487833;
 	Num2 = 9689;
-	Num3 = 0;
 
 	Num3 = Num1 - Num2;
 

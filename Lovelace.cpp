@@ -211,7 +211,7 @@ void Lovelace::imprimir(char separador){
 	getBitwise(getTamanho()-1,A,B);
 	//cout<<aux<<endl;
 
-	if (separador){	//	Exibição com pontos
+	if (separador){	//	Exibição com separador especificado
 		if(!(getQuantidadeAlgarismos()%2)) {
 			cout<<TabelaDeConversao[(int)B];
 			if (getQuantidadeAlgarismos()%3 == 1)
