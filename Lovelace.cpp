@@ -147,7 +147,7 @@ char Lovelace::getDigito(long long int Posicao)
 
 }
 void Lovelace::setDigito(long long int Posicao, char Digito)
-{	
+{	//	Validar também para aceitar somente dígitos entre 0 9?
 	if(Posicao>=0 && Posicao <= getQuantidadeAlgarismos())
 	{
 			char A,B;
@@ -171,7 +171,7 @@ void Lovelace::setDigito(long long int Posicao, char Digito)
 	}
 	else
 	{
-		cout<<"Atribuicao erronea Digito"<<endl;
+		cout<<"ERRO! Atribuicao erronea de digito."<<endl;
 	}
 }
 
@@ -205,22 +205,49 @@ void Lovelace::setZero(bool novoValor)
 {
 	zero=novoValor;
 }
-void Lovelace::imprimir()
-{
-	int c,aux=getQuantidadeAlgarismos();
+void Lovelace::imprimir(){
+	imprimir(0);
+}
+void Lovelace::imprimir(char separador){
+	int c;
 	char A,B;
 	getBitwise(getTamanho()-1,A,B);
 	//cout<<aux<<endl;
 
-	if(!(aux%2))
-		cout<<TabelaDeConversao[(int)B]<<TabelaDeConversao[(int)A];
-	else
-		cout<<TabelaDeConversao[(int)A];
+	if (separador){	//	Exibição com pontos
+		if(!(getQuantidadeAlgarismos()%2)) {
+			cout<<TabelaDeConversao[(int)B];
+			if (getQuantidadeAlgarismos()%3 == 1)
+				cout << separador;
+			cout <<TabelaDeConversao[(int)A];
+			if (getQuantidadeAlgarismos()%3 == 2)
+				cout << separador;
+		}
+		else {
+			cout<<TabelaDeConversao[(int)A];
+			if (getQuantidadeAlgarismos()%3 == 1)
+				cout << separador;
+		}
 
-	for(c=getTamanho()-2;c>-1;c--)
-	{
-		getBitwise(c,A,B);
-		cout<<TabelaDeConversao[(int)B]<<TabelaDeConversao[(int)A];
+		for(c=getTamanho()-2;c>-1;c--){
+			getBitwise(c,A,B);
+			cout<<TabelaDeConversao[(int)B];
+			if ((((c+1)*2)%3) == 1)
+				cout << separador;
+			cout<<TabelaDeConversao[(int)A];
+			if (c && (((c+1)*2)%3) == 2)
+				cout << separador;
+		}
+	}
+	else {
+		if(!(getQuantidadeAlgarismos()%2))
+			cout<<TabelaDeConversao[(int)B]<<TabelaDeConversao[(int)A];
+		else
+			cout<<TabelaDeConversao[(int)A];
+		for(c=getTamanho()-2;c>-1;c--) {
+			getBitwise(c,A,B);
+			cout<<TabelaDeConversao[(int)B]<<TabelaDeConversao[(int)A];
+		}
 	}
 	cout<<endl;
 }
@@ -230,7 +257,7 @@ void Lovelace::imprimirInfo(){
 	cout << "quantidadeAlgarismos : " << getQuantidadeAlgarismos() << endl;
 	cout << "zero                 : " << eZero() << endl;
 	cout << "Vetor de Algarismos  : ";
-	imprimir();
+	imprimir('.');
 	cout << endl;
 }
 
@@ -264,15 +291,16 @@ Lovelace& Lovelace::operator++()
 
 Lovelace& Lovelace::operator++(int semuso)
 {
-	Lovelace *aux = new Lovelace;
+	Lovelace retorno;
 
-	*aux = *this;
+	retorno = (*this);
 	this->incrementar();
-	return *aux;
+	return retorno;
 }
+
 Lovelace& Lovelace::somar(Lovelace &A, Lovelace &B)
 {
-	Lovelace *res = new Lovelace;
+	Lovelace resultado;
 	int c,overflow = 0,sum=((A.getDigito(0)+B.getDigito(0))%10),MaxDigi;
 
 	{//I love gambiarra <3 <3
@@ -282,7 +310,7 @@ Lovelace& Lovelace::somar(Lovelace &A, Lovelace &B)
 	}
 
 
-	res->setDigito(0,sum);
+	resultado.setDigito(0,sum);
 	//Oflow=((A->GetDigito(0)+B->GetDigito(0))/10);
 
 	for(c=1;c<=MaxDigi;c++)
@@ -292,7 +320,7 @@ Lovelace& Lovelace::somar(Lovelace &A, Lovelace &B)
 		sum=((A.getDigito(c)+B.getDigito(c))%10);
 		overflow=((A.getDigito(c-1)+B.getDigito(c-1)+overflow)/10);
 		//if(sum+Oflow)//Isso vai ter de voltar apos corrige lovelace....
-		res->setDigito(c,(sum+overflow)%10);
+		resultado.setDigito(c,(sum+overflow)%10);
 		//cout<<"SUM = "<<sum<<" Oflow = "<<Oflow<<endl;
 		//res->imprimir();
 		//getchar();
@@ -300,14 +328,14 @@ Lovelace& Lovelace::somar(Lovelace &A, Lovelace &B)
 	}
 	overflow=((A.getDigito(c-1)+B.getDigito(c-1))/10);
 	if (overflow)
-		res->setDigito(c,overflow);
+		resultado.setDigito(c,overflow);
 
-	for (c=res->getQuantidadeAlgarismos()-1;c > -1 && !res->getDigito(c);c--);
-	if (int aux = (res->getQuantidadeAlgarismos()-1 - c))
+	for (c=resultado.getQuantidadeAlgarismos()-1;c > -1 && !resultado.getDigito(c);c--);
+	if (int aux = (resultado.getQuantidadeAlgarismos()-1 - c))
 	{	//cout<<"Entrou com aux = "<<aux<<endl;
 		//res->imprimir();
 		while(aux--)
-		res->reduzAlgarismos();
+		resultado.reduzAlgarismos();
 		//res->imprimir();
 		//getchar();
 	}
@@ -315,7 +343,7 @@ Lovelace& Lovelace::somar(Lovelace &A, Lovelace &B)
 	//getchar();
 	//*/
 
-	return *res;
+	return resultado;
 	//res->imprimir();
 
 	/*
@@ -329,20 +357,19 @@ Lovelace& Lovelace::subtrair(Lovelace &A, Lovelace &B)
 }
 Lovelace& Lovelace::multiplicar(Lovelace &A, Lovelace &B)
 {
-	Lovelace c,aux,*aux2 = new Lovelace;
+	Lovelace c,aux,resultado;
 	bool log = A.eMaiorQue(B);
 	c=1;
 	aux = log?B:A;
-	*aux2= log?A:B;
+	resultado = log?A:B;
 
 	while(aux.eMaiorQue(c))
 	{
-		(*aux2)=((*aux2)+(log?A:B));
-		//aux2->imprimir();
+		resultado = (resultado+(log?A:B));
 		c++;
 	}
 	cout << "Final da *." << endl;
-	return *aux2;
+	return resultado;
 }
 
 Lovelace& Lovelace::dividir(Lovelace &A, Lovelace &B)
@@ -449,4 +476,12 @@ Lovelace& Lovelace::operator+(Lovelace &B){
 
 Lovelace& Lovelace::operator*(Lovelace &B){
 	return multiplicar((*this), B);
+}
+
+Lovelace& Lovelace::operator+=(Lovelace &B){
+	return ((*this) = somar((*this), B));
+}
+
+Lovelace& Lovelace::operator*=(Lovelace &B){
+	return ((*this) = multiplicar((*this), B));
 }

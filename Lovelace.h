@@ -27,6 +27,7 @@ public:
 	Lovelace();
 	~Lovelace();
 	void imprimir();
+	void imprimir(char separador);
 	void imprimirInfo();
 	void getBitwise(long long int Posicao,char &A, char &B);//Correção do diagrama: setor desnecessário
 	void setBitwise(long long int Posicao,char A, char B);//Faltou parametro posição no UML.
@@ -68,6 +69,8 @@ public:
 	Lovelace& operator/=(Lovelace &B);
 	Lovelace& operator++();
 	Lovelace& operator++(int semuso);
+	Lovelace& operator--();
+	Lovelace& operator--(int semuso);
 
 
 	/* Operações de Comparação */
