@@ -7,67 +7,66 @@ char Lovelace::TabelaDeConversao[] = {'0','1','2','3','4','5','6','7','8','9'};
 long long int Lovelace::algarismosExibicao = -1;
 
 void Lovelace::expandirAlgarismos(){
-	char *Saida=(char*)malloc(sizeof(char)*(getTamanho()+1));
-	if(!Saida)
-	{
-		cout<<"Erro ao expandir"<<endl;
+	char *saida= new char[getTamanho()+1];
+	if (!saida) {
+		cout << "ERRO! Não foi possível alocar memória para saida" << endl;
 		exit(1);
 	}
 
-	for(int c=0;c<getTamanho();c++)
-	{
-		Saida[c]=algarismos[c];
+	for (int c=0;c<getTamanho();c++){
+		saida[c]=algarismos[c];
 	}
 	setTamanho(getTamanho()+1);
 
 	if(algarismos)
 		free(algarismos);
 
-	algarismos=Saida;
+	algarismos=saida;
 
 	return;
 }
 
-void Lovelace::reduzirAlgarismos()
-{
-	if(getQuantidadeAlgarismos()%2)
-	{
-		//cout<<"Entrou REDUX IF true"<<endl;
-		char *Saida=(char*)malloc(sizeof(char)*(getTamanho()-1));
-		if(!Saida)
-		{
-			cout<<"Erro ao expandir"<<endl;
+void Lovelace::reduzirAlgarismos(){
+	if (getQuantidadeAlgarismos()%2){
+		char *saida= new char[getTamanho()-1];
+		if (!saida){
+			cout << "ERRO! Não foi possível alocar memória para saida" << endl;
 			exit(1);
 		}
-		//cout<<"Tamanho -1 = "<<GetTamanho()-1<<endl;
-		for(int c=0;c<getTamanho()-1;c++)
-		{	/*char A,B;
-			getBitwise(c,A,B);
-			cout<<"A = "<<(int)A<<"B = "<<(int)B<<endl;//*/
-			Saida[c]=algarismos[c];
-
+		for (int c=0;c<getTamanho()-1;c++){
+			saida[c]=algarismos[c];
 		}
 		setTamanho(getTamanho()-1);
 
-		if(algarismos)
+		if (algarismos)
 			free(algarismos);
 
-		algarismos=Saida;
-
+		algarismos=saida;
 	}
-	else
-	{
-		char A,B;
-
-		getBitwise(getTamanho()-1,A,B);
-		B=15;
-		setBitwise(getTamanho()-1,A,B);
+	else {
+		char a,b;
+		getBitwise(getTamanho()-1,a,b);
+		b=15;
+		setBitwise(getTamanho()-1,a,b);
 	}
 	setQuantidadeAlgarismos(getQuantidadeAlgarismos()-1);
 	return;
 }
 
+void Lovelace::copiarAlgarismos(Lovelace &deA, Lovelace &paraB){
+	free(paraB.algarismos);
 
+	paraB.algarismos = new char[deA.getTamanho()];
+	if (!paraB.algarismos){
+		cout << "ERRO! Não foi possível alocar memória para algarismos." << endl <<
+				"Função: operator=(Lovelace &B)" << endl;
+		exit(1);
+	}
+	unsigned long long int c;
+	for (c = paraB.getQuantidadeAlgarismos();c;c--)
+		paraB.algarismos[c] = deA.algarismos[c];
+	paraB.algarismos[c] = deA.algarismos[c];
+}
 
 void Lovelace::setAlgarismosExibicao(long long int novoAlgarismosExibicao)
 {
@@ -79,13 +78,20 @@ long long int Lovelace::getAlgarismosExibicao()
 	return algarismosExibicao;
 }
 
-Lovelace::Lovelace()
-{
+Lovelace::Lovelace(){
 	algarismos=NULL;
-	setQuantidadeAlgarismos(tamanho=0);
+	setTamanho(0);
+	setQuantidadeAlgarismos(0);
 	setZero(true);
 }
-
+/*
+Lovelace::Lovelace(Lovelace &copiarLovelace){
+	setTamanho(copiarLovelace.getTamanho());
+	setQuantidadeAlgarismos(copiarLovelace.getQuantidadeAlgarismos());
+	setZero(copiarLovelace.eZero());
+	copiarAlgarismos(*this,copiarLovelace);
+}
+//*/
 
 Lovelace::~Lovelace(){
 	if(!eZero())
@@ -258,20 +264,32 @@ void Lovelace::imprimirInfo(){
 	cout << endl;
 }
 
-Lovelace& Lovelace::incrementar(){
+Lovelace Lovelace::incrementar(){
 	Lovelace aux;
 	aux.setDigito(0,1);//aux=1; Equivalente após sobrecarga //Remover depois de fazer a base pro java!
-
 	return ((*this) = somar(*this,aux));
 }
 
-Lovelace& Lovelace::decrementar(){
+Lovelace Lovelace::decrementar(){
 	Lovelace aux;
 	aux.setDigito(0,1);
 	return ((*this) = subtrair(*this,aux));
 }
 
-Lovelace& Lovelace::somar(Lovelace &A, Lovelace &B){
+Lovelace Lovelace::atribuir(unsigned long long int numero){
+	int c,k;
+	unsigned long long int aux=10;
+
+	for(c=0;c<20 && numero ;c++,aux*=10){
+		k = numero%aux;
+		numero-=k;
+		k=(k*10/aux);
+		this->setDigito(c,(int)k);
+	}
+	return (*this);
+}
+
+Lovelace Lovelace::somar(Lovelace &A, Lovelace &B){
 	Lovelace resultado;
 	int c,overflow = 0,sum=((A.getDigito(0)+B.getDigito(0))%10),MaxDigi;
 
@@ -303,18 +321,15 @@ Lovelace& Lovelace::somar(Lovelace &A, Lovelace &B){
 	return resultado;
 }
 
-Lovelace& Lovelace::subtrair(Lovelace &A, Lovelace &B){
+Lovelace Lovelace::subtrair(Lovelace &A, Lovelace &B){
 	int carry = 0;
 	int i;
 	int QtdAlgarismosIguais = 0;
 	Lovelace resposta;
 
-	if (A.getQuantidadeAlgarismos() == B.getQuantidadeAlgarismos())
-	{
-		for (i = A.getQuantidadeAlgarismos(); i != 0; i--)
-		{
-			if (A.getDigito(i) == B.getDigito(i))
-			{
+	if (A.getQuantidadeAlgarismos() == B.getQuantidadeAlgarismos()){
+		for (i = A.getQuantidadeAlgarismos()-1; i != 0; i--){
+			if (A.getDigito(i) == B.getDigito(i)){
 				QtdAlgarismosIguais += 1;
 			}
 			else
@@ -322,12 +337,14 @@ Lovelace& Lovelace::subtrair(Lovelace &A, Lovelace &B){
 		}
 	}
 
-	resposta.setQuantidadeAlgarismos(A.getQuantidadeAlgarismos() - QtdAlgarismosIguais);
 
+
+	resposta.setQuantidadeAlgarismos(A.getQuantidadeAlgarismos() - QtdAlgarismosIguais);
+	cout << endl <<  "----SUBT" << endl << resposta.getQuantidadeAlgarismos() << endl;
 	if (A.getQuantidadeAlgarismos() < B.getQuantidadeAlgarismos())
 		cout << "Esta operacao nao esta definida no conjunto dos numeros naturais" << endl;
 	else if(A.getQuantidadeAlgarismos() == B.getQuantidadeAlgarismos() && (A.getDigito(getQuantidadeAlgarismos() - 1) < B.getDigito(getQuantidadeAlgarismos() - 1)))
-			cout << "Esta operacao nao esta definida no conjunto dos numeros naturais" << endl;
+		cout << "Esta operacao nao esta definida no conjunto dos numeros naturais" << endl;
 	else {
 		for (i = 0; i != (A.getQuantidadeAlgarismos() - QtdAlgarismosIguais); i++) {
 			if (A.getDigito(i) < B.getDigito(i)) {	
@@ -352,10 +369,13 @@ Lovelace& Lovelace::subtrair(Lovelace &A, Lovelace &B){
 			}
 		}
 	}
+	cout << "SUBT" << endl;
+	resposta.imprimirInfo();
+	cout << endl;
 	return resposta;
 }
 
-Lovelace& Lovelace::multiplicar(Lovelace &A, Lovelace &B){
+Lovelace Lovelace::multiplicar(Lovelace &A, Lovelace &B){
 	Lovelace c,aux,resultado;
 	bool log = A.eMaiorQue(B);
 	c=1;
@@ -367,16 +387,14 @@ Lovelace& Lovelace::multiplicar(Lovelace &A, Lovelace &B){
 		resultado = (resultado+(log?A:B));
 		c++;
 	}
-	cout << "Final da *." << endl;
 	return resultado;
 }
 
-Lovelace& Lovelace::dividir(Lovelace &A, Lovelace &B)
-{
+Lovelace Lovelace::dividir(Lovelace &A, Lovelace &B){
 
 }
-Lovelace& Lovelace::Exponenciacao(Lovelace &A, Lovelace &X)
-{
+
+Lovelace Lovelace::Exponenciacao(Lovelace &A, Lovelace &X){
 
 }
 
@@ -469,15 +487,28 @@ bool operator<=(Lovelace &A, Lovelace &B){
 	return A.eMenorOuIgualA(B);
 }
 
-Lovelace& Lovelace::operator+(Lovelace &B){
+Lovelace& Lovelace::operator=(Lovelace B){
+	this->setQuantidadeAlgarismos(B.getQuantidadeAlgarismos());
+	this->setTamanho(B.getTamanho());
+	this->setZero(B.eZero());
+	copiarAlgarismos(B,*this);
+	return (*this);
+}
+
+Lovelace& Lovelace::operator=(unsigned long long int numero){
+	*this = atribuir(numero);
+	return (*this);
+}
+
+Lovelace Lovelace::operator+(Lovelace &B){
 	return somar((*this), B);
 }
 
-Lovelace& Lovelace::operator-(Lovelace &B) {
+Lovelace Lovelace::operator-(Lovelace &B) {
 	return subtrair((*this), B);
 }
 
-Lovelace& Lovelace::operator*(Lovelace &B){
+Lovelace Lovelace::operator*(Lovelace &B){
 	return multiplicar((*this), B);
 }
 
@@ -493,40 +524,52 @@ Lovelace& Lovelace::operator*=(Lovelace &B){
 	return ((*this) = multiplicar((*this), B));
 }
 
-Lovelace& Lovelace::operator=(unsigned long long int A){
-	int c,k;
-	unsigned long long int aux=10;
 
-	for(c=0;c<20 && A ;c++,aux*=10)
-	{
-		k = A%aux;
-		A-=k;
-		k=(k*10/aux);
-		this->setDigito(c,(int)k);
-	}
-	return *this;
-}
 
 Lovelace& Lovelace::operator++(){
-	return (this->incrementar());
+	this->incrementar();
+	return (*this);
 }
 
-Lovelace& Lovelace::operator++(int semuso){
+Lovelace Lovelace::operator++(int semuso){
 	Lovelace retorno;
-
 	retorno = (*this);
 	this->incrementar();
 	return retorno;
 }
 
 Lovelace& Lovelace::operator--(){
-	return (this->decrementar());
+	this->decrementar();
+	return (*this);
 }
 
-Lovelace& Lovelace::operator--(int semuso){
+Lovelace Lovelace::operator--(int semuso){
 	Lovelace retorno;
 
 	retorno = (*this);
 	this->decrementar();
 	return retorno;
+}
+
+std::ostream &operator<<(std::ostream &out,Lovelace &A){
+	long long int c;
+	char a, b;
+	A.getBitwise(A.getTamanho()-1,a,b);
+	if(!(A.getQuantidadeAlgarismos()%2))
+		out << Lovelace::TabelaDeConversao[(int)b] << A.TabelaDeConversao[(int)a];
+	else
+		out << Lovelace::TabelaDeConversao[(int)a];
+	for(c=A.getTamanho()-2;c>-1;c--) {
+		A.getBitwise(c,a,b);
+		out << Lovelace::TabelaDeConversao[(int)b] << Lovelace::TabelaDeConversao[(int)a];
+	}
+
+	return out;
+}
+
+std::istream &operator>>(std::istream &in,Lovelace &A){
+	unsigned long long int numero;
+		in >> numero;
+	A = numero;
+	return in;
 }
