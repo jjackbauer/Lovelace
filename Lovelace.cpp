@@ -426,7 +426,10 @@ Lovelace Lovelace::multiplicar_improvment(Lovelace &A, Lovelace &B)
 				temp.setDigito((c2+c1),(produto+OverFlow)%10);
 				OverFlow=(produto+OverFlow)/10;
 			}
+			if(OverFlow)
+				temp.setDigito((c2+c1),OverFlow);//só por isso vey kkkkkkkkkkkkk
 			resultado+=temp;
+
 		}
 	}
 

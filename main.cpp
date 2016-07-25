@@ -209,14 +209,14 @@ void teste_5()
 	c=0;
 	cout<<"A= "<<a<<"B= "<<b<<"C= "<<c<<endl;
 	res= res.multiplicar_improvment(a,a);
-	cout<<"A*A"<<res<<endl;
+	cout<<"A*A: "<<res<<endl;
 	res= res.multiplicar_improvment(a,b);
-	cout<<"A*B"<<res<<endl;
+	cout<<"A*B: "<<res<<endl;
 	res= res.multiplicar_improvment(a,c);
-	cout<<"A*C"<<res<<endl;
+	cout<<"A*C: "<<res<<endl;
 	res= res.multiplicar_improvment(b,b);
-	cout<<"B*B"<<res<<endl;
+	cout<<"B*B: "<<res<<endl;
 	res= res.multiplicar_improvment(c,b);
-	cout<<"C*B"<<res<<endl;
+	cout<<"C*B: "<<res<<endl;
 
 }
