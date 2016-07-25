@@ -741,11 +741,11 @@ std::istream &operator>>(std::istream &in,Lovelace &A){
 //*	Inserção de fluxo por string
 std::istream &operator>>(std::istream &in,Lovelace &A){
 	string entrada;
-	char *algarismos;
 	unsigned long long int tamanho;
-	getchar();
-	getline(in, entrada);
+	while(!entrada[0])
+		getline(in, entrada);
 	string::iterator it=entrada.begin();
+
 	for (tamanho = 0; it!=entrada.end() && entrada[tamanho] >= '0' && entrada[tamanho] <= '9';tamanho++, ++it){
 		if (!tamanho && entrada[tamanho] == '0')
 			tamanho--;
@@ -754,26 +754,14 @@ std::istream &operator>>(std::istream &in,Lovelace &A){
 	if (tamanho == 0){ /* criar função própria para inicializar um Lovelace? */
 		A.zerar();
 	}
-	else {
-		if (tamanho%2)
-			A.setTamanho((tamanho/2) +1);
-		else
-			A.setTamanho(tamanho/2);
-		A.setQuantidadeAlgarismos(tamanho);
-		A.setZero(false);
-		algarismos = new char[A.getTamanho()];
-		if (!algarismos){
-			cout << "ERRO! Não foi possível alocar memória para aux." << endl;
-			exit(1);
-		}
-		unsigned long long int c;
-		for (c= 0;tamanho>1;c++) {
-			algarismos[c] = (((entrada[tamanho-1]-'0')<<4)|(entrada[tamanho-2]-'0'));
-			tamanho -= 2;
-		}
-		if (tamanho == 1)
-			algarismos[c] = ((entrada[0]-'0')<<4);
-		A.algarismos = algarismos;
+	else
+	{
+		long long int c;
+		tamanho--;
+
+		for(c=tamanho;c>-1;c--)
+			A.setDigito(tamanho-c,entrada[c]-'0');
+
 	}
 
 	return in;
