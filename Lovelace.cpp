@@ -210,43 +210,44 @@ void Lovelace::imprimir() const{
 
 void Lovelace::imprimir(char separador) const{
 	int c;
-	char A,B;
-	getBitwise(getTamanho()-1,A,B);
-	//cout<<aux<<endl;
-
-	if (separador){	//	Exibição com separador especificado
+	char a,b;
+	getBitwise(getTamanho()-1,a,b);
+	if (zero) {
+		cout << TabelaDeConversao[0];
+	}
+	else if (separador){	//	Exibição com separador especificado
 		if(!(getQuantidadeAlgarismos()%2)) {
-			cout<<TabelaDeConversao[(int)B];
+			cout<<TabelaDeConversao[(int)b];
 			if (getQuantidadeAlgarismos()%3 == 1)
 				cout << separador;
-			cout <<TabelaDeConversao[(int)A];
+			cout <<TabelaDeConversao[(int)a];
 			if (getQuantidadeAlgarismos()%3 == 2)
 				cout << separador;
 		}
 		else {
-			cout<<TabelaDeConversao[(int)A];
+			cout<<TabelaDeConversao[(int)a];
 			if (getQuantidadeAlgarismos()%3 == 1)
 				cout << separador;
 		}
 
 		for(c=getTamanho()-2;c>-1;c--){
-			getBitwise(c,A,B);
-			cout<<TabelaDeConversao[(int)B];
+			getBitwise(c,a,b);
+			cout<<TabelaDeConversao[(int)b];
 			if ((((c+1)*2)%3) == 1)
 				cout << separador;
-			cout<<TabelaDeConversao[(int)A];
+			cout<<TabelaDeConversao[(int)a];
 			if (c && (((c+1)*2)%3) == 2)
 				cout << separador;
 		}
 	}
 	else {
 		if(!(getQuantidadeAlgarismos()%2))
-			cout<<TabelaDeConversao[(int)B]<<TabelaDeConversao[(int)A];
+			cout<<TabelaDeConversao[(int)b]<<TabelaDeConversao[(int)a];
 		else
-			cout<<TabelaDeConversao[(int)A];
+			cout<<TabelaDeConversao[(int)a];
 		for(c=getTamanho()-2;c>-1;c--) {
-			getBitwise(c,A,B);
-			cout<<TabelaDeConversao[(int)B]<<TabelaDeConversao[(int)A];
+			getBitwise(c,a,b);
+			cout<<TabelaDeConversao[(int)b]<<TabelaDeConversao[(int)a];
 		}
 	}
 	cout<<endl;
