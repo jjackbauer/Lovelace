@@ -44,8 +44,8 @@ class Lovelace{//Representa numero natural
 		void setZero(bool novoValor);
 		Lovelace somar(Lovelace &A, Lovelace &B);
 		Lovelace subtrair(Lovelace &A, Lovelace &B);
+		Lovelace multiplicar_burro(Lovelace &A, Lovelace &B);
 		Lovelace multiplicar(Lovelace &A, Lovelace &B);
-		Lovelace multiplicar_improvment(Lovelace &A, Lovelace &B);
 		Lovelace dividir(Lovelace &A, Lovelace &B);
 		Lovelace Exponenciacao(Lovelace &A, Lovelace &X);
 		Lovelace incrementar();

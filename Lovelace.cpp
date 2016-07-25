@@ -383,7 +383,7 @@ Lovelace Lovelace::subtrair(Lovelace &A, Lovelace &B){
 	return resposta;
 }
 
-Lovelace Lovelace::multiplicar(Lovelace &A, Lovelace &B){
+Lovelace Lovelace::multiplicar_burro(Lovelace &A, Lovelace &B){
 	Lovelace c,aux,resultado;
 	bool log = A.eMaiorQue(B);
 	aux = log?B:A;
@@ -398,11 +398,11 @@ Lovelace Lovelace::multiplicar(Lovelace &A, Lovelace &B){
 	return resultado;
 }
 
-Lovelace Lovelace::multiplicar_improvment(Lovelace &A, Lovelace &B)
+Lovelace Lovelace::multiplicar(Lovelace &A, Lovelace &B)
 {
 	Lovelace aux,aux1,resultado,temp;
 	long long int c,c1,c2;
-	int multiplicador,multiplicando,produto,OverFlow;
+	int multiplicador,multiplicando,produto,overflow;
 	bool log = A.eMaiorQue(B);
 	aux = log?B:A;
 	aux1 = log?A:B;
@@ -418,15 +418,18 @@ Lovelace Lovelace::multiplicar_improvment(Lovelace &A, Lovelace &B)
 			for(c1=0;c1<c;c1++)
 				temp.setDigito(c1,0);
 
-			OverFlow=0;
+			overflow=0;
 			for(c2=0;c2<aux1.getQuantidadeAlgarismos();c2++)
 			{
 				multiplicando = aux1.getDigito(c2);
 				produto = (multiplicando * multiplicador);
-				temp.setDigito((c2+c1),(produto+OverFlow)%10);
-				OverFlow=(produto+OverFlow)/10;
+				temp.setDigito((c2+c1),(produto+overflow)%10);
+				overflow=(produto+overflow)/10;
 			}
+			if(overflow)
+				temp.setDigito((c2+c1),overflow);//só por isso vey kkkkkkkkkkkkk
 			resultado+=temp;
+
 		}
 	}
 
