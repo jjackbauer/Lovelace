@@ -22,7 +22,7 @@ void testes_Lovelace(){
 	cout << "[2] Teste 2 - Comparações" << endl;
 	cout << "[3] Teste 3 - Adição" << endl;
 	cout << "[4] Teste 4 - Multiplicação" << endl;
-	cout << "[4] Teste 5 - Multiplica��o melhorada" << endl;
+	cout << "[4] Teste 5 - Multiplicação melhorada" << endl;
 	int c;
 	cin >> c;
 	switch (c){
@@ -200,23 +200,25 @@ void teste_4(){
 
 
 }
-void teste_5()
-{
+
+void teste_5(){
 	Lovelace a,b,c,res;
 
 	a=500;
 	b=1234;
 	c=0;
-	cout<<"A= "<<a<<"B= "<<b<<"C= "<<c<<endl;
+	cout << "A = "<< a << endl <<
+			"B= " << b << endl <<
+			"C= " << c << endl;
 	res= res.multiplicar_improvment(a,a);
-	cout<<"A*A"<<res<<endl;
+	cout << "A*A = " << res << endl;
 	res= res.multiplicar_improvment(a,b);
-	cout<<"A*B"<<res<<endl;
+	cout << "A*B = " << res << endl;
 	res= res.multiplicar_improvment(a,c);
-	cout<<"A*C"<<res<<endl;
+	cout << "A*C = " << res <<endl;
 	res= res.multiplicar_improvment(b,b);
-	cout<<"B*B"<<res<<endl;
+	cout << "B*B = " << res <<endl;
 	res= res.multiplicar_improvment(c,b);
-	cout<<"C*B"<<res<<endl;
+	cout << "C*B = " << res << endl;
 
 }

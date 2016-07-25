@@ -621,14 +621,19 @@ Lovelace Lovelace::operator--(int semuso){
 std::ostream &operator<<(std::ostream &out,Lovelace &A){
 	long long int c;
 	char a, b;
-	A.getBitwise(A.getTamanho()-1,a,b);
-	if(!(A.getQuantidadeAlgarismos()%2))
-		out << Lovelace::TabelaDeConversao[(int)b] << A.TabelaDeConversao[(int)a];
-	else
-		out << Lovelace::TabelaDeConversao[(int)a];
-	for(c=A.getTamanho()-2;c>-1;c--) {
-		A.getBitwise(c,a,b);
-		out << Lovelace::TabelaDeConversao[(int)b] << Lovelace::TabelaDeConversao[(int)a];
+	if (A.zero) {
+			out << Lovelace::TabelaDeConversao[0];
+	}
+	else {
+		A.getBitwise(A.getTamanho()-1,a,b);
+		if(!(A.getQuantidadeAlgarismos()%2))
+			out << Lovelace::TabelaDeConversao[(int)b] << A.TabelaDeConversao[(int)a];
+		else
+			out << Lovelace::TabelaDeConversao[(int)a];
+		for(c=A.getTamanho()-2;c>-1;c--) {
+			A.getBitwise(c,a,b);
+			out << Lovelace::TabelaDeConversao[(int)b] << Lovelace::TabelaDeConversao[(int)a];
+		}
 	}
 
 	return out;
