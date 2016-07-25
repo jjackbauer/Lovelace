@@ -202,22 +202,30 @@ void teste_4(){
 }
 
 void teste_5(){
-	Lovelace a,b,c,res;
+	Lovelace A,B,C,res;
 
-	a=500;
-	b=1234;
-	c=0;
-	cout << "A = "<< a << endl <<
-			"B= " << b << endl <<
-			"C= " << c << endl;
-	res= a*a;
+	cout << "Teste 4 - Multiplicação de Valores" << endl;
+	cout << "Digite os valores de A, B e C abaixo." << endl <<
+			"A: ";
+	cin >> A;
+	cout << "B: ";
+	cin >> B;
+	cout << "C: ";
+	cin >> C;
+
+	cout << "A = "<< A << endl <<
+			"B = " << B << endl <<
+			"C = " << C << endl;
+	res= A*A;
 	cout << "A*A = " << res << endl;
-	res = a*b;
+	res = A*B;
 	cout << "A*B = " << res << endl;
-	res= a*c;
+	res= A*C;
 	cout << "A*C = " << res <<endl;
-	res= b*b;
+	res= B*B;
 	cout << "B*B = " << res <<endl;
-	res= c*b;
+	res= C*B;
 	cout << "C*B = " << res << endl;
+	res= C*C;
+	cout << "C*C = " << res << endl;
 }
