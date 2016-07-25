@@ -1,6 +1,9 @@
 #include "Lovelace.h"
 #include <iostream>
 #include <cstdlib>
+#include <cstdio>
+#include <utility>
+
 using namespace std;
 
 char Lovelace::TabelaDeConversao[] = {'0','1','2','3','4','5','6','7','8','9'};
@@ -53,19 +56,22 @@ void Lovelace::reduzirAlgarismos(){
 	return;
 }
 
-void Lovelace::copiarAlgarismos(Lovelace &deA, Lovelace &paraB){
-	free(paraB.algarismos);
+void Lovelace::copiarAlgarismos(const Lovelace &deA, Lovelace &paraB){
+	if ((&deA != &paraB) && (!deA.zero)){
+		delete (paraB.algarismos);
 
-	paraB.algarismos = new char[deA.getTamanho()];
-	if (!paraB.algarismos){
-		cout << "ERRO! Não foi possível alocar memória para algarismos." << endl <<
-				"Função: operator=(Lovelace &B)" << endl;
-		exit(1);
-	}
-	unsigned long long int c;
-	for (c = paraB.getQuantidadeAlgarismos();c;c--)
+		paraB.algarismos = new char[deA.getTamanho()];
+		if (!paraB.algarismos){
+			cout << "ERRO! Não foi possível alocar memória para algarismos." << endl <<
+					"Função: operator=(Lovelace &B)" << endl;
+			exit(1);
+		}
+		long long int c;
+		for (c = deA.getTamanho()-1;c;c--)
+			paraB.algarismos[c] = deA.algarismos[c];
 		paraB.algarismos[c] = deA.algarismos[c];
-	paraB.algarismos[c] = deA.algarismos[c];
+	}
+	return;
 }
 
 void Lovelace::setAlgarismosExibicao(long long int novoAlgarismosExibicao)
@@ -84,12 +90,12 @@ Lovelace::Lovelace(){
 	setQuantidadeAlgarismos(0);
 	setZero(true);
 }
-/*
-Lovelace::Lovelace(Lovelace &copiarLovelace){
+//*
+Lovelace::Lovelace(const Lovelace &copiarLovelace){
 	setTamanho(copiarLovelace.getTamanho());
 	setQuantidadeAlgarismos(copiarLovelace.getQuantidadeAlgarismos());
 	setZero(copiarLovelace.eZero());
-	copiarAlgarismos(*this,copiarLovelace);
+	copiarAlgarismos(copiarLovelace, *this);
 }
 //*/
 
@@ -98,38 +104,32 @@ Lovelace::~Lovelace(){
 		free(algarismos);
 }
 
-void Lovelace::setBitwise(long long int Posicao,char A, char B)
-{
-	long long int tamanho = getTamanho();
+void Lovelace::setBitwise(long long int Posicao,char A, char B){
+	long long int tam = getTamanho();
 
-	if(Posicao>=0 && Posicao <= tamanho)
-	{
+	if (Posicao>=0 && Posicao <= tam){
 		A<<=4;
 		A+=B;
 
-		if(Posicao == tamanho)
+		if(Posicao == tam)
 			expandirAlgarismos();
 
 		algarismos[Posicao]=A;
 	}
-	else
-	{
-		cout<<"Atribuicao erronea BitWise"<<endl;
+	else {
+		cout<<"Atribuicao erronea Bitwise"<<endl;
 	}
 }
 
-void Lovelace::getBitwise(long long int Posicao,char &A, char &B)
-{
-	if(Posicao>=0 && Posicao < getTamanho())
-	{
+void Lovelace::getBitwise(long long int Posicao,char &A, char &B) const{
+	if (Posicao>=0 && Posicao < getTamanho()){
 		char coded = algarismos[Posicao];
 
 		A=((coded&(240))>>4);
 		B=coded&(15);
 	}
-	else
-	{
-		cout<<"Acesso Invalido BitWise"<<endl;
+	else {
+		cout<<"Acesso invalido Bitwise"<<endl;
 	}
 }
 
@@ -151,10 +151,9 @@ char Lovelace::getDigito(long long int Posicao)
 	return 0;
 
 }
-void Lovelace::setDigito(long long int Posicao, char Digito)
-{	//	Validar também para aceitar somente dígitos entre 0 9?
-	if(Posicao>=0 && Posicao <= getQuantidadeAlgarismos())
-	{
+void Lovelace::setDigito(long long int Posicao, char Digito){
+	//	Validar também para aceitar somente dígitos entre 0 9?
+	if (Posicao>=0 && Posicao <= getQuantidadeAlgarismos()){
 			char A,B;
 			if(Posicao/2 < getTamanho()){
 				getBitwise(Posicao/2,A,B);
@@ -165,53 +164,51 @@ void Lovelace::setDigito(long long int Posicao, char Digito)
 				A=Digito;
 			}
 
-			if(Posicao>=getQuantidadeAlgarismos())
+			if (Posicao>=getQuantidadeAlgarismos())
 				setQuantidadeAlgarismos(getQuantidadeAlgarismos()+1);
-			if(Posicao==0)
+			if (Posicao==0)
 				setZero(false);
 
 			setBitwise(Posicao/2,A,B);
 	}
-	else
-	{
+	else {
 		cout<<"ERRO! Atribuicao erronea de digito."<<endl;
 	}
 }
 
-
-void Lovelace::setTamanho(long long int novoTamanho)
-{
+void Lovelace::setTamanho(long long int novoTamanho){
 	tamanho=novoTamanho;
 }
 
-long long int Lovelace::getTamanho()
-{
+long long int Lovelace::getTamanho() const{
 	return tamanho;
 }
 
-long long int Lovelace::getQuantidadeAlgarismos()
-{
+long long int Lovelace::getQuantidadeAlgarismos() const{
 	return quantidadeAlgarismos;
 }
 
-void Lovelace::setQuantidadeAlgarismos(long long int novaQuantidadeAlgarismos)
-{
+void Lovelace::setQuantidadeAlgarismos(long long int novaQuantidadeAlgarismos){
 	quantidadeAlgarismos=novaQuantidadeAlgarismos;
 }
 
-bool Lovelace::eZero()
-{
+ bool Lovelace::eZero() const{
 	return zero;
 }
 
-void Lovelace::setZero(bool novoValor)
-{
-	zero=novoValor;
+bool Lovelace::naoEZero(){
+	return !zero;
 }
-void Lovelace::imprimir(){
+
+void Lovelace::setZero(bool novoValor){
+	zero = novoValor;
+}
+
+void Lovelace::imprimir() const{
 	imprimir(0);
 }
-void Lovelace::imprimir(char separador){
+
+void Lovelace::imprimir(char separador) const{
 	int c;
 	char A,B;
 	getBitwise(getTamanho()-1,A,B);
@@ -255,12 +252,20 @@ void Lovelace::imprimir(char separador){
 	cout<<endl;
 }
 
-void Lovelace::imprimirInfo(){
+void Lovelace::imprimirInfo() const{
+	cout << "(*)                  : " << this << endl;
 	cout << "tamanho              : " << getTamanho() << endl;
 	cout << "quantidadeAlgarismos : " << getQuantidadeAlgarismos() << endl;
 	cout << "zero                 : " << eZero() << endl;
+	cout << "algarismos (*)       : " << &algarismos << endl;
+	printf("%d\n", algarismos);
 	cout << "Vetor de Algarismos  : ";
 	imprimir('.');
+	cout << endl;
+	for (int c = 0;c < getTamanho();c++){
+		cout << "algarismos[" << c << "](2): " << (int)(algarismos[c]&15) << endl;
+		cout << "algarismos[" << c << "](1): " << (int)((algarismos[c]&240)>>4) << endl;
+	}
 	cout << endl;
 }
 
@@ -276,15 +281,14 @@ Lovelace Lovelace::decrementar(){
 	return ((*this) = subtrair(*this,aux));
 }
 
-Lovelace Lovelace::atribuir(unsigned long long int numero){
+Lovelace& Lovelace::atribuir(unsigned long long int &numero){
 	int c,k;
 	unsigned long long int aux=10;
-
 	for(c=0;c<20 && numero ;c++,aux*=10){
 		k = numero%aux;
 		numero-=k;
 		k=(k*10/aux);
-		this->setDigito(c,(int)k);
+		this->setDigito(c,(char)k);
 	}
 	return (*this);
 }
@@ -317,7 +321,6 @@ Lovelace Lovelace::somar(Lovelace &A, Lovelace &B){
 		while(aux--)
 			resultado.reduzirAlgarismos();
 	}
-
 	return resultado;
 }
 
@@ -378,9 +381,9 @@ Lovelace Lovelace::subtrair(Lovelace &A, Lovelace &B){
 Lovelace Lovelace::multiplicar(Lovelace &A, Lovelace &B){
 	Lovelace c,aux,resultado;
 	bool log = A.eMaiorQue(B);
-	c=1;
 	aux = log?B:A;
 	resultado = log?A:B;
+	c++;
 
 	while(aux.eMaiorQue(c))
 	{
@@ -487,17 +490,38 @@ bool operator<=(Lovelace &A, Lovelace &B){
 	return A.eMenorOuIgualA(B);
 }
 
-Lovelace& Lovelace::operator=(Lovelace B){
-	this->setQuantidadeAlgarismos(B.getQuantidadeAlgarismos());
-	this->setTamanho(B.getTamanho());
-	this->setZero(B.eZero());
-	copiarAlgarismos(B,*this);
+Lovelace& Lovelace::operator=(Lovelace &B){
+	if (&B != this){
+		if (!zero && B.zero){
+			delete this->algarismos;
+			this->algarismos = NULL;
+		}
+		else
+			copiarAlgarismos(B,*this);
+		this->setQuantidadeAlgarismos(B.getQuantidadeAlgarismos());
+		this->setTamanho(B.getTamanho());
+		this->setZero(B.eZero());
+	}
 	return (*this);
 }
 
-Lovelace& Lovelace::operator=(unsigned long long int numero){
-	*this = atribuir(numero);
+Lovelace& Lovelace::operator=(const Lovelace &B){
+	if (&B != this){
+		if (!zero && B.zero){
+			delete this->algarismos;
+			this->algarismos = NULL;
+		}
+		else
+			copiarAlgarismos(B,*this);
+		this->setQuantidadeAlgarismos(B.getQuantidadeAlgarismos());
+		this->setTamanho(B.getTamanho());
+		this->setZero(B.eZero());
+	}
 	return (*this);
+}
+
+Lovelace& Lovelace::operator=(unsigned long long int &numero){
+	return atribuir(numero);
 }
 
 Lovelace Lovelace::operator+(Lovelace &B){
@@ -566,10 +590,75 @@ std::ostream &operator<<(std::ostream &out,Lovelace &A){
 
 	return out;
 }
-
 std::istream &operator>>(std::istream &in,Lovelace &A){
 	unsigned long long int numero;
-		in >> numero;
+	in >> numero;
 	A = numero;
 	return in;
 }
+
+/* Inserção de fluxo char a char, problema com números impares de dígitos.
+std::istream &operator>>(std::istream &in,Lovelace &A){
+	char *algarismos = NULL, *aux;
+	long long int tamanho,c;
+	char n,alg;
+	in >> n;
+	for(c = 1;(n >= '0') && (n <= '9');in >> n){
+		if (c == 1 && n == '0')
+			continue;
+		else if (!(c%2)){
+			c++;
+			alg |= ((n-'0')<<4);
+			tamanho = c/2;
+			aux = new char[tamanho];
+			if (!aux){
+				cout << "ERRO! Não foi possível alocar memória para aux." << endl;
+				exit(1);
+			}
+			tamanho--;
+			aux[0] = alg;
+			for (tamanho--;tamanho+1;tamanho--)
+				aux[tamanho+1] = algarismos[tamanho];
+			free(algarismos);
+			algarismos = aux;
+		}
+		else {
+			alg = (n-'0');
+			c++;
+		}
+	}
+	if (!(c%2)){
+		//alg <<=4;
+		alg |= 240;
+		tamanho = c/2;
+		aux = new char[tamanho];
+		if (!aux){
+			cout << "ERRO! Não foi possível alocar memória para aux." << endl;
+			exit(1);
+		}
+		tamanho--;
+		aux[0] = alg;
+		for (tamanho--;tamanho+1;tamanho--)
+			aux[tamanho+1] = algarismos[tamanho];
+		free(algarismos);
+		algarismos = aux;
+	}
+
+	A.algarismos = algarismos;
+	A.setTamanho(c/2);
+	A.setQuantidadeAlgarismos(c-1);
+	A.setZero(false);
+
+	cout << endl <<
+			"Tamanho: " << A.getTamanho() << endl;
+	cout << "QntAlg: " << A.getQuantidadeAlgarismos() << endl;
+	cout << aux[1] << endl;
+
+	for (int c = 0;c < A.getTamanho();c++){
+		cout << "algarismos[" << c << "](2): " << (int)(algarismos[c]&15) << endl;
+		cout << "algarismos[" << c << "](1): " << (int)((algarismos[c]&240)>>4) << endl;
+	}
+
+	return in;
+}
+//*/

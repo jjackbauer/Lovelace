@@ -129,15 +129,17 @@ void teste_3(){
 	cin >> Num1;
 	cout << "Num2: ";
 	cin >> Num2;
+	/*
 	cout << "Num3: ";
 	cin >> Num3;
 	cout << "Num4: ";
 	cin >> Num4;
-
+	 //*/
 	cout << Num1 << " + "  << Num2 << " = ";
 	resultado = (Num1+Num2);
 	cout << resultado << endl;
 
+	/*
 	cout << Num1 << " + "  << Num3 << " = ";
 	resultado = (Num1+Num3);
 	cout << resultado << endl;
@@ -145,12 +147,14 @@ void teste_3(){
 	cout << Num1 << " + "  << Num4 << " = ";
 	resultado = (Num1+Num4);
 	cout << resultado << endl;
-
+	//*/
 	cout << endl << endl;
 	Num1.imprimirInfo();
 	Num2.imprimirInfo();
+	/*
 	Num3.imprimirInfo();
 	Num4.imprimirInfo();
+	//*/
 	cout << endl;
 }
 
