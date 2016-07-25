@@ -652,7 +652,7 @@ std::istream &operator>>(std::istream &in,Lovelace &A){
 }
 //*/
 
-/* Inserção de fluxo char a char, problema com números impares de dígitos. 
+/* Inserção de fluxo char a char, problema com números impares de dígitos.
 std::istream &operator>>(std::istream &in,Lovelace &A){
 	char *algarismos = NULL, *aux;
 	long long int tamanho,c;
@@ -729,6 +729,7 @@ std::istream &operator>>(std::istream &in,Lovelace &A){
 		if (!tamanho && entrada[tamanho] == '0')
 			tamanho--;
 	}
+
 	if (tamanho == 0){ /* criar função própria para inicializar um Lovelace? */
 		delete A.algarismos;
 		A.algarismos = NULL;
@@ -749,13 +750,12 @@ std::istream &operator>>(std::istream &in,Lovelace &A){
 			exit(1);
 		}
 		unsigned long long int c;
-		for (c= 0;tamanho-2;c++) {
-			algarismos[c] = ((entrada[tamanho-1]-'0')<<4)&(entrada[tamanho-2]-'0');
+		for (c= 0;tamanho>1;c++) {
+			algarismos[c] = (((entrada[tamanho-1]-'0')<<4)|(entrada[tamanho-2]-'0'));
 			tamanho -= 2;
 		}
 		if (tamanho == 1)
-			algarismos[c] = ((entrada[tamanho-1]-'0')<<4);
-
+			algarismos[c] = ((entrada[0]-'0')<<4);
 		A.algarismos = algarismos;
 	}
 

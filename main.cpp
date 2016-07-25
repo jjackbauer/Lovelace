@@ -21,8 +21,8 @@ void testes_Lovelace(){
 	cout << "[1] Teste 1 - Subtração" << endl;
 	cout << "[2] Teste 2 - Comparações" << endl;
 	cout << "[3] Teste 3 - Adição" << endl;
-	cout << "[4] Teste 4 - Multiplicação" << endl;
-	cout << "[4] Teste 5 - Multiplicação melhorada" << endl;
+	cout << "[4] Teste 4 - Multiplicação Burra" << endl;
+	cout << "[4] Teste 5 - Multiplicação" << endl;
 	int c;
 	cin >> c;
 	switch (c){
@@ -168,11 +168,11 @@ void teste_3(){
 void teste_4(){
 	Lovelace Num1, Num2, Num3, Num4, resultado;
 
-	cout << "Teste 4 - Multiplicação de Valores" << endl;
+	cout << "Teste 4 - Multiplicação Burra de Valores" << endl;
 	cout << "Digite os valores de Num1, Num2, Num3 e Num4 abaixo." << endl <<
 			"Num1: ";
 	cin >> Num1;
-	cout << "Num2: ";
+	cout << endl << "Num2: ";
 	cin >> Num2;
 	Num1.imprimirInfo();
 	Num2.imprimirInfo();
@@ -182,15 +182,15 @@ void teste_4(){
 	cin >> Num4;
 
 	cout << Num1 << " * "  << Num2 << " = ";
-	resultado = (Num1*Num2);
+	resultado = resultado.multiplicar_burro(Num1,Num2);
 	cout << resultado << endl;
 
 	cout << Num1 << " * "  << Num3 << " = ";
-	resultado = (Num1*Num3);
+	resultado = resultado.multiplicar_burro(Num1,Num3);
 	cout << resultado << endl;
 
 	cout << Num1 << " * "  << Num4 << " = ";
-	resultado = (Num1*Num4);
+	resultado = resultado.multiplicar_burro(Num1,Num4);
 	cout << resultado << endl;
 
 	cout << endl << endl;
@@ -206,7 +206,7 @@ void teste_4(){
 void teste_5(){
 	Lovelace A,B,C,res;
 
-	cout << "Teste 4 - Multiplicação de Valores" << endl;
+	cout << "Teste 5 - Multiplicação de Valores" << endl;
 	cout << "Digite os valores de A, B e C abaixo." << endl <<
 			"A: ";
 	cin >> A;
