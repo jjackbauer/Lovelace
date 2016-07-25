@@ -1,5 +1,6 @@
 #include <iostream>
 #include "InteiroLovelace.h"
+#include "Lovelace.h"
 using namespace std;
 
 void testes_Lovelace();
@@ -7,6 +8,7 @@ void teste_1();
 void teste_2();
 void teste_3();
 void teste_4();
+void teste_5();
 
 int main()
 {
@@ -20,6 +22,7 @@ void testes_Lovelace(){
 	cout << "[2] Teste 2 - Comparações" << endl;
 	cout << "[3] Teste 3 - Adição" << endl;
 	cout << "[4] Teste 4 - Multiplicação" << endl;
+	cout << "[4] Teste 5 - Multiplica��o melhorada" << endl;
 	int c;
 	cin >> c;
 	switch (c){
@@ -35,6 +38,10 @@ void testes_Lovelace(){
 		case 4:
 			teste_4();
 			break;
+		case 5:
+			teste_5();
+			break;
+
 		default:
 			teste_1();
 			break;
@@ -191,5 +198,25 @@ void teste_4(){
 	Num4.imprimirInfo();
 	cout << endl;
 
+
+}
+void teste_5()
+{
+	Lovelace a,b,c,res;
+
+	a=500;
+	b=1234;
+	c=0;
+	cout<<"A= "<<a<<"B= "<<b<<"C= "<<c<<endl;
+	res= res.multiplicar_improvment(a,a);
+	cout<<"A*A"<<res<<endl;
+	res= res.multiplicar_improvment(a,b);
+	cout<<"A*B"<<res<<endl;
+	res= res.multiplicar_improvment(a,c);
+	cout<<"A*C"<<res<<endl;
+	res= res.multiplicar_improvment(b,b);
+	cout<<"B*B"<<res<<endl;
+	res= res.multiplicar_improvment(c,b);
+	cout<<"C*B"<<res<<endl;
 
 }

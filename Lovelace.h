@@ -45,11 +45,13 @@ class Lovelace{//Representa numero natural
 		Lovelace somar(Lovelace &A, Lovelace &B);
 		Lovelace subtrair(Lovelace &A, Lovelace &B);
 		Lovelace multiplicar(Lovelace &A, Lovelace &B);
+		Lovelace multiplicar_improvment(Lovelace &A, Lovelace &B);
 		Lovelace dividir(Lovelace &A, Lovelace &B);
 		Lovelace Exponenciacao(Lovelace &A, Lovelace &X);
 		Lovelace incrementar();
 		Lovelace decrementar();
 		Lovelace& atribuir(unsigned long long int &numero);
+		Lovelace& atribuir(const int &numero);
 
 		bool eIgualA(Lovelace &B);
 		bool eDiferenteDe(Lovelace &B);
@@ -63,8 +65,8 @@ class Lovelace{//Representa numero natural
 		Lovelace& operator=(Lovelace &B);
 		Lovelace& operator=(const Lovelace &B); 	// Tem que ser implementado para
 											//	copiar os conteúdos de *algarismos
-		Lovelace& operator=(unsigned long long int &A);
-
+		Lovelace& operator=(unsigned long long int &numero);
+		Lovelace& operator=(const int &numero);
 		Lovelace& operator+=(Lovelace &B);
 		Lovelace& operator-=(Lovelace &B);
 		Lovelace& operator*=(Lovelace &B);

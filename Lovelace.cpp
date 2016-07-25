@@ -293,6 +293,10 @@ Lovelace& Lovelace::atribuir(unsigned long long int &numero){
 	}
 	return (*this);
 }
+Lovelace& Lovelace::atribuir(const int &numero){
+	unsigned long long int aux=numero;
+	return atribuir(aux);
+}
 
 Lovelace Lovelace::somar(Lovelace &A, Lovelace &B){
 	Lovelace resultado;
@@ -394,6 +398,41 @@ Lovelace Lovelace::multiplicar(Lovelace &A, Lovelace &B){
 	return resultado;
 }
 
+Lovelace Lovelace::multiplicar_improvment(Lovelace &A, Lovelace &B)
+{
+	Lovelace aux,aux1,resultado,temp;
+	long long int c,c1,c2;
+	int multiplicador,multiplicando,produto,OverFlow;
+	bool log = A.eMaiorQue(B);
+	aux = log?B:A;
+	aux1 = log?A:B;
+
+	for(c=0; c < aux.getQuantidadeAlgarismos();c++)
+	{
+		multiplicador = aux.getDigito(c);
+		if(multiplicador)
+		{
+			unsigned long long int k =0;
+			temp = k;
+
+			for(c1=0;c1<c;c1++)
+				temp.setDigito(c1,0);
+
+			OverFlow=0;
+			for(c2=0;c2<aux1.getQuantidadeAlgarismos();c2++)
+			{
+				multiplicando = aux1.getDigito(c2);
+				produto = (multiplicando * multiplicador);
+				temp.setDigito((c2+c1),(produto+OverFlow)%10);
+				OverFlow=(produto+OverFlow)/10;
+			}
+			resultado+=temp;
+		}
+	}
+
+	return resultado;
+
+}
 Lovelace Lovelace::dividir(Lovelace &A, Lovelace &B){
 
 }
@@ -522,6 +561,9 @@ Lovelace& Lovelace::operator=(const Lovelace &B){
 }
 
 Lovelace& Lovelace::operator=(unsigned long long int &numero){
+	return atribuir(numero);
+}
+Lovelace& Lovelace::operator=(const int &numero){
 	return atribuir(numero);
 }
 
