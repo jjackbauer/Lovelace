@@ -398,20 +398,18 @@ Lovelace Lovelace::multiplicar_burro(Lovelace &A, Lovelace &B){
 	return resultado;
 }
 
-Lovelace Lovelace::multiplicar(Lovelace &A, Lovelace &B)
-{
+Lovelace Lovelace::multiplicar(Lovelace &A, Lovelace &B){
 	Lovelace aux,aux1,resultado,temp;
 	long long int c,c1,c2;
 	int multiplicador,multiplicando,produto,overflow;
 	bool log = A.eMaiorQue(B);
+
 	aux = log?B:A;
 	aux1 = log?A:B;
 
-	for(c=0; c < aux.getQuantidadeAlgarismos();c++)
-	{
+	for(c=0; c < aux.getQuantidadeAlgarismos();c++){
 		multiplicador = aux.getDigito(c);
-		if(multiplicador)
-		{
+		if(multiplicador){
 			unsigned long long int k =0;
 			temp = k;
 
@@ -419,8 +417,7 @@ Lovelace Lovelace::multiplicar(Lovelace &A, Lovelace &B)
 				temp.setDigito(c1,0);
 
 			overflow=0;
-			for(c2=0;c2<aux1.getQuantidadeAlgarismos();c2++)
-			{
+			for(c2=0;c2<aux1.getQuantidadeAlgarismos();c2++){
 				multiplicando = aux1.getDigito(c2);
 				produto = (multiplicando * multiplicador);
 				temp.setDigito((c2+c1),(produto+overflow)%10);
@@ -429,13 +426,12 @@ Lovelace Lovelace::multiplicar(Lovelace &A, Lovelace &B)
 			if(overflow)
 				temp.setDigito((c2+c1),overflow);//só por isso vey kkkkkkkkkkkkk
 			resultado+=temp;
-
 		}
 	}
 
 	return resultado;
-
 }
+
 Lovelace Lovelace::dividir(Lovelace &A, Lovelace &B){
 
 }
@@ -641,14 +637,18 @@ std::ostream &operator<<(std::ostream &out,Lovelace &A){
 
 	return out;
 }
+
+/*
 std::istream &operator>>(std::istream &in,Lovelace &A){
 	unsigned long long int numero;
 	in >> numero;
 	A = numero;
 	return in;
 }
+//*/
 
-/* Inserção de fluxo char a char, problema com números impares de dígitos.
+/* Inserção de fluxo char a char, problema com números impares de dígitos. */
+/*
 std::istream &operator>>(std::istream &in,Lovelace &A){
 	char *algarismos = NULL, *aux;
 	long long int tamanho,c;
@@ -713,3 +713,49 @@ std::istream &operator>>(std::istream &in,Lovelace &A){
 	return in;
 }
 //*/
+//*	Inserção de fluxo por string
+std::istream &operator>>(std::istream &in,Lovelace &A){
+	string entrada;
+	char *algarismos;
+	unsigned long long int tamanho;
+	getchar();
+	getline(in, entrada);
+	string::iterator it=entrada.begin();
+	for (tamanho = 0; it!=entrada.end() && entrada[tamanho] >= '0' && entrada[tamanho] <= '9';tamanho++, ++it){
+		if (!tamanho && entrada[tamanho] == '0')
+			tamanho--;
+	}
+	if (tamanho == 0){ /* criar função própria para inicializar um Lovelace? */
+		delete A.algarismos;
+		A.algarismos = NULL;
+		A.setTamanho(0);
+		A.setQuantidadeAlgarismos(0);
+		A.setZero(true);
+	}
+	else {
+		if (tamanho%2)
+			A.setTamanho((tamanho/2) +1);
+		else
+			A.setTamanho(tamanho/2);
+		A.setQuantidadeAlgarismos(tamanho);
+		A.setZero(false);
+		algarismos = new char[A.getTamanho()];
+		if (!algarismos){
+			cout << "ERRO! Não foi possível alocar memória para aux." << endl;
+			exit(1);
+		}
+		unsigned long long int c;
+		for (c= 0;tamanho-2;c++) {
+			algarismos[c] = ((entrada[tamanho-1]-'0')<<4)&(entrada[tamanho-2]-'0');
+			tamanho -= 2;
+		}
+		if (tamanho == 1)
+			algarismos[c] = ((entrada[tamanho-1]-'0')<<4);
+
+		A.algarismos = algarismos;
+	}
+
+	return in;
+}
+//*/
+

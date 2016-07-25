@@ -174,6 +174,8 @@ void teste_4(){
 	cin >> Num1;
 	cout << "Num2: ";
 	cin >> Num2;
+	Num1.imprimirInfo();
+	Num2.imprimirInfo();
 	cout << "Num3: ";
 	cin >> Num3;
 	cout << "Num4: ";
