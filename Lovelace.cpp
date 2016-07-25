@@ -442,9 +442,11 @@ Lovelace Lovelace::dividir(Lovelace &A, Lovelace &B){
 
 Lovelace Lovelace::Exponenciacao(Lovelace &A, Lovelace &X)
 {
-	Lovelace c,resultado=A;
+	Lovelace c,resultado;
+	resultado.setDigito(0,1);
 
-	for(c=0;c<X;c++,resultado*=A);
+	if(!(X.eZero()))
+		for(c=0;c<=X;c++,resultado*=A);
 
 	return resultado;
 }
