@@ -403,7 +403,6 @@ Lovelace Lovelace::multiplicar(Lovelace &A, Lovelace &B){
 	long long int c,c1,c2;
 	int multiplicador,multiplicando,produto,overflow;
 	bool log = A.eMaiorQue(B);
-
 	aux = log?B:A;
 	aux1 = log?A:B;
 
@@ -436,8 +435,14 @@ Lovelace Lovelace::dividir(Lovelace &A, Lovelace &B){
 
 }
 
-Lovelace Lovelace::Exponenciacao(Lovelace &A, Lovelace &X){
+Lovelace Lovelace::exponenciar(Lovelace &A, Lovelace &X){
+	Lovelace c,resultado;
+	resultado.setDigito(0,1);
 
+	if(!(X.eZero()))
+		for(c=0;c<=X;c++,resultado*=A);
+
+	return resultado;
 }
 
 bool Lovelace::eIgualA(Lovelace &B){
@@ -647,8 +652,7 @@ std::istream &operator>>(std::istream &in,Lovelace &A){
 }
 //*/
 
-/* Inserção de fluxo char a char, problema com números impares de dígitos. */
-/*
+/* Inserção de fluxo char a char, problema com números impares de dígitos. 
 std::istream &operator>>(std::istream &in,Lovelace &A){
 	char *algarismos = NULL, *aux;
 	long long int tamanho,c;

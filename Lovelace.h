@@ -47,7 +47,7 @@ class Lovelace{//Representa numero natural
 		Lovelace multiplicar_burro(Lovelace &A, Lovelace &B);
 		Lovelace multiplicar(Lovelace &A, Lovelace &B);
 		Lovelace dividir(Lovelace &A, Lovelace &B);
-		Lovelace Exponenciacao(Lovelace &A, Lovelace &X);
+		Lovelace exponenciar(Lovelace &A, Lovelace &X);
 		Lovelace incrementar();
 		Lovelace decrementar();
 		Lovelace& atribuir(unsigned long long int &numero);
