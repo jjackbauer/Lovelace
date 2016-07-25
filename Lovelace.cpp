@@ -440,8 +440,13 @@ Lovelace Lovelace::dividir(Lovelace &A, Lovelace &B){
 
 }
 
-Lovelace Lovelace::Exponenciacao(Lovelace &A, Lovelace &X){
+Lovelace Lovelace::Exponenciacao(Lovelace &A, Lovelace &X)
+{
+	Lovelace c,resultado=A;
 
+	for(c=0;c<X;c++,resultado*=A);
+
+	return resultado;
 }
 
 bool Lovelace::eIgualA(Lovelace &B){
