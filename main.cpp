@@ -9,6 +9,7 @@ void teste_2();
 void teste_3();
 void teste_4();
 void teste_5();
+void teste_6();
 
 int main()
 {
@@ -22,7 +23,9 @@ void testes_Lovelace(){
 	cout << "[2] Teste 2 - Comparações" << endl;
 	cout << "[3] Teste 3 - Adição" << endl;
 	cout << "[4] Teste 4 - Multiplicação Burra" << endl;
-	cout << "[4] Teste 5 - Multiplicação" << endl;
+	cout << "[5] Teste 5 - Multiplicação" << endl;
+	cout << "[6] Teste 6 - Exponenciação" << endl;
+	cout << "[7] Teste 7 - Divisão" << endl;
 	int c;
 	cin >> c;
 	switch (c){
@@ -40,6 +43,9 @@ void testes_Lovelace(){
 			break;
 		case 5:
 			teste_5();
+			break;
+		case 6:
+			teste_6();
 			break;
 
 		default:
@@ -230,4 +236,34 @@ void teste_5(){
 	cout << "C*B = " << res << endl;
 	res= C*C;
 	cout << "C*C = " << res << endl;
+}
+
+void teste_6(){
+	Lovelace A,B,C,res;
+
+	cout << "Teste 6 - Exponenciação de Valores" << endl;
+	cout << "Digite os valores de A, B e C abaixo." << endl <<
+			"A: ";
+	cin >> A;
+	cout << "B: ";
+	cin >> B;
+	cout << "C: ";
+	cin >> C;
+
+	cout << "A = "<< A << endl <<
+			"B = " << B << endl <<
+			"C = " << C << endl;
+	getchar();
+	res = A^A;
+	cout << "A^A = " << res << endl;
+	res = A^B;
+	cout << "A^B = " << res << endl;
+	res = A^C;
+	cout << "A^C = " << res <<endl;
+	res = B^B;
+	cout << "B^B = " << res <<endl;
+	res = C^B;
+	cout << "C^B = " << res << endl;
+	res = C^C;
+	cout << "C^C = " << res << endl;
 }

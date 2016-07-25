@@ -58,8 +58,6 @@ void Lovelace::reduzirAlgarismos(){
 
 void Lovelace::copiarAlgarismos(const Lovelace &deA, Lovelace &paraB){
 	if ((&deA != &paraB) && (!deA.zero)){
-		delete (paraB.algarismos);
-
 		paraB.algarismos = new char[deA.getTamanho()];
 		if (!paraB.algarismos){
 			cout << "ERRO! Não foi possível alocar memória para algarismos." << endl <<
@@ -74,28 +72,38 @@ void Lovelace::copiarAlgarismos(const Lovelace &deA, Lovelace &paraB){
 	return;
 }
 
-void Lovelace::setAlgarismosExibicao(long long int novoAlgarismosExibicao)
-{
+void Lovelace::inicializar(){
+	this->algarismos = NULL;
+	this->setTamanho(0);
+	this->setQuantidadeAlgarismos(0);
+	this->setZero(true);
+}
+
+void Lovelace::zerar(){
+	if (naoEZero()){
+		delete this->algarismos;
+		this->inicializar();
+	}
+}
+
+void Lovelace::setAlgarismosExibicao(long long int novoAlgarismosExibicao){
 	algarismosExibicao=novoAlgarismosExibicao;
 }
 
-long long int Lovelace::getAlgarismosExibicao()
-{
+long long int Lovelace::getAlgarismosExibicao(){
 	return algarismosExibicao;
 }
 
 Lovelace::Lovelace(){
-	algarismos=NULL;
-	setTamanho(0);
-	setQuantidadeAlgarismos(0);
-	setZero(true);
+	inicializar();
 }
 //*
 Lovelace::Lovelace(const Lovelace &copiarLovelace){
 	setTamanho(copiarLovelace.getTamanho());
 	setQuantidadeAlgarismos(copiarLovelace.getQuantidadeAlgarismos());
 	setZero(copiarLovelace.eZero());
-	copiarAlgarismos(copiarLovelace, *this);
+	if (!copiarLovelace.eZero())
+		copiarAlgarismos(copiarLovelace, *this);
 }
 //*/
 
@@ -133,17 +141,14 @@ void Lovelace::getBitwise(long long int Posicao,char &A, char &B) const{
 	}
 }
 
-char Lovelace::getDigito(long long int Posicao)
-{
-	if(Posicao>=0 && Posicao < getQuantidadeAlgarismos())//Tinha bug aqui, bug maldito kkkkkkkkk
-	{
+char Lovelace::getDigito(long long int Posicao){
+	if (Posicao>=0 && Posicao < getQuantidadeAlgarismos()){//Tinha bug aqui, bug maldito kkkkkkkkk
 		char A,B;
 		getBitwise(Posicao/2,A,B);
 
 		return Posicao%2?B:A;
 	}
-	else
-	{
+	else {
 		//cout<<"Acesso Invalido Digito"<<endl;
 		return 0;
 	}
@@ -285,11 +290,16 @@ Lovelace Lovelace::decrementar(){
 Lovelace& Lovelace::atribuir(unsigned long long int &numero){
 	int c,k;
 	unsigned long long int aux=10;
-	for(c=0;c<20 && numero ;c++,aux*=10){
-		k = numero%aux;
-		numero-=k;
-		k=(k*10/aux);
-		this->setDigito(c,(char)k);
+	if (numero == 0) {
+		this->inicializar();
+	}
+	else {
+		for(c=0;c<20 && numero ;c++,aux*=10){
+			k = numero%aux;
+			numero-=k;
+			k=(k*10/aux);
+			this->setDigito(c,(char)k);
+		}
 	}
 	return (*this);
 }
@@ -299,34 +309,43 @@ Lovelace& Lovelace::atribuir(const int &numero){
 }
 
 Lovelace Lovelace::somar(Lovelace &A, Lovelace &B){
-	Lovelace resultado;
-	int c,overflow = 0,sum=((A.getDigito(0)+B.getDigito(0))%10),MaxDigi;
-
-	{//I love gambiarra <3 <3
-		int NdA=A.getQuantidadeAlgarismos(),NdB=B.getQuantidadeAlgarismos();
-		MaxDigi=NdA>NdB?NdA:NdB;
+	if (A.eZero()){
+		Lovelace resultado(B);
+		return resultado;
 	}
-
-	resultado.setDigito(0,sum);
-	//overflow=((A->GetDigito(0)+B->GetDigito(0))/10);
-
-	for(c=1;c<=MaxDigi;c++){
-		sum=((A.getDigito(c)+B.getDigito(c))%10);
-		overflow=((A.getDigito(c-1)+B.getDigito(c-1)+overflow)/10);
-		//if(sum+overflow)	//	Isso vai ter de voltar apos corrige lovelace....
-		resultado.setDigito(c,(sum+overflow)%10);
+	else if (B.eZero()){
+		Lovelace resultado(A);
+		return resultado;
 	}
-	overflow=((A.getDigito(c-1)+B.getDigito(c-1))/10);
-	if (overflow)
-		resultado.setDigito(c,overflow);
+	else {
+		Lovelace resultado;
+		int c,overflow = 0,sum=((A.getDigito(0)+B.getDigito(0))%10),MaxDigi;
+		{//I love gambiarra <3 <3
+			int NdA=A.getQuantidadeAlgarismos(),NdB=B.getQuantidadeAlgarismos();
+			MaxDigi=NdA>NdB?NdA:NdB;
+		}
 
-	for (c=resultado.getQuantidadeAlgarismos()-1;c > -1 && !resultado.getDigito(c);c--);
+		resultado.setDigito(0,sum);
+		//overflow=((A->GetDigito(0)+B->GetDigito(0))/10);
 
-	if (int aux = (resultado.getQuantidadeAlgarismos()-1 - c)){
-		while(aux--)
-			resultado.reduzirAlgarismos();
+		for(c=1;c<=MaxDigi;c++){
+			sum=((A.getDigito(c)+B.getDigito(c))%10);
+			overflow=((A.getDigito(c-1)+B.getDigito(c-1)+overflow)/10);
+			//if(sum+overflow)	//	Isso vai ter de voltar apos corrige lovelace....
+			resultado.setDigito(c,(sum+overflow)%10);
+		}
+		overflow=((A.getDigito(c-1)+B.getDigito(c-1))/10);
+		if (overflow)
+			resultado.setDigito(c,overflow);
+
+		for (c=resultado.getQuantidadeAlgarismos()-1;c > -1 && !resultado.getDigito(c);c--);
+
+		if (int aux = (resultado.getQuantidadeAlgarismos()-1 - c)){
+			while(aux--)
+				resultado.reduzirAlgarismos();
+		}
+		return resultado;
 	}
-	return resultado;
 }
 
 Lovelace Lovelace::subtrair(Lovelace &A, Lovelace &B){
@@ -390,8 +409,7 @@ Lovelace Lovelace::multiplicar_burro(Lovelace &A, Lovelace &B){
 	resultado = log?A:B;
 	c++;
 
-	while(aux.eMaiorQue(c))
-	{
+	while(aux.eMaiorQue(c)){
 		resultado = (resultado+(log?A:B));
 		c++;
 	}
@@ -438,10 +456,8 @@ Lovelace Lovelace::dividir(Lovelace &A, Lovelace &B){
 Lovelace Lovelace::exponenciar(Lovelace &A, Lovelace &X){
 	Lovelace c,resultado;
 	resultado.setDigito(0,1);
-
-	if(!(X.eZero()))
-		for(c=0;c<=X;c++,resultado*=A);
-
+	if (!(X.eZero()))
+		for(c.atribuir(0);c.eMenorQue(X);c++,resultado*=A);
 	return resultado;
 }
 
@@ -536,10 +552,10 @@ bool operator<=(Lovelace &A, Lovelace &B){
 
 Lovelace& Lovelace::operator=(Lovelace &B){
 	if (&B != this){
-		if (!zero && B.zero){
+		if (!zero)
 			delete this->algarismos;
+		if (B.zero)
 			this->algarismos = NULL;
-		}
 		else
 			copiarAlgarismos(B,*this);
 		this->setQuantidadeAlgarismos(B.getQuantidadeAlgarismos());
@@ -551,10 +567,10 @@ Lovelace& Lovelace::operator=(Lovelace &B){
 
 Lovelace& Lovelace::operator=(const Lovelace &B){
 	if (&B != this){
-		if (!zero && B.zero){
+		if (!zero)
 			delete this->algarismos;
+		if (B.zero)
 			this->algarismos = NULL;
-		}
 		else
 			copiarAlgarismos(B,*this);
 		this->setQuantidadeAlgarismos(B.getQuantidadeAlgarismos());
@@ -568,6 +584,7 @@ Lovelace& Lovelace::operator=(unsigned long long int &numero){
 	return atribuir(numero);
 }
 Lovelace& Lovelace::operator=(const int &numero){
+	cout << "----1bbb" << endl;
 	return atribuir(numero);
 }
 
@@ -581,6 +598,10 @@ Lovelace Lovelace::operator-(Lovelace &B) {
 
 Lovelace Lovelace::operator*(Lovelace &B){
 	return multiplicar((*this), B);
+}
+
+Lovelace Lovelace::operator^(Lovelace &B){
+	return exponenciar((*this), B);
 }
 
 Lovelace& Lovelace::operator+=(Lovelace &B){
@@ -731,11 +752,7 @@ std::istream &operator>>(std::istream &in,Lovelace &A){
 	}
 
 	if (tamanho == 0){ /* criar função própria para inicializar um Lovelace? */
-		delete A.algarismos;
-		A.algarismos = NULL;
-		A.setTamanho(0);
-		A.setQuantidadeAlgarismos(0);
-		A.setZero(true);
+		A.zerar();
 	}
 	else {
 		if (tamanho%2)

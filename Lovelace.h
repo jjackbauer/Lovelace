@@ -15,9 +15,10 @@ class Lovelace{//Representa numero natural
 		void reduzirAlgarismos();
 		void copiarAlgarismos(const Lovelace &deA, Lovelace &paraB);
 
+		void inicializar();
+		void zerar();
 		static long long int algarismosExibicao;
 		static long long int Precisao;
-
 	public:
 		static char TabelaDeConversao[10];
 
@@ -78,6 +79,7 @@ class Lovelace{//Representa numero natural
 		Lovelace operator*(Lovelace &B);
 		Lovelace operator/(Lovelace &B);
 		Lovelace operator%(Lovelace &B);
+		Lovelace operator^(Lovelace &B);
 
 		/*	Operações Inc/Dec 	*/
 		Lovelace& operator++();
