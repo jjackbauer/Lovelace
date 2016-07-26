@@ -10,9 +10,9 @@ void teste_3();
 void teste_4();
 void teste_5();
 void teste_6();
+void teste_8();
 
-int main()
-{
+int main(){
 	testes_Lovelace();
 	return 0;
 }
@@ -26,6 +26,7 @@ void testes_Lovelace(){
 	cout << "[5] Teste 5 - Multiplicação" << endl;
 	cout << "[6] Teste 6 - Exponenciação" << endl;
 	cout << "[7] Teste 7 - Divisão" << endl;
+	cout << "[8] Teste 8 - Fatorial" << endl;
 	int c;
 	cin >> c;
 	switch (c){
@@ -47,7 +48,9 @@ void testes_Lovelace(){
 		case 6:
 			teste_6();
 			break;
-
+		case 8:
+			teste_8();
+			break;
 		default:
 			teste_1();
 			break;
@@ -253,7 +256,6 @@ void teste_6(){
 	cout << "A = "<< A << endl <<
 			"B = " << B << endl <<
 			"C = " << C << endl;
-	getchar();
 	res = A^A;
 	cout << "A^A = " << res << endl;
 	res = A^B;
@@ -266,4 +268,27 @@ void teste_6(){
 	cout << "C^B = " << res << endl;
 	res = C^C;
 	cout << "C^C = " << res << endl;
+}
+
+void teste_8(){
+	Lovelace A,B,C,res;
+
+	cout << "Teste 8 - Fatorial de Valores" << endl;
+	cout << "Digite os valores de A, B e C abaixo." << endl <<
+			"A: ";
+	cin >> A;
+	cout << "B: ";
+	cin >> B;
+	cout << "C: ";
+	cin >> C;
+
+	cout << "A = "<< A << endl <<
+			"B = " << B << endl <<
+			"C = " << C << endl;
+	res = A.fatorial();
+	cout << "A! = " << res << endl << endl;
+	res = B.fatorial();
+	cout << "B! = " << res << endl << endl;
+	res = C.fatorial();
+	cout << "C! = " << res << endl << endl;
 }

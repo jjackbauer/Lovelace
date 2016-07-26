@@ -453,11 +453,39 @@ Lovelace Lovelace::dividir(Lovelace &A, Lovelace &B){
 
 }
 
+Lovelace Lovelace::modulo(Lovelace &A, Lovelace &B){
+
+
+}
+
+Lovelace Lovelace::resto(Lovelace &A, Lovelace &B){
+
+}
+
 Lovelace Lovelace::exponenciar(Lovelace &A, Lovelace &X){
 	Lovelace c,resultado;
 	resultado.setDigito(0,1);
-	if (!(X.eZero()))
+	if (!(X.eZero())) {
 		for(c.atribuir(0);c.eMenorQue(X);c++,resultado*=A);
+		/*
+		c.imprimirInfo();
+		getchar();
+		X.imprimirInfo();
+		getchar();
+		resultado.imprimirInfo();
+		getchar();
+		//*/
+	}
+	return resultado;
+}
+
+Lovelace Lovelace::fatorial(){
+	Lovelace resultado,aux;
+	if (this->naoEZero()) {
+		aux = 2;
+		for (resultado =1; aux.eMenorOuIgualA(*this);aux.incrementar())
+			resultado *= aux;
+	}
 	return resultado;
 }
 
@@ -751,17 +779,15 @@ std::istream &operator>>(std::istream &in,Lovelace &A){
 			tamanho--;
 	}
 
-	if (tamanho == 0){ /* criar função própria para inicializar um Lovelace? */
+	if (tamanho == 0){
 		A.zerar();
 	}
-	else
-	{
+	else {
 		long long int c;
 		tamanho--;
 
 		for(c=tamanho;c>-1;c--)
 			A.setDigito(tamanho-c,entrada[c]-'0');
-
 	}
 
 	return in;
