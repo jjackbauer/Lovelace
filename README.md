@@ -1,4 +1,4 @@
-![](https://dl.dropboxusercontent.com/u/11877621/Lovelace/Logo%20-%20Lovelace%20-%202.png)
+![](http://i.imgur.com/cwgnFiK.png)
 # Lovelace
 An implementation for an unlimited number in C++
 
