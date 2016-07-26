@@ -348,58 +348,51 @@ Lovelace Lovelace::somar(Lovelace &A, Lovelace &B){
 	}
 }
 
-Lovelace Lovelace::subtrair(Lovelace &A, Lovelace &B){
-	int carry = 0;
-	int i;
-	int QtdAlgarismosIguais = 0;
+Lovelace Lovelace::subtrair(Lovelace &A, Lovelace &B)
+{
 	Lovelace resposta;
 
-	if (A.getQuantidadeAlgarismos() == B.getQuantidadeAlgarismos()){
-		for (i = A.getQuantidadeAlgarismos()-1; i != 0; i--){
-			if (A.getDigito(i) == B.getDigito(i)){
-				QtdAlgarismosIguais += 1;
-			}
-			else
-				break;
+	if(A.eDiferenteDe(B))
+	{
+		Lovelace Aaux,Baux;
+		long long int c,diferenca;
+		bool log=A.eMaiorQue(B);
+		if(!log)
+		{
+			Lovelace aux=A;
+			A=B;
+			B=aux;
 		}
+		Aaux=A;
+		Baux=B;
+
+		for(c=0;c<Aaux.getQuantidadeAlgarismos();c++)
+		{
+			diferenca=Aaux.getDigito(c)-Baux.getDigito(c);
+			if(diferenca<0)//Caso haja divida na subtracao
+			{
+				long long int diferencaAux,cAux;
+
+				for(diferencaAux=-1,cAux=c+1; diferencaAux<0;cAux++)
+					Aaux.setDigito(cAux,diferencaAux=Aaux.getDigito(cAux)-1);
+				for(cAux--; cAux>c ;cAux--)
+					Aaux.setDigito(cAux,Aaux.getDigito(cAux)+10);
+
+				diferenca+=10;
+			}
+			resposta.setDigito(c,diferenca);
+		}
+
+		for (c=resposta.getQuantidadeAlgarismos()-1;c > -1 && !resposta.getDigito(c);c--);
+
+		if (int aux = (resposta.getQuantidadeAlgarismos()-1 - c))
+			while(aux--)
+				resposta.reduzirAlgarismos();
+
 	}
 
-
-
-	resposta.setQuantidadeAlgarismos(A.getQuantidadeAlgarismos() - QtdAlgarismosIguais);
-	cout << endl <<  "----SUBT" << endl << resposta.getQuantidadeAlgarismos() << endl;
-	if (A.getQuantidadeAlgarismos() < B.getQuantidadeAlgarismos())
-		cout << "Esta operacao nao esta definida no conjunto dos numeros naturais" << endl;
-	else if(A.getQuantidadeAlgarismos() == B.getQuantidadeAlgarismos() && (A.getDigito(getQuantidadeAlgarismos() - 1) < B.getDigito(getQuantidadeAlgarismos() - 1)))
-		cout << "Esta operacao nao esta definida no conjunto dos numeros naturais" << endl;
-	else {
-		for (i = 0; i != (A.getQuantidadeAlgarismos() - QtdAlgarismosIguais); i++) {
-			if (A.getDigito(i) < B.getDigito(i)) {	
-				if (!carry) {
-					resposta.setDigito(i, ((A.getDigito(i) + 10) - B.getDigito(i)));
-					carry = 1;
-				}
-				else {
-					resposta.setDigito(i, ((A.getDigito(i) + 10) - (B.getDigito(i) + carry)));
-					carry = 1;
-				}
-			}
-			else {
-				if (!carry){
-					resposta.setDigito(i, (A.getDigito(i) - B.getDigito(i)));
-					carry = 0;
-				}
-				else {
-					resposta.setDigito(i, (A.getDigito(i) - (B.getDigito(i) + carry)));
-					carry = 0;
-				}
-			}
-		}
-	}
-	cout << "SUBT" << endl;
-	resposta.imprimirInfo();
-	cout << endl;
 	return resposta;
+
 }
 
 Lovelace Lovelace::multiplicar_burro(Lovelace &A, Lovelace &B){
@@ -450,6 +443,21 @@ Lovelace Lovelace::multiplicar(Lovelace &A, Lovelace &B){
 }
 
 Lovelace Lovelace::dividir(Lovelace &A, Lovelace &B){
+		Lovelace resposta,aux;
+		long long int c,QtAlgA,QtAlgB,parte;
+
+		QtAlgA=A.getQuantidadeAlgarismos();
+		QtAlgB=B.getQuantidadeAlgarismos();
+
+		parte=((QtAlgA-QtAlgB)-1);
+		while(aux.eMenorQue(B))//separa a menor parte maior que o divisor e
+		{
+			for(c=parte;c<QtAlgA;c++)
+				aux.setDigito(c-parte,A.getDigito(c));
+		}
+
+
+		return resposta;
 
 }
 

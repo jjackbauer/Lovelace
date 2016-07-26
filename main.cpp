@@ -74,16 +74,16 @@ void teste_1(){
 
 	cout << Num1 << " - "  << Num2 << " = ";
 	resultado = (Num1-Num2);
-	resultado.imprimirInfo();
+	//resultado.imprimirInfo();
 	cout << resultado << endl;
 	cout << Num1 << " - "  << Num3 << " = ";
 	resultado = (Num1-Num3);
 	cout << resultado << endl;
 
 	cout << endl << endl;
-	Num1.imprimirInfo();
-	Num2.imprimirInfo();
-	Num3.imprimirInfo();
+	//Num1.imprimirInfo();
+	//Num2.imprimirInfo();
+	//Num3.imprimirInfo();
 	cout << endl;
 }
 
