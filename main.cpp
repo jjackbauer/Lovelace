@@ -94,6 +94,13 @@ void teste_1(){
 	res = C-C;
 	cout << "C-C = " << res << endl;
 	getchar();
+
+	cout << "A (" << A << ") " << ((A.ePar())?"":"nao ") << "eh par" << endl;
+	cout << "A (" << A << ") " << ((A.eImpar())?"":"nao ") << "eh impar" << endl;
+	cout << "B (" << B << ") " << ((B.ePar())?"":"nao ") << "eh par" << endl;
+	cout << "B (" << B << ") " << ((B.eImpar())?"":"nao ") << "eh impar" << endl;
+	cout << "C (" << C << ") " << ((C.ePar())?"":"nao ") << "eh par" << endl;
+	cout << "C (" << C << ") " << ((C.eImpar())?"":"nao ") << "eh impar" << endl;
 	A.imprimirInfo();
 	B.imprimirInfo();
 	C.imprimirInfo();

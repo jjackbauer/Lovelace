@@ -568,6 +568,12 @@ bool Lovelace::eMaiorOuIgualA(Lovelace &B){
 bool Lovelace::eMenorOuIgualA(Lovelace &B){
 	return (this->eIgualA(B) || this->eMenorQue(B));
 }
+bool Lovelace::eImpar(){	//Fazendo essa treta sem precisar de divisão
+	return ((this->algarismos[0]>>4)&1);
+}
+bool Lovelace::ePar(){
+	return (!eImpar());
+}
 
 bool operator==(Lovelace &A, Lovelace &B){
 	return (A.eIgualA(B));

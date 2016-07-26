@@ -57,12 +57,15 @@ class Lovelace{//Representa numero natural
 		Lovelace& atribuir(unsigned long long int &numero);
 		Lovelace& atribuir(const int &numero);
 
+
 		bool eIgualA(Lovelace &B);
 		bool eDiferenteDe(Lovelace &B);
 		bool eMaiorQue(Lovelace &B);
 		bool eMenorQue(Lovelace &B);
 		bool eMaiorOuIgualA(Lovelace &B);
 		bool eMenorOuIgualA(Lovelace &B);
+		bool ePar();
+		bool eImpar();
 
 		/*	Sobrecarga de Operadores	*/
 
