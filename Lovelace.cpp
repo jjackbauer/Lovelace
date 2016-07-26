@@ -500,12 +500,34 @@ Lovelace Lovelace::dividir_burro(Lovelace &A, Lovelace &B){
 }
 
 Lovelace Lovelace::modulo(Lovelace &A, Lovelace &B){
+	Lovelace resultado;
 
-
+	return resultado;
 }
 
 Lovelace Lovelace::resto(Lovelace &A, Lovelace &B){
+	Lovelace resultado;
 
+	return resultado;
+}
+
+Lovelace Lovelace::resto_burro(Lovelace &A, Lovelace &B){
+	Lovelace resultado;
+	if (B.eZero()){
+		cout << "ERRO! Não é possível dividir por zero." << endl;
+	}
+	else if (A.naoEZero()){
+		if (A.eMenorQue(B)){
+			resultado = A;
+		}
+		else if (A.eDiferenteDe(B)){
+			resultado = A;
+			while(resultado.eMaiorOuIgualA(B)){
+				resultado -= B;
+			}
+		}
+	}
+	return resultado;
 }
 
 Lovelace Lovelace::exponenciar(Lovelace &A, Lovelace &X){
@@ -678,8 +700,13 @@ Lovelace Lovelace::operator-(Lovelace &B) {
 Lovelace Lovelace::operator*(Lovelace &B){
 	return multiplicar((*this), B);
 }
+
 Lovelace Lovelace::operator/(Lovelace &B){
 	return dividir_burro((*this), B);
+}
+
+Lovelace Lovelace::operator%(Lovelace &B){
+	return resto_burro((*this), B);
 }
 
 Lovelace Lovelace::operator^(Lovelace &B){
@@ -698,6 +725,17 @@ Lovelace& Lovelace::operator*=(Lovelace &B){
 	return ((*this) = multiplicar((*this), B));
 }
 
+Lovelace& Lovelace::operator/=(Lovelace &B){
+	return ((*this) = dividir_burro((*this), B));
+}
+
+Lovelace& Lovelace::operator%=(Lovelace &B){
+	return ((*this) = resto_burro((*this),B));
+}
+
+Lovelace& Lovelace::operator^=(Lovelace &B){
+	return ((*this) = exponenciar((*this),B));
+}
 
 
 Lovelace& Lovelace::operator++(){

@@ -51,6 +51,7 @@ class Lovelace{//Representa numero natural
 		Lovelace dividir_burro(Lovelace &A, Lovelace &B);
 		Lovelace modulo(Lovelace &A, Lovelace &B);
 		Lovelace resto(Lovelace &A, Lovelace &B);
+		Lovelace resto_burro(Lovelace &A, Lovelace &B);
 		Lovelace exponenciar(Lovelace &A, Lovelace &X); /* Tivemos uma idéia para melhorar a exponenciação*/
 		Lovelace fatorial();
 		Lovelace incrementar();
@@ -79,6 +80,8 @@ class Lovelace{//Representa numero natural
 		Lovelace& operator-=(Lovelace &B);
 		Lovelace& operator*=(Lovelace &B);
 		Lovelace& operator/=(Lovelace &B);
+		Lovelace& operator%=(Lovelace &B);
+		Lovelace& operator^=(Lovelace &B);
 
 		/*	Operações Aritméticas 	*/
 		Lovelace operator+(Lovelace &B);

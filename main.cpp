@@ -13,23 +13,30 @@ void teste_6();
 void teste_7();
 void teste_8();
 void teste_9();
+void teste_10();
 
 int main(){
-	testes_Lovelace();
+	while (char opcao = 1){
+		testes_Lovelace();
+		cout << "Deseja fazer outro teste? [0] Sair [1] Sim." << endl;
+		cin >> opcao;
+	}
 	return 0;
 }
 
 void testes_Lovelace(){
 	cout << "Selecione o teste que deseja fazer:" << endl;
-	cout << "[1] Teste 1 - Subtração" << endl;
-	cout << "[2] Teste 2 - Comparações" << endl;
-	cout << "[3] Teste 3 - Adição" << endl;
-	cout << "[4] Teste 4 - Multiplicação Burra" << endl;
-	cout << "[5] Teste 5 - Multiplicação" << endl;
-	cout << "[6] Teste 6 - Exponenciação" << endl;
-	cout << "[7] Teste 7 - Divisão Burra" << endl;
-	cout << "[8] Teste 8 - Divisão" << endl;
-	cout << "[9] Teste 9 - Fatorial" << endl;
+	cout << "[1] Teste 1 - 		[-]	Subtração" << endl;
+	cout << "[2] Teste 2 - 		[>]	Comparações" << endl;
+	cout << "[3] Teste 3 - 		[+]	Adição" << endl;
+	cout << "[4] Teste 4 - 		[*]	Multiplicação Burra" << endl;
+	cout << "[5] Teste 5 - 		[*]	Multiplicação" << endl;
+	cout << "[6] Teste 6 - 		[^]	Exponenciação" << endl;
+	cout << "[7] Teste 7 - 		[/]	Divisão Burra" << endl;
+	cout << "[8] Teste 8 - 		[/]	Divisão" << endl;
+	cout << "[9] Teste 9 - 		[!]	Fatorial" << endl;
+	cout << "[10] Teste 10 - 	[%]	Resto da Divisão Burra" << endl;
+	cout << "[11] Teste 11 - 	[%]	Resto da Divisão" << endl;
 	int c;
 	cin >> c;
 	switch (c){
@@ -59,6 +66,9 @@ void testes_Lovelace(){
 			break;
 		case 9:
 			teste_9();
+			break;
+		case 10:
+			teste_10();
 			break;
 		default:
 			teste_1();
@@ -297,6 +307,7 @@ void teste_6(){
 	res = C^C;
 	cout << "C^C = " << res << endl;
 }
+
 void teste_7(){
 	Lovelace A, B, C, res;
 
@@ -364,4 +375,50 @@ void teste_9(){
 	cout << "B! = " << res << endl << endl;
 	res = C.fatorial();
 	cout << "C! = " << res << endl << endl;
+}
+
+void teste_10(){
+	Lovelace A, B, C, res;
+
+	cout << "Teste 10 - Resto da Divisão Burra de Valores" << endl;
+	cout << "Digite os valores de A, B e C abaixo." << endl <<
+			"A: ";
+	cin >> A;
+	cout << "B: ";
+	cin >> B;
+	cout << "C: ";
+	cin >> C;
+
+	cout << "A = "<< A << endl <<
+			"B = " << B << endl <<
+			"C = " << C << endl;
+	res = A%A;
+	cout << "A%A = " << res << endl;
+	res = A%B;
+	cout << "A%B = " << res << endl;
+	res = A%C;
+	cout << "A%C = " << res <<endl;
+	res = B%A;
+	cout << "B%A = " << res <<endl;
+	res = B%B;
+	cout << "B%B = " << res <<endl;
+	res = B%C;
+	cout << "B%C = " << res <<endl;
+	res = C%A;
+	cout << "C%A = " << res << endl;
+	res = C%B;
+	cout << "C%B = " << res << endl;
+	res = C%C;
+	cout << "C%C = " << res << endl;
+	getchar();
+
+	cout << "A (" << A << ") " << ((A.ePar())?"":"nao ") << "eh par" << endl;
+	cout << "A (" << A << ") " << ((A.eImpar())?"":"nao ") << "eh impar" << endl;
+	cout << "B (" << B << ") " << ((B.ePar())?"":"nao ") << "eh par" << endl;
+	cout << "B (" << B << ") " << ((B.eImpar())?"":"nao ") << "eh impar" << endl;
+	cout << "C (" << C << ") " << ((C.ePar())?"":"nao ") << "eh par" << endl;
+	cout << "C (" << C << ") " << ((C.eImpar())?"":"nao ") << "eh impar" << endl;
+	A.imprimirInfo();
+	B.imprimirInfo();
+	C.imprimirInfo();
 }
