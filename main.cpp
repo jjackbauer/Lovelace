@@ -10,7 +10,9 @@ void teste_3();
 void teste_4();
 void teste_5();
 void teste_6();
+void teste_7();
 void teste_8();
+void teste_9();
 
 int main(){
 	testes_Lovelace();
@@ -25,8 +27,9 @@ void testes_Lovelace(){
 	cout << "[4] Teste 4 - Multiplicação Burra" << endl;
 	cout << "[5] Teste 5 - Multiplicação" << endl;
 	cout << "[6] Teste 6 - Exponenciação" << endl;
-	cout << "[7] Teste 7 - Divisão" << endl;
-	cout << "[8] Teste 8 - Fatorial" << endl;
+	cout << "[7] Teste 7 - Divisão Burra" << endl;
+	cout << "[8] Teste 8 - Divisão" << endl;
+	cout << "[9] Teste 9 - Fatorial" << endl;
 	int c;
 	cin >> c;
 	switch (c){
@@ -48,8 +51,14 @@ void testes_Lovelace(){
 		case 6:
 			teste_6();
 			break;
+		case 7:
+			teste_7();
+			break;
 		case 8:
-			teste_8();
+			//teste_8();
+			break;
+		case 9:
+			teste_9();
 			break;
 		default:
 			teste_1();
@@ -288,11 +297,56 @@ void teste_6(){
 	res = C^C;
 	cout << "C^C = " << res << endl;
 }
+void teste_7(){
+	Lovelace A, B, C, res;
 
-void teste_8(){
+	cout << "Teste 7 - Divisão de Valores" << endl;
+	cout << "Digite os valores de A, B e C abaixo." << endl <<
+			"A: ";
+	cin >> A;
+	cout << "B: ";
+	cin >> B;
+	cout << "C: ";
+	cin >> C;
+
+	cout << "A = "<< A << endl <<
+			"B = " << B << endl <<
+			"C = " << C << endl;
+	res = A/A;
+	cout << "A/A = " << res << endl;
+	res = A/B;
+	cout << "A/B = " << res << endl;
+	res = A/C;
+	cout << "A/C = " << res <<endl;
+	res = B/A;
+	cout << "B/A = " << res <<endl;
+	res = B/B;
+	cout << "B/B = " << res <<endl;
+	res = B/C;
+	cout << "B/C = " << res <<endl;
+	res = C/A;
+	cout << "C/A = " << res << endl;
+	res = C/B;
+	cout << "C/B = " << res << endl;
+	res = C/C;
+	cout << "C/C = " << res << endl;
+	getchar();
+
+	cout << "A (" << A << ") " << ((A.ePar())?"":"nao ") << "eh par" << endl;
+	cout << "A (" << A << ") " << ((A.eImpar())?"":"nao ") << "eh impar" << endl;
+	cout << "B (" << B << ") " << ((B.ePar())?"":"nao ") << "eh par" << endl;
+	cout << "B (" << B << ") " << ((B.eImpar())?"":"nao ") << "eh impar" << endl;
+	cout << "C (" << C << ") " << ((C.ePar())?"":"nao ") << "eh par" << endl;
+	cout << "C (" << C << ") " << ((C.eImpar())?"":"nao ") << "eh impar" << endl;
+	A.imprimirInfo();
+	B.imprimirInfo();
+	C.imprimirInfo();
+}
+
+void teste_9(){
 	Lovelace A,B,C,res;
 
-	cout << "Teste 8 - Fatorial de Valores" << endl;
+	cout << "Teste 9 - Fatorial de Valores" << endl;
 	cout << "Digite os valores de A, B e C abaixo." << endl <<
 			"A: ";
 	cin >> A;

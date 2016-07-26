@@ -258,7 +258,7 @@ void Lovelace::imprimir(char separador) const{
 	cout<<endl;
 }
 
-void Lovelace::imprimirInfo() const{
+void Lovelace::imprimirInfo(int opcao) const{
 	cout << "(*)                  : " << this << endl;
 	cout << "tamanho              : " << getTamanho() << endl;
 	cout << "quantidadeAlgarismos : " << getQuantidadeAlgarismos() << endl;
@@ -268,9 +268,11 @@ void Lovelace::imprimirInfo() const{
 	cout << "Vetor de Algarismos  : ";
 	imprimir('.');
 	cout << endl;
-	for (int c = 0;c < getTamanho();c++){
-		cout << "algarismos[" << c << "](2): " << (int)(algarismos[c]&15) << endl;
-		cout << "algarismos[" << c << "](1): " << (int)((algarismos[c]&240)>>4) << endl;
+	if (opcao){
+		for (int c = 0;c < getTamanho();c++){
+			cout << "algarismos[" << c << "](2): " << (int)(algarismos[c]&15) << endl;
+			cout << "algarismos[" << c << "](1): " << (int)((algarismos[c]&240)>>4) << endl;
+		}
 	}
 	cout << endl;
 }
@@ -309,16 +311,14 @@ Lovelace& Lovelace::atribuir(const int &numero){
 }
 
 Lovelace Lovelace::somar(Lovelace &A, Lovelace &B){
+	Lovelace resultado;
 	if (A.eZero()){
-		Lovelace resultado(B);
-		return resultado;
+		resultado = B;
 	}
 	else if (B.eZero()){
-		Lovelace resultado(A);
-		return resultado;
+		resultado = A;
 	}
 	else {
-		Lovelace resultado;
 		int c,overflow = 0,sum=((A.getDigito(0)+B.getDigito(0))%10),MaxDigi;
 		{//I love gambiarra <3 <3
 			int NdA=A.getQuantidadeAlgarismos(),NdB=B.getQuantidadeAlgarismos();
@@ -344,26 +344,19 @@ Lovelace Lovelace::somar(Lovelace &A, Lovelace &B){
 			while(aux--)
 				resultado.reduzirAlgarismos();
 		}
-		return resultado;
 	}
+	return resultado;
 }
 
-Lovelace Lovelace::subtrair(Lovelace &A, Lovelace &B)
-{
+Lovelace Lovelace::subtrair(Lovelace &A, Lovelace &B){
+	Lovelace resultado;
 	if (A.eZero()){
-		Lovelace resultado(B);
-		return resultado;
+		resultado = B;
 	}
 	else if (B.eZero()){
-		Lovelace resultado(A);
-		return resultado;
+		resultado = A;
 	}
-	else if (A.eIgualA(B)){
-		Lovelace resultado;
-		return resultado;
-	}
-	else {
-		Lovelace resultado;
+	else if (!A.eIgualA(B)){
 		Lovelace Aaux,Baux;
 		long long int c,diferenca;
 		if (A.eMaiorQue(B)){
@@ -398,59 +391,76 @@ Lovelace Lovelace::subtrair(Lovelace &A, Lovelace &B)
 		if (long long int aux = (resultado.getQuantidadeAlgarismos()-1 - c))
 			while(aux--)
 				resultado.reduzirAlgarismos();
-		return resultado;
 	}
+	return resultado;
 }
 
 Lovelace Lovelace::multiplicar_burro(Lovelace &A, Lovelace &B){
-	Lovelace c,aux,resultado;
-	bool log = A.eMaiorQue(B);
-	aux = log?B:A;
-	resultado = log?A:B;
-	c++;
-
-	while(aux.eMaiorQue(c)){
-		resultado = (resultado+(log?A:B));
+	Lovelace resultado;
+	if (A.naoEZero() && B.naoEZero()){
+		Lovelace c,aux;
+		bool log = A.eMaiorQue(B);
+		aux = log?B:A;
+		resultado = log?A:B;
 		c++;
+
+		while(aux.eMaiorQue(c)){
+			resultado = (resultado+(log?A:B));
+			c++;
+		}
 	}
 	return resultado;
 }
 
 Lovelace Lovelace::multiplicar(Lovelace &A, Lovelace &B){
-	Lovelace aux,aux1,resultado,temp;
-	long long int c,c1,c2;
-	int multiplicador,multiplicando,produto,overflow;
-	bool log = A.eMaiorQue(B);
-	aux = log?B:A;
-	aux1 = log?A:B;
+	Lovelace resultado;
+	if (A.naoEZero() && B.naoEZero()){
+		Lovelace aux,aux1,temp;
+		long long int c,c1,c2;
+		int multiplicador,multiplicando,produto,overflow;
+		bool log = A.eMaiorQue(B);
+		aux = log?B:A;
+		aux1 = log?A:B;
 
-	for(c=0; c < aux.getQuantidadeAlgarismos();c++){
-		multiplicador = aux.getDigito(c);
-		if(multiplicador){
-			unsigned long long int k =0;
-			temp = k;
+		for(c=0; c < aux.getQuantidadeAlgarismos();c++){
+			multiplicador = aux.getDigito(c);
+			if(multiplicador){
+				unsigned long long int k =0;
+				temp = k;
 
-			for(c1=0;c1<c;c1++)
-				temp.setDigito(c1,0);
+				for(c1=0;c1<c;c1++)
+					temp.setDigito(c1,0);
 
-			overflow=0;
-			for(c2=0;c2<aux1.getQuantidadeAlgarismos();c2++){
-				multiplicando = aux1.getDigito(c2);
-				produto = (multiplicando * multiplicador);
-				temp.setDigito((c2+c1),(produto+overflow)%10);
-				overflow=(produto+overflow)/10;
+				overflow=0;
+				for(c2=0;c2<aux1.getQuantidadeAlgarismos();c2++){
+					multiplicando = aux1.getDigito(c2);
+					produto = (multiplicando * multiplicador);
+					temp.setDigito((c2+c1),(produto+overflow)%10);
+					overflow=(produto+overflow)/10;
+				}
+				if(overflow)
+					temp.setDigito((c2+c1),overflow);//só por isso vey kkkkkkkkkkkkk
+				resultado+=temp;
 			}
-			if(overflow)
-				temp.setDigito((c2+c1),overflow);//só por isso vey kkkkkkkkkkkkk
-			resultado+=temp;
 		}
 	}
-
 	return resultado;
 }
 
 Lovelace Lovelace::dividir(Lovelace &A, Lovelace &B){
-		Lovelace resposta,aux;
+	Lovelace resultado;
+	if (B.eZero()){
+		cout << "ERRO! Não é possível dividir por zero." << endl;
+	}
+	else if (A.eMenorQue(B)){
+		cout << "ERRO! Não é possível dividir um número por um número maior que ele." << endl;
+	}
+	else if (A.eIgualA(B)){
+		Lovelace resultado;
+		resultado.setDigito(0,1);
+	}
+	else if (A.naoEZero()){
+		Lovelace aux;
 		long long int c,QtAlgA,QtAlgB,parte;
 
 		QtAlgA=A.getQuantidadeAlgarismos();
@@ -462,10 +472,31 @@ Lovelace Lovelace::dividir(Lovelace &A, Lovelace &B){
 			for(c=parte;c<QtAlgA;c++)
 				aux.setDigito(c-parte,A.getDigito(c));
 		}
+	}
+	return resultado;
+
+}
 
 
-		return resposta;
-
+Lovelace Lovelace::dividir_burro(Lovelace &A, Lovelace &B){
+	Lovelace resultado;
+	if (B.eZero()){
+		cout << "ERRO! Não é possível dividir por zero." << endl;
+	}
+	else if (A.eMenorQue(B)){
+		cout << "ERRO! Não é possível dividir um número por um número maior que ele." << endl;
+	}
+	else if (A.eIgualA(B)){
+		Lovelace resultado;
+		resultado.setDigito(0,1);
+	}
+	else if (A.naoEZero()){
+		Lovelace aux(A);
+		for (;aux.eMaiorOuIgualA(B);resultado.incrementar()){
+			aux -= B;
+		}
+	}
+	return resultado;
 }
 
 Lovelace Lovelace::modulo(Lovelace &A, Lovelace &B){
@@ -646,6 +677,9 @@ Lovelace Lovelace::operator-(Lovelace &B) {
 
 Lovelace Lovelace::operator*(Lovelace &B){
 	return multiplicar((*this), B);
+}
+Lovelace Lovelace::operator/(Lovelace &B){
+	return dividir_burro((*this), B);
 }
 
 Lovelace Lovelace::operator^(Lovelace &B){

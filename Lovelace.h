@@ -30,7 +30,7 @@ class Lovelace{//Representa numero natural
 		~Lovelace();
 		void imprimir()const;
 		void imprimir(char separador) const;
-		void imprimirInfo() const;
+		void imprimirInfo(int opcao = 0) const;
 		void getBitwise(long long int Posicao,char &A, char &B) const;//Correção do diagrama: setor desnecessário
 		void setBitwise(long long int Posicao,char A, char B);//Faltou parametro posição no UML.
 		char getDigito(long long int Posicao);
@@ -48,9 +48,10 @@ class Lovelace{//Representa numero natural
 		Lovelace multiplicar_burro(Lovelace &A, Lovelace &B);
 		Lovelace multiplicar(Lovelace &A, Lovelace &B);
 		Lovelace dividir(Lovelace &A, Lovelace &B);
+		Lovelace dividir_burro(Lovelace &A, Lovelace &B);
 		Lovelace modulo(Lovelace &A, Lovelace &B);
 		Lovelace resto(Lovelace &A, Lovelace &B);
-		Lovelace exponenciar(Lovelace &A, Lovelace &X);
+		Lovelace exponenciar(Lovelace &A, Lovelace &X); /* Tivemos uma idéia para melhorar a exponenciação*/
 		Lovelace fatorial();
 		Lovelace incrementar();
 		Lovelace decrementar();
