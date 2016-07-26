@@ -61,30 +61,42 @@ void testes_Lovelace(){
 }
 
 void teste_1(){
-	Lovelace Num1, Num2, Num3, resultado;
+	Lovelace A, B, C, res;
 
 	cout << "Teste 1 - Subtração de Valores" << endl;
-	cout << "Digite os valores de Num1(maior número), Num2 e Num3 abaixo." << endl <<
-			"Num1: ";
-	cin >> Num1;
-	cout << "Num2: ";
-	cin >> Num2;
-	cout << "Num3: ";
-	cin >> Num3;
+	cout << "Digite os valores de A, B e C abaixo." << endl <<
+			"A: ";
+	cin >> A;
+	cout << "B: ";
+	cin >> B;
+	cout << "C: ";
+	cin >> C;
 
-	cout << Num1 << " - "  << Num2 << " = ";
-	resultado = (Num1-Num2);
-	//resultado.imprimirInfo();
-	cout << resultado << endl;
-	cout << Num1 << " - "  << Num3 << " = ";
-	resultado = (Num1-Num3);
-	cout << resultado << endl;
-
-	cout << endl << endl;
-	//Num1.imprimirInfo();
-	//Num2.imprimirInfo();
-	//Num3.imprimirInfo();
-	cout << endl;
+	cout << "A = "<< A << endl <<
+			"B = " << B << endl <<
+			"C = " << C << endl;
+	res = A-A;
+	cout << "A-A = " << res << endl;
+	res = A-B;
+	cout << "A-B = " << res << endl;
+	res = A-C;
+	cout << "A-C = " << res <<endl;
+	res = B-A;
+	cout << "B-A = " << res <<endl;
+	res = B-B;
+	cout << "B-B = " << res <<endl;
+	res = B-C;
+	cout << "B-C = " << res <<endl;
+	res = C-A;
+	cout << "C-A = " << res << endl;
+	res = C-B;
+	cout << "C-B = " << res << endl;
+	res = C-C;
+	cout << "C-C = " << res << endl;
+	getchar();
+	A.imprimirInfo();
+	B.imprimirInfo();
+	C.imprimirInfo();
 }
 
 void teste_2(){

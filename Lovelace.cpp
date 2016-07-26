@@ -350,21 +350,30 @@ Lovelace Lovelace::somar(Lovelace &A, Lovelace &B){
 
 Lovelace Lovelace::subtrair(Lovelace &A, Lovelace &B)
 {
-	Lovelace resposta;
-
-	if(A.eDiferenteDe(B))
-	{
+	if (A.eZero()){
+		Lovelace resultado(B);
+		return resultado;
+	}
+	else if (B.eZero()){
+		Lovelace resultado(A);
+		return resultado;
+	}
+	else if (A.eIgualA(B)){
+		Lovelace resultado;
+		return resultado;
+	}
+	else {
+		Lovelace resultado;
 		Lovelace Aaux,Baux;
 		long long int c,diferenca;
-		bool log=A.eMaiorQue(B);
-		if(!log)
-		{
-			Lovelace aux=A;
-			A=B;
-			B=aux;
+		if (A.eMaiorQue(B)){
+			Aaux = A;
+			Baux = B;
 		}
-		Aaux=A;
-		Baux=B;
+		else  {
+			Aaux = B;
+			Baux = A;
+		}
 
 		for(c=0;c<Aaux.getQuantidadeAlgarismos();c++)
 		{
@@ -373,26 +382,24 @@ Lovelace Lovelace::subtrair(Lovelace &A, Lovelace &B)
 			{
 				long long int diferencaAux,cAux;
 
-				for(diferencaAux=-1,cAux=c+1; diferencaAux<0;cAux++)
-					Aaux.setDigito(cAux,diferencaAux=Aaux.getDigito(cAux)-1);
-				for(cAux--; cAux>c ;cAux--)
-					Aaux.setDigito(cAux,Aaux.getDigito(cAux)+10);
+				for(diferencaAux=-1,cAux=c+1; diferencaAux<0;cAux++){
+					if (Aaux.getDigito(cAux) > 0)
+						Aaux.setDigito(cAux,diferencaAux=(Aaux.getDigito(cAux)-1));
+					else
+						Aaux.setDigito(cAux,9);
+				}
 
 				diferenca+=10;
 			}
-			resposta.setDigito(c,diferenca);
+			resultado.setDigito(c,diferenca);
 		}
+		for (c=resultado.getQuantidadeAlgarismos()-1;c > -1 && !resultado.getDigito(c);c--);
 
-		for (c=resposta.getQuantidadeAlgarismos()-1;c > -1 && !resposta.getDigito(c);c--);
-
-		if (int aux = (resposta.getQuantidadeAlgarismos()-1 - c))
+		if (long long int aux = (resultado.getQuantidadeAlgarismos()-1 - c))
 			while(aux--)
-				resposta.reduzirAlgarismos();
-
+				resultado.reduzirAlgarismos();
+		return resultado;
 	}
-
-	return resposta;
-
 }
 
 Lovelace Lovelace::multiplicar_burro(Lovelace &A, Lovelace &B){
@@ -620,7 +627,6 @@ Lovelace& Lovelace::operator=(unsigned long long int &numero){
 	return atribuir(numero);
 }
 Lovelace& Lovelace::operator=(const int &numero){
-	cout << "----1bbb" << endl;
 	return atribuir(numero);
 }
 
