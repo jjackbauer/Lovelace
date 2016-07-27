@@ -12,7 +12,7 @@ long long int Lovelace::algarismosExibicao = -1;
 void Lovelace::expandirAlgarismos(){
 	char *saida= new char[getTamanho()+1];
 	if (!saida) {
-		cout << "ERRO! Não foi possível alocar memória para saida" << endl;
+		cout << "ERRO! NÃ£o foi possÃ­vel alocar memÃ³ria para saida" << endl;
 		exit(1);
 	}
 
@@ -33,7 +33,7 @@ void Lovelace::reduzirAlgarismos(){
 	if (getQuantidadeAlgarismos()%2){
 		char *saida= new char[getTamanho()-1];
 		if (!saida){
-			cout << "ERRO! Não foi possível alocar memória para saida" << endl;
+			cout << "ERRO! NÃ£o foi possÃ­vel alocar memÃ³ria para saida" << endl;
 			exit(1);
 		}
 		for (int c=0;c<getTamanho()-1;c++){
@@ -60,8 +60,8 @@ void Lovelace::copiarAlgarismos(const Lovelace &deA, Lovelace &paraB){
 	if ((&deA != &paraB) && (!deA.zero)){
 		paraB.algarismos = new char[deA.getTamanho()];
 		if (!paraB.algarismos){
-			cout << "ERRO! Não foi possível alocar memória para algarismos." << endl <<
-					"Função: operator=(Lovelace &B)" << endl;
+			cout << "ERRO! NÃ£o foi possÃ­vel alocar memÃ³ria para algarismos." << endl <<
+					"FunÃ§Ã£o: operator=(Lovelace &B)" << endl;
 			exit(1);
 		}
 		long long int c;
@@ -157,7 +157,7 @@ char Lovelace::getDigito(long long int Posicao){
 
 }
 void Lovelace::setDigito(long long int Posicao, char Digito){
-	//	Validar também para aceitar somente dígitos entre 0 9?
+	//	Validar tambÃ©m para aceitar somente dÃ­gitos entre 0 9?
 	if (Posicao>=0 && Posicao <= getQuantidadeAlgarismos()){
 			char A,B;
 			if(Posicao/2 < getTamanho()){
@@ -220,7 +220,7 @@ void Lovelace::imprimir(char separador) const{
 	if (zero) {
 		cout << TabelaDeConversao[0];
 	}
-	else if (separador){	//	Exibição com separador especificado
+	else if (separador){	//	ExibiÃ§Ã£o com separador especificado
 		if(!(getQuantidadeAlgarismos()%2)) {
 			cout<<TabelaDeConversao[(int)b];
 			if (getQuantidadeAlgarismos()%3 == 1)
@@ -279,7 +279,7 @@ void Lovelace::imprimirInfo(int opcao) const{
 
 Lovelace Lovelace::incrementar(){
 	Lovelace aux;
-	aux.setDigito(0,1);//aux=1; Equivalente após sobrecarga //Remover depois de fazer a base pro java!
+	aux.setDigito(0,1);//aux=1; Equivalente apÃ³s sobrecarga //Remover depois de fazer a base pro java!
 	return ((*this) = somar(*this,aux));
 }
 
@@ -439,7 +439,7 @@ Lovelace Lovelace::multiplicar(Lovelace &A, Lovelace &B){
 					overflow=(produto+overflow)/10;
 				}
 				if(overflow)
-					temp.setDigito((c2+c1),overflow);//só por isso vey kkkkkkkkkkkkk
+					temp.setDigito((c2+c1),overflow);//sÃ³ por isso vey kkkkkkkkkkkkk
 				resultado+=temp;
 			}
 		}
@@ -453,13 +453,14 @@ void Lovelace::dividir(Lovelace &A, Lovelace &B,Lovelace &quociente,Lovelace &re
 	resto = A;
 	if (B.eZero())
 	{
-		cout << "ERRO! OPERAÇÃO INVÁLIDA! Não é possível dividir por zero." << endl;
+		cout << "ERRO! OPERAÃ‡ÃƒO INVÃ�LIDA! NÃ£o Ã© possÃ­vel dividir por zero." << endl;
 	}
 	else if(A.eIgualA(B))
 	{
 		quociente.setDigito(0,1);
+		resto.zerar();
 	}
-	else if (A.naoEZero() && A.eMaiorQue(B))
+	else if (A.eMaiorQue(B))
 	{
 		Lovelace aux;
 		long long int c,QtAlgA,QtAlgB=B.getQuantidadeAlgarismos(),parte,k=0;
@@ -469,7 +470,7 @@ void Lovelace::dividir(Lovelace &A, Lovelace &B,Lovelace &quociente,Lovelace &re
 			QtAlgA=resto.getQuantidadeAlgarismos();
 			parte=(QtAlgA-QtAlgB);
 
-			while(aux.eMenorQue(B))//separa a menor parte maior que o divisor e efetua a operação
+			while(aux.eMenorQue(B))//separa a menor parte maior que o divisor e efetua a operaÃ§Ã£o
 			{	parte--;
 				for(c=parte;c<QtAlgA;c++)
 					aux.setDigito(c-parte,resto.getDigito(c));
@@ -481,7 +482,7 @@ void Lovelace::dividir(Lovelace &A, Lovelace &B,Lovelace &quociente,Lovelace &re
 			for(c=0;aux.eMaiorOuIgualA(B);c++)
 				aux-=B;
 
-			quociente.setDigito(++k,c);
+			quociente.setDigito(k++,c);
 
 			if(!aux.eZero())//Concatenar resto ao restante do numero
 			{
@@ -491,13 +492,12 @@ void Lovelace::dividir(Lovelace &A, Lovelace &B,Lovelace &quociente,Lovelace &re
 					resto.setDigito(c,aux.getDigito(c-qtdAaux));
 			}
 			else
-			{
-				while(!resto.getDigito(--parte))
-					quociente.setDigito(++k,0);
-			}
+				while(!resto.getDigito(--parte) && parte>-1)
+					quociente.setDigito(k++,0);
+
 		}//Agora temos o resultado com os mais siginificativos primeiro (INverter)
 
-		for(c=0,k=quociente.getQuantidadeAlgarismos()-1 ;c!=k;c++,k--)
+		for(c=0,k=quociente.getQuantidadeAlgarismos()-1 ;c<quociente.getQuantidadeAlgarismos()/2;c++,k--)
 		{
 			int aux=quociente.getDigito(c);
 			quociente.setDigito(c,quociente.getDigito(k));
@@ -510,7 +510,7 @@ void Lovelace::dividir(Lovelace &A, Lovelace &B,Lovelace &quociente,Lovelace &re
 Lovelace Lovelace::dividir_burro(Lovelace &A, Lovelace &B, bool quocienteOuResto){
 	Lovelace resto, quociente;
 	if (B.eZero()){
-		cout << "ERRO! Não é possível dividir por zero." << endl;
+		cout << "ERRO! NÃ£o Ã© possÃ­vel dividir por zero." << endl;
 	}
 	else if (A.eIgualA(B)){
 		quociente.setDigito(0,1);
@@ -543,7 +543,7 @@ Lovelace Lovelace::resto(Lovelace &A, Lovelace &B){
 Lovelace Lovelace::resto_burro(Lovelace &A, Lovelace &B){
 	Lovelace resultado;
 	if (B.eZero()){
-		cout << "ERRO! Não é possível dividir por zero." << endl;
+		cout << "ERRO! NÃ£o Ã© possÃ­vel dividir por zero." << endl;
 	}
 	else if (A.naoEZero()){
 		if (A.eMenorQue(B)){
@@ -656,7 +656,7 @@ bool Lovelace::eMaiorOuIgualA(Lovelace &B){
 bool Lovelace::eMenorOuIgualA(Lovelace &B){
 	return (this->eIgualA(B) || this->eMenorQue(B));
 }
-bool Lovelace::eImpar(){	//Fazendo essa treta sem precisar de divisão
+bool Lovelace::eImpar(){	//Fazendo essa treta sem precisar de divisÃ£o
 	return ((this->algarismos[0]>>4)&1);
 }
 bool Lovelace::ePar(){
@@ -828,7 +828,7 @@ std::istream &operator>>(std::istream &in,Lovelace &A){
 }
 //*/
 
-/* Inserção de fluxo char a char, problema com números impares de dígitos.
+/* InserÃ§Ã£o de fluxo char a char, problema com nÃºmeros impares de dÃ­gitos.
 std::istream &operator>>(std::istream &in,Lovelace &A){
 	char *algarismos = NULL, *aux;
 	long long int tamanho,c;
@@ -843,7 +843,7 @@ std::istream &operator>>(std::istream &in,Lovelace &A){
 			tamanho = c/2;
 			aux = new char[tamanho];
 			if (!aux){
-				cout << "ERRO! Não foi possível alocar memória para aux." << endl;
+				cout << "ERRO! NÃ£o foi possÃ­vel alocar memÃ³ria para aux." << endl;
 				exit(1);
 			}
 			tamanho--;
@@ -864,7 +864,7 @@ std::istream &operator>>(std::istream &in,Lovelace &A){
 		tamanho = c/2;
 		aux = new char[tamanho];
 		if (!aux){
-			cout << "ERRO! Não foi possível alocar memória para aux." << endl;
+			cout << "ERRO! NÃ£o foi possÃ­vel alocar memÃ³ria para aux." << endl;
 			exit(1);
 		}
 		tamanho--;
@@ -893,7 +893,7 @@ std::istream &operator>>(std::istream &in,Lovelace &A){
 	return in;
 }
 //*/
-//*	Inserção de fluxo por string
+//*	InserÃ§Ã£o de fluxo por string
 std::istream &operator>>(std::istream &in,Lovelace &A){
 	string entrada;
 	unsigned long long int tamanho;
