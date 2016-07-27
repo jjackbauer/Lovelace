@@ -447,33 +447,71 @@ Lovelace Lovelace::multiplicar(Lovelace &A, Lovelace &B){
 	return resultado;
 }
 
-Lovelace Lovelace::dividir(Lovelace &A, Lovelace &B){
-	Lovelace resultado;
-	if (B.eZero()){
+void Lovelace::dividir(Lovelace &A, Lovelace &B,Lovelace &resultado,Lovelace &resto)
+{
+	resultado=0;
+	resto(A);
+	if (B.eZero())
+	{
 		cout << "ERRO! Não é possível dividir por zero." << endl;
 	}
-	else if (A.eMenorQue(B)){
-		cout << "ERRO! Não é possível dividir um número por um número maior que ele." << endl;
+	else
+	if(A.eMenorQue(B))
+	{
+		//Faz nada e s� retorna 0 que � o resultado correto!
 	}
-	else if (A.eIgualA(B)){
+	else
+	if(A.eIgualA(B))
+	{
 		Lovelace resultado;
 		resultado.setDigito(0,1);
 	}
-	else if (A.naoEZero()){
+	else if (A.naoEZero())
+	{
 		Lovelace aux;
-		long long int c,QtAlgA,QtAlgB,parte;
+		long long int c,QtAlgA,QtAlgB=B.getQuantidadeAlgarismos(),parte,k=0;
 
-		QtAlgA=A.getQuantidadeAlgarismos();
-		QtAlgB=B.getQuantidadeAlgarismos();
-
-		parte=((QtAlgA-QtAlgB)-1);
-		while(aux.eMenorQue(B))//separa a menor parte maior que o divisor e
+		while(resto.eMaiorOuIgualA(B))
 		{
+			QtAlgA=resto.getQuantidadeAlgarismos();
+			parte=(QtAlgA-QtAlgB);
+
+			while(aux.eMenorQue(B))//separa a menor parte maior que o divisor e efetua a opera��o
+			{	parte--;
+				for(c=parte;c<QtAlgA;c++)
+					aux.setDigito(c-parte,resto.getDigito(c));
+			}
+
 			for(c=parte;c<QtAlgA;c++)
-				aux.setDigito(c-parte,A.getDigito(c));
+				resto.reduzirAlgarismos();
+
+			for(c=0;aux.eMaiorOuIgualA(B);c++)
+				aux-=B;
+
+			resultado.setDigito(++k,c);
+
+			if(!aux.eZero())//Concatenar resto ao restante do numero
+			{
+				long long int qtdAaux=resto.getQuantidadeAlgarismos(),qtdaux=aux.getQuantidadeAlgarismos();
+
+				for(c=qtdAaux; c-qtdaux<qtdAaux ;c++)
+					resto.setDigito(c,aux.getDigito(c-qtdAaux));
+			}
+			else
+			{
+				while(!resto.getDigito(--parte))
+					resultado.setDigito(++k,0);
+			}
+		}//Agora temos o resultado com os mais siginificativos primeiro (INverter)
+
+		for(c=0,k=resultado.getQuantidadeAlgarismos()-1 ;c!=k;c++,k--)
+		{
+			int aux=resultado.getDigito(c);
+			resultado.setDigito(c,resultado.getDigito(k));
+			resultado.setDigito(k,aux);
 		}
 	}
-	return resultado;
+
 
 }
 
@@ -484,7 +522,7 @@ Lovelace Lovelace::dividir_burro(Lovelace &A, Lovelace &B){
 		cout << "ERRO! Não é possível dividir por zero." << endl;
 	}
 	else if (A.eMenorQue(B)){
-		cout << "ERRO! Não é possível dividir um número por um número maior que ele." << endl;
+		//Faz nada e s� retorna 0 que � o resultado correto!
 	}
 	else if (A.eIgualA(B)){
 		Lovelace resultado;

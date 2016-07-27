@@ -47,7 +47,7 @@ class Lovelace{//Representa numero natural
 		Lovelace subtrair(Lovelace &A, Lovelace &B);
 		Lovelace multiplicar_burro(Lovelace &A, Lovelace &B);
 		Lovelace multiplicar(Lovelace &A, Lovelace &B);
-		Lovelace dividir(Lovelace &A, Lovelace &B);
+	    void     Lovelace::dividir(Lovelace &A, Lovelace &B,Lovelace &resultado,Lovelace &resto);
 		Lovelace dividir_burro(Lovelace &A, Lovelace &B);
 		Lovelace modulo(Lovelace &A, Lovelace &B);
 		Lovelace resto(Lovelace &A, Lovelace &B);
