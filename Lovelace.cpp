@@ -93,7 +93,13 @@ void Lovelace::setAlgarismosExibicao(long long int novoAlgarismosExibicao){
 long long int Lovelace::getAlgarismosExibicao(){
 	return algarismosExibicao;
 }
-
+bool Lovelace::vefEhZeroBF()
+{
+	for(int c=0;c<getQuantidadeAlgarismos();c++)
+		if(getDigito(c))
+			return false;
+	return true;
+}
 Lovelace::Lovelace(){
 	inicializar();
 }
@@ -468,19 +474,31 @@ void Lovelace::dividir(Lovelace &A, Lovelace &B,Lovelace &quociente,Lovelace &re
 		while(resto.eMaiorOuIgualA(B))
 		{
 			QtAlgA=resto.getQuantidadeAlgarismos();
-			parte=(QtAlgA-QtAlgB);
+			cout<<"QtdAlg A: "<<QtAlgA<<" QtdAlg B: "<<QtAlgB<<endl;
+			parte= (QtAlgA-QtAlgB);
+			if(parte)
+			{
+				while(aux.eMenorQue(B))//separa a menor parte maior que o divisor e efetua a operaÃ§Ã£o
+				{	parte+=(--parte)?0:1;
+					cout<<"Aux = "<<aux<<" Resto = "<<resto<<endl;
+					for(c=parte;c<QtAlgA;c++)
+					{
+						cout<<"Parte = "<<parte<<" QtdAlgA: "<<QtAlgA<<endl;
+						aux.setDigito(c-parte,resto.getDigito(c));
+					}
+					cout<<"Aux = "<<aux<<" Resto = "<<resto<<endl;
+					getchar();
+				}
 
-			while(aux.eMenorQue(B))//separa a menor parte maior que o divisor e efetua a operaÃ§Ã£o
-			{	parte--;
 				for(c=parte;c<QtAlgA;c++)
-					aux.setDigito(c-parte,resto.getDigito(c));
+					resto.reduzirAlgarismos();
 			}
 
-			for(c=parte;c<QtAlgA;c++)
-				resto.reduzirAlgarismos();
-
-			for(c=0;aux.eMaiorOuIgualA(B);c++)
+			for(c=0; aux.eMaiorOuIgualA(B);c++)
+			{	cout<<"Aux: "<<aux<<" B = "<<B<<endl;
+				cout<<"quociente "<<c<<endl;
 				aux-=B;
+			}
 
 			quociente.setDigito(k++,c);
 
@@ -492,8 +510,16 @@ void Lovelace::dividir(Lovelace &A, Lovelace &B,Lovelace &quociente,Lovelace &re
 					resto.setDigito(c,aux.getDigito(c-qtdAaux));
 			}
 			else
+			{
 				while(!resto.getDigito(--parte) && parte>-1)
 					quociente.setDigito(k++,0);
+				if(parte==-1)
+				{	cout<<"Entrou Aqui!!"<<endl;
+					getchar();
+					resto.zerar();
+					break;
+				}
+			}
 
 		}//Agora temos o resultado com os mais siginificativos primeiro (INverter)
 

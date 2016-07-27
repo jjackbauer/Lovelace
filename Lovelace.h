@@ -13,6 +13,7 @@ class Lovelace{//Representa numero natural
 		bool zero;	//Alterada para melhor uso;
 		void expandirAlgarismos();
 		void reduzirAlgarismos();
+		bool vefEhZeroBF();
 		void copiarAlgarismos(const Lovelace &deA, Lovelace &paraB);
 
 		void inicializar();
