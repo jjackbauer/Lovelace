@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstdio>
 #include "InteiroLovelace.h"
 #include "Lovelace.h"
 using namespace std;
@@ -33,7 +34,7 @@ void testes_Lovelace(){
 	cout << "[5] Teste 5 - 		[*]	Multiplicação" << endl;
 	cout << "[6] Teste 6 - 		[^]	Exponenciação" << endl;
 	cout << "[7] Teste 7 - 		[/]	Divisão Burra" << endl;
-	cout << "[8] Teste 8 - 		[/]	Divisão" << endl;
+	cout << "[8] Teste 8 - 		[/]	Divisão e Resto" << endl;
 	cout << "[9] Teste 9 - 		[!]	Fatorial" << endl;
 	cout << "[10] Teste 10 - 	[%]	Resto da Divisão Burra" << endl;
 	cout << "[11] Teste 11 - 	[%]	Resto da Divisão" << endl;
@@ -62,7 +63,7 @@ void testes_Lovelace(){
 			teste_7();
 			break;
 		case 8:
-			//teste_8();
+			teste_8();
 			break;
 		case 9:
 			teste_9();
@@ -354,6 +355,53 @@ void teste_7(){
 	C.imprimirInfo();
 }
 
+void teste_8(){
+	Lovelace A, B, C, quociente, resto;
+
+	cout << "Teste 8 - Divisão e Resto da Divisão de Valores" << endl;
+	cout << "Digite os valores de A, B e C abaixo." << endl <<
+			"A: ";
+	cin >> A;
+	cout << "B: ";
+	cin >> B;
+	cout << "C: ";
+	cin >> C;
+
+	cout << "A = "<< A << endl <<
+			"B = " << B << endl <<
+			"C = " << C << endl;
+	A.dividir(A,A,quociente,resto);
+	cout << "A/A = " << quociente << " A%A = " << resto << endl;
+	getchar();
+	A.dividir(A,B,quociente,resto);
+	cout << "A/B = " << quociente << " A%B = " << resto << endl;
+	A.dividir(A,C,quociente,resto);
+	cout << "A/C = " << quociente << " A%C = " << resto << endl;
+	A.dividir(B,A,quociente,resto);
+	cout << "B/A = " << quociente << " B%A = " << resto << endl;
+	A.dividir(B,B,quociente,resto);
+	cout << "B/B = " << quociente << " B%B = " << resto << endl;
+	A.dividir(B,C,quociente,resto);
+	cout << "B/C = " << quociente << " B%C = " << resto << endl;
+	A.dividir(C,A,quociente,resto);
+	cout << "C/A = " << quociente << " C%A = " << resto << endl;
+	A.dividir(C,B,quociente,resto);
+	cout << "C/B = " << quociente << " C%B = " << resto << endl;
+	A.dividir(C,C,quociente,resto);
+	cout << "C/C = " << quociente << " C%C = " << resto << endl;
+	getchar();
+
+	cout << "A (" << A << ") " << ((A.ePar())?"":"nao ") << "eh par" << endl;
+	cout << "A (" << A << ") " << ((A.eImpar())?"":"nao ") << "eh impar" << endl;
+	cout << "B (" << B << ") " << ((B.ePar())?"":"nao ") << "eh par" << endl;
+	cout << "B (" << B << ") " << ((B.eImpar())?"":"nao ") << "eh impar" << endl;
+	cout << "C (" << C << ") " << ((C.ePar())?"":"nao ") << "eh par" << endl;
+	cout << "C (" << C << ") " << ((C.eImpar())?"":"nao ") << "eh impar" << endl;
+	A.imprimirInfo();
+	B.imprimirInfo();
+	C.imprimirInfo();
+}
+
 void teste_9(){
 	Lovelace A,B,C,res;
 
@@ -422,3 +470,5 @@ void teste_10(){
 	B.imprimirInfo();
 	C.imprimirInfo();
 }
+
+

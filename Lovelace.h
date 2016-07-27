@@ -47,11 +47,10 @@ class Lovelace{//Representa numero natural
 		Lovelace subtrair(Lovelace &A, Lovelace &B);
 		Lovelace multiplicar_burro(Lovelace &A, Lovelace &B);
 		Lovelace multiplicar(Lovelace &A, Lovelace &B);
-	    void     Lovelace::dividir(Lovelace &A, Lovelace &B,Lovelace &resultado,Lovelace &resto);
-		Lovelace dividir_burro(Lovelace &A, Lovelace &B);
-		Lovelace modulo(Lovelace &A, Lovelace &B);
-		Lovelace resto(Lovelace &A, Lovelace &B);
-		Lovelace resto_burro(Lovelace &A, Lovelace &B);
+	    void     dividir(Lovelace &A, Lovelace &B,Lovelace &resultado,Lovelace &resto);
+		Lovelace dividir_burro(Lovelace &A, Lovelace &B, bool quocienteOuResto = true);
+		/*Lovelace resto(Lovelace &A, Lovelace &B);
+		Lovelace resto_burro(Lovelace &A, Lovelace &B);*/
 		Lovelace exponenciar(Lovelace &A, Lovelace &X); /* Tivemos uma idéia para melhorar a exponenciação*/
 		Lovelace fatorial();
 		Lovelace incrementar();

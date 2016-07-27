@@ -447,26 +447,19 @@ Lovelace Lovelace::multiplicar(Lovelace &A, Lovelace &B){
 	return resultado;
 }
 
-void Lovelace::dividir(Lovelace &A, Lovelace &B,Lovelace &resultado,Lovelace &resto)
+void Lovelace::dividir(Lovelace &A, Lovelace &B,Lovelace &quociente,Lovelace &resto)
 {
-	resultado=0;
-	resto(A);
+	quociente.zerar();
+	resto = A;
 	if (B.eZero())
 	{
-		cout << "ERRO! Não é possível dividir por zero." << endl;
+		cout << "ERRO! OPERAÇÃO INVÁLIDA! Não é possível dividir por zero." << endl;
 	}
-	else
-	if(A.eMenorQue(B))
+	else if(A.eIgualA(B))
 	{
-		//Faz nada e s� retorna 0 que � o resultado correto!
+		quociente.setDigito(0,1);
 	}
-	else
-	if(A.eIgualA(B))
-	{
-		Lovelace resultado;
-		resultado.setDigito(0,1);
-	}
-	else if (A.naoEZero())
+	else if (A.naoEZero() && A.eMaiorQue(B))
 	{
 		Lovelace aux;
 		long long int c,QtAlgA,QtAlgB=B.getQuantidadeAlgarismos(),parte,k=0;
@@ -476,7 +469,7 @@ void Lovelace::dividir(Lovelace &A, Lovelace &B,Lovelace &resultado,Lovelace &re
 			QtAlgA=resto.getQuantidadeAlgarismos();
 			parte=(QtAlgA-QtAlgB);
 
-			while(aux.eMenorQue(B))//separa a menor parte maior que o divisor e efetua a opera��o
+			while(aux.eMenorQue(B))//separa a menor parte maior que o divisor e efetua a operação
 			{	parte--;
 				for(c=parte;c<QtAlgA;c++)
 					aux.setDigito(c-parte,resto.getDigito(c));
@@ -488,7 +481,7 @@ void Lovelace::dividir(Lovelace &A, Lovelace &B,Lovelace &resultado,Lovelace &re
 			for(c=0;aux.eMaiorOuIgualA(B);c++)
 				aux-=B;
 
-			resultado.setDigito(++k,c);
+			quociente.setDigito(++k,c);
 
 			if(!aux.eZero())//Concatenar resto ao restante do numero
 			{
@@ -500,43 +493,41 @@ void Lovelace::dividir(Lovelace &A, Lovelace &B,Lovelace &resultado,Lovelace &re
 			else
 			{
 				while(!resto.getDigito(--parte))
-					resultado.setDigito(++k,0);
+					quociente.setDigito(++k,0);
 			}
 		}//Agora temos o resultado com os mais siginificativos primeiro (INverter)
 
-		for(c=0,k=resultado.getQuantidadeAlgarismos()-1 ;c!=k;c++,k--)
+		for(c=0,k=quociente.getQuantidadeAlgarismos()-1 ;c!=k;c++,k--)
 		{
-			int aux=resultado.getDigito(c);
-			resultado.setDigito(c,resultado.getDigito(k));
-			resultado.setDigito(k,aux);
+			int aux=quociente.getDigito(c);
+			quociente.setDigito(c,quociente.getDigito(k));
+			quociente.setDigito(k,aux);
 		}
 	}
-
-
 }
 
 
-Lovelace Lovelace::dividir_burro(Lovelace &A, Lovelace &B){
-	Lovelace resultado;
+Lovelace Lovelace::dividir_burro(Lovelace &A, Lovelace &B, bool quocienteOuResto){
+	Lovelace resto, quociente;
 	if (B.eZero()){
 		cout << "ERRO! Não é possível dividir por zero." << endl;
 	}
-	else if (A.eMenorQue(B)){
-		//Faz nada e s� retorna 0 que � o resultado correto!
-	}
 	else if (A.eIgualA(B)){
-		Lovelace resultado;
-		resultado.setDigito(0,1);
+		quociente.setDigito(0,1);
+	}
+	else if (A.eMenorQue(B)){
+		resto = A;
 	}
 	else if (A.naoEZero()){
-		Lovelace aux(A);
-		for (;aux.eMaiorOuIgualA(B);resultado.incrementar()){
-			aux -= B;
-		}
+		for (resto = A;resto.eMaiorOuIgualA(B);quociente.incrementar())
+			resto -= B;
 	}
-	return resultado;
+	if (quocienteOuResto == true)
+		return quociente;
+	else
+		return resto;
 }
-
+/*
 Lovelace Lovelace::modulo(Lovelace &A, Lovelace &B){
 	Lovelace resultado;
 
@@ -567,7 +558,7 @@ Lovelace Lovelace::resto_burro(Lovelace &A, Lovelace &B){
 	}
 	return resultado;
 }
-
+*/
 Lovelace Lovelace::exponenciar(Lovelace &A, Lovelace &X){
 	Lovelace c,resultado;
 	resultado.setDigito(0,1);
@@ -596,6 +587,8 @@ Lovelace Lovelace::fatorial(){
 }
 
 bool Lovelace::eIgualA(Lovelace &B){
+	if (this == &B)
+		return true;
 	if (this->getQuantidadeAlgarismos() != B.getQuantidadeAlgarismos())
 		return false;
 	else {
@@ -613,6 +606,8 @@ bool Lovelace::eDiferenteDe(Lovelace &B){
 }
 
 bool Lovelace::eMaiorQue(Lovelace &B) {
+	if (this == &B)
+		return false;
 	if (this->getQuantidadeAlgarismos() > B.getQuantidadeAlgarismos()){
 		return true;
 	}
@@ -633,6 +628,8 @@ bool Lovelace::eMaiorQue(Lovelace &B) {
 }
 
 bool Lovelace::eMenorQue(Lovelace &B){
+	if (this == &B)
+		return false;
 	if (this->getQuantidadeAlgarismos() < B.getQuantidadeAlgarismos()){
 		return true;
 	}
@@ -744,7 +741,7 @@ Lovelace Lovelace::operator/(Lovelace &B){
 }
 
 Lovelace Lovelace::operator%(Lovelace &B){
-	return resto_burro((*this), B);
+	return dividir_burro((*this), B,false);
 }
 
 Lovelace Lovelace::operator^(Lovelace &B){
@@ -768,7 +765,7 @@ Lovelace& Lovelace::operator/=(Lovelace &B){
 }
 
 Lovelace& Lovelace::operator%=(Lovelace &B){
-	return ((*this) = resto_burro((*this),B));
+	return ((*this) = dividir_burro((*this), B,false));
 }
 
 Lovelace& Lovelace::operator^=(Lovelace &B){
