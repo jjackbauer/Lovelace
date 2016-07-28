@@ -152,7 +152,7 @@ char Lovelace::getDigito(long long int Posicao){
 		char A,B;
 		getBitwise(Posicao/2,A,B);
 
-		return Posicao%2?B:A;
+		return (Posicao%2)?B:A;
 	}
 	else {
 		//cout<<"Acesso Invalido Digito"<<endl;
@@ -163,12 +163,12 @@ char Lovelace::getDigito(long long int Posicao){
 
 }
 void Lovelace::setDigito(long long int Posicao, char Digito){
-	//	Validar tambÃ©m para aceitar somente dÃ­gitos entre 0 9?
-	if (Posicao>=0 && Posicao <= getQuantidadeAlgarismos()){
+		//	Validar também para aceitar somente dígitos entre 0 9?
+	 if (Posicao>=0 && Posicao <= getQuantidadeAlgarismos()){
 			char A,B;
 			if(Posicao/2 < getTamanho()){
 				getBitwise(Posicao/2,A,B);
-				Posicao%2?(B=Digito):(A=Digito);
+				(Posicao%2)?(B=Digito):(A=Digito);
 			}
 			else {
 				B=15;
@@ -270,7 +270,7 @@ void Lovelace::imprimirInfo(int opcao) const{
 	cout << "quantidadeAlgarismos : " << getQuantidadeAlgarismos() << endl;
 	cout << "zero                 : " << eZero() << endl;
 	cout << "algarismos (*)       : " << &algarismos << endl;
-	printf("%d\n", algarismos);
+	printf("%p\n", algarismos);
 	cout << "Vetor de Algarismos  : ";
 	imprimir('.');
 	cout << endl;
@@ -408,11 +408,11 @@ Lovelace Lovelace::multiplicar_burro(Lovelace &A, Lovelace &B){
 		bool log = A.eMaiorQue(B);
 		aux = log?B:A;
 		resultado = log?A:B;
-		c++;
+		++c;
 
 		while(aux.eMaiorQue(c)){
 			resultado = (resultado+(log?A:B));
-			c++;
+			++c;
 		}
 	}
 	return resultado;
@@ -459,7 +459,7 @@ void Lovelace::dividir(Lovelace &A, Lovelace &B,Lovelace &quociente,Lovelace &re
 	resto = A;
 	if (B.eZero())
 	{
-		cout << "ERRO! OPERAÃ‡ÃƒO INVÃ�LIDA! NÃ£o Ã© possÃ­vel dividir por zero." << endl;
+		cout << "ERRO! OPERAÇÃO INVÁLIDA! Não é possível dividir por zero." << endl;
 	}
 	else if(A.eIgualA(B))
 	{
@@ -470,40 +470,51 @@ void Lovelace::dividir(Lovelace &A, Lovelace &B,Lovelace &quociente,Lovelace &re
 	{
 		Lovelace aux;
 		long long int c,QtAlgA,QtAlgB=B.getQuantidadeAlgarismos(),parte,k=0;
-
+		bool primeiraIteracao = true, auxMenorQueBInicialmente;
 		while(resto.eMaiorOuIgualA(B))
 		{
+
 			QtAlgA=resto.getQuantidadeAlgarismos();
-			cout<<"QtdAlg A: "<<QtAlgA<<" QtdAlg B: "<<QtAlgB<<endl;
 			parte= (QtAlgA-QtAlgB);
-			if(parte)
+			if (parte)
 			{
-				while(aux.eMenorQue(B))//separa a menor parte maior que o divisor e efetua a operaÃ§Ã£o
-				{	parte+=(--parte)?0:1;
-					cout<<"Aux = "<<aux<<" Resto = "<<resto<<endl;
+				cout << "P1" << endl;
+				auxMenorQueBInicialmente = aux.eMenorQue(B);
+				while(auxMenorQueBInicialmente)//separa a menor parte maior que o divisor e efetua a operaÃ§Ã£o
+				{
 					for(c=parte;c<QtAlgA;c++)
-					{
-						cout<<"Parte = "<<parte<<" QtdAlgA: "<<QtAlgA<<endl;
 						aux.setDigito(c-parte,resto.getDigito(c));
+					if (primeiraIteracao)
+						primeiraIteracao = false;
+					else if ((auxMenorQueBInicialmente = aux.eMenorQue(B))){
+						quociente.setDigito(k++,0);
 					}
-					cout<<"Aux = "<<aux<<" Resto = "<<resto<<endl;
-					getchar();
+					parte--;
 				}
 
-				for(c=parte;c<QtAlgA;c++)
+				for(c=parte+1;c<QtAlgA;c++)
 					resto.reduzirAlgarismos();
 			}
-
-			for(c=0; aux.eMaiorOuIgualA(B);c++)
-			{	cout<<"Aux: "<<aux<<" B = "<<B<<endl;
-				cout<<"quociente "<<c<<endl;
-				aux-=B;
+			else {
+				aux = A;
+				for(c=0; aux.eMaiorOuIgualA(B);c++)
+					aux-=B;
+				quociente.setDigito(k++,c);
+				resto = aux;
+				long long int t = resto.getQuantidadeAlgarismos()-1;
+				while(!resto.getDigito(t--))
+					quociente.setDigito(k++,0);
+				break;
 			}
-
+			cout << "P2" << endl;
+			for(c=0; aux.eMaiorOuIgualA(B);c++)
+				aux-=B;
+			cout << "P3" << endl;
 			quociente.setDigito(k++,c);
 
 			if(!aux.eZero())//Concatenar resto ao restante do numero
 			{
+				cout << "P4" << endl;
 				long long int qtdAaux=resto.getQuantidadeAlgarismos(),qtdaux=aux.getQuantidadeAlgarismos();
 
 				for(c=qtdAaux; c-qtdaux<qtdAaux ;c++)
@@ -511,12 +522,14 @@ void Lovelace::dividir(Lovelace &A, Lovelace &B,Lovelace &quociente,Lovelace &re
 			}
 			else
 			{
-				while(!resto.getDigito(--parte) && parte>-1)
+				cout << "P5" << endl;
+				long long int t = resto.getQuantidadeAlgarismos()-1;
+				while(t > -1 && !resto.getDigito(t--))
 					quociente.setDigito(k++,0);
-				if(parte==-1)
-				{	cout<<"Entrou Aqui!!"<<endl;
-					getchar();
+				if(t == -1)
+				{
 					resto.zerar();
+					cout << "----" << endl;
 					break;
 				}
 			}
@@ -589,7 +602,7 @@ Lovelace Lovelace::exponenciar(Lovelace &A, Lovelace &X){
 	Lovelace c,resultado;
 	resultado.setDigito(0,1);
 	if (!(X.eZero())) {
-		for(c.atribuir(0);c.eMenorQue(X);c++,resultado*=A);
+		for(c.atribuir(0);c.eMenorQue(X);++c,resultado*=A);
 		/*
 		c.imprimirInfo();
 		getchar();
@@ -604,9 +617,10 @@ Lovelace Lovelace::exponenciar(Lovelace &A, Lovelace &X){
 
 Lovelace Lovelace::fatorial(){
 	Lovelace resultado,aux;
+	resultado.setDigito(0,1);
 	if (this->naoEZero()) {
 		aux = 2;
-		for (resultado =1; aux.eMenorOuIgualA(*this);aux.incrementar())
+		for (; aux.eMenorOuIgualA(*this);aux.incrementar())
 			resultado *= aux;
 	}
 	return resultado;
