@@ -15,11 +15,15 @@ class Lovelace{//Representa numero natural
 		void reduzirAlgarismos();
 		bool vefEhZeroBF();
 		void copiarAlgarismos(const Lovelace &deA, Lovelace &paraB);
+		void getMenorDivisao(const Lovelace &deA, Lovelace &paraB);
+		void concatenaNumeros(const Lovelace &maisSiginificativo,const Lovelace &menosSignificativo,Lovelace &saida);
+		void inverteNumero(const Lovelace &entrada, Lovelace &saida);
 
 		void inicializar();
 		void zerar();
 		static long long int algarismosExibicao;
 		static long long int Precisao;
+
 	public:
 		static char TabelaDeConversao[10];
 

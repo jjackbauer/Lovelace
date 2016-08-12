@@ -452,7 +452,28 @@ Lovelace Lovelace::multiplicar(Lovelace &A, Lovelace &B){
 	}
 	return resultado;
 }
+void Lovelace::getMenorDivisao(const Lovelace &deA, Lovelace &paraB)
+{
 
+}
+void Lovelace::concatenaNumeros(const Lovelace &maisSiginificativo,const Lovelace &menosSignificativo,Lovelace &saida)
+{	long long int c;
+	saida.zerar();//O compilador está dando erro, mas não faz sentido...
+
+	for(c=0;c<menosSignificativo.getQuantidadeAlgarismos(); c++)
+		saida.setDigito(c,menosSignificativo.getDigito(c));
+	for(;(c-menosSignificativo.getQuantidadeAlgarismos)< maisSignificativo.getQuantidadeAlgarismos ; c++)
+		saida.setDigito(c,maisSignificativo.getDigito((c-menosSignificativo.getQuantidadeAlgarismos)));
+
+
+}
+void Lovelace::inverteNumero(const Lovelace &entrada, Lovelace &saida)
+{	long long int c,k,qtdAlg=entrada.getQuantidadeAlgarismos();
+	saida.zerar();
+
+	for(c=qtdAlg-1,k=0;c>-1;c--,k++)
+		saida.setDigito(k,entrada.getDigito(c));
+}
 void Lovelace::dividir(Lovelace &A, Lovelace &B,Lovelace &quociente,Lovelace &resto)
 {
 	quociente.zerar();
@@ -468,80 +489,15 @@ void Lovelace::dividir(Lovelace &A, Lovelace &B,Lovelace &quociente,Lovelace &re
 	}
 	else if (A.eMaiorQue(B))
 	{
-		Lovelace aux;
-		long long int c,QtAlgA,QtAlgB=B.getQuantidadeAlgarismos(),parte,k=0;
-		bool primeiraIteracao = true, auxMenorQueBInicialmente;
-		while(resto.eMaiorOuIgualA(B))
+		while(A.eMaiorQue(B))
 		{
 
-			QtAlgA=resto.getQuantidadeAlgarismos();
-			parte= (QtAlgA-QtAlgB);
-			if (parte)
-			{
-				cout << "P1" << endl;
-				auxMenorQueBInicialmente = aux.eMenorQue(B);
-				while(auxMenorQueBInicialmente)//separa a menor parte maior que o divisor e efetua a operaÃ§Ã£o
-				{
-					for(c=parte;c<QtAlgA;c++)
-						aux.setDigito(c-parte,resto.getDigito(c));
-					if (primeiraIteracao)
-						primeiraIteracao = false;
-					else if ((auxMenorQueBInicialmente = aux.eMenorQue(B))){
-						quociente.setDigito(k++,0);
-					}
-					parte--;
-				}
-
-				for(c=parte+1;c<QtAlgA;c++)
-					resto.reduzirAlgarismos();
-			}
-			else {
-				aux = A;
-				for(c=0; aux.eMaiorOuIgualA(B);c++)
-					aux-=B;
-				quociente.setDigito(k++,c);
-				resto = aux;
-				long long int t = resto.getQuantidadeAlgarismos()-1;
-				while(!resto.getDigito(t--))
-					quociente.setDigito(k++,0);
-				break;
-			}
-			cout << "P2" << endl;
-			for(c=0; aux.eMaiorOuIgualA(B);c++)
-				aux-=B;
-			cout << "P3" << endl;
-			quociente.setDigito(k++,c);
-
-			if(!aux.eZero())//Concatenar resto ao restante do numero
-			{
-				cout << "P4" << endl;
-				long long int qtdAaux=resto.getQuantidadeAlgarismos(),qtdaux=aux.getQuantidadeAlgarismos();
-
-				for(c=qtdAaux; c-qtdaux<qtdAaux ;c++)
-					resto.setDigito(c,aux.getDigito(c-qtdAaux));
-			}
-			else
-			{
-				cout << "P5" << endl;
-				long long int t = resto.getQuantidadeAlgarismos()-1;
-				while(t > -1 && !resto.getDigito(t--))
-					quociente.setDigito(k++,0);
-				if(t == -1)
-				{
-					resto.zerar();
-					cout << "----" << endl;
-					break;
-				}
-			}
-
-		}//Agora temos o resultado com os mais siginificativos primeiro (INverter)
-
-		for(c=0,k=quociente.getQuantidadeAlgarismos()-1 ;c<quociente.getQuantidadeAlgarismos()/2;c++,k--)
-		{
-			int aux=quociente.getDigito(c);
-			quociente.setDigito(c,quociente.getDigito(k));
-			quociente.setDigito(k,aux);
 		}
+
+
+
+
+
 	}
 }
 
