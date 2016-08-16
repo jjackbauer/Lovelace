@@ -14,8 +14,9 @@ class Lovelace{//Representa numero natural
 		void expandirAlgarismos();
 		void reduzirAlgarismos();
 		bool vefEhZeroBF();
+		int	removeZerosNaoSignificativos();
 		void copiarAlgarismos(const Lovelace &deA, Lovelace &paraB);
-		void getMenorDivisao(const Lovelace &deA, Lovelace &paraB);
+		int getMenorDivisao(Lovelace &maior,Lovelace &menor,Lovelace &saida);
 		void concatenaNumeros(const Lovelace &maisSiginificativo,const Lovelace &menosSignificativo,Lovelace &saida);
 		void inverteNumero(const Lovelace &entrada, Lovelace &saida);
 

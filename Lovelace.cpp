@@ -452,18 +452,45 @@ Lovelace Lovelace::multiplicar(Lovelace &A, Lovelace &B){
 	}
 	return resultado;
 }
-void Lovelace::getMenorDivisao(const Lovelace &deA, Lovelace &paraB)
-{
+int	Lovelace::removeZerosNaoSignificativos()
+{	int numero,qtdAlg=getQuantidadeAlgarismos();
+
+	for(numero=0; getDigito(qtdAlg)==0 ;qtdAlg--,numero++)
+		reduzirAlgarismos();
+
+	return numero;
+}
+int Lovelace::getMenorDivisao(Lovelace &maior,Lovelace &menor,Lovelace &saida)
+{	int c,k,d,qtdMaior=maior.getQuantidadeAlgarismos(),qtdMenor=menor.getQuantidadeAlgarismos(),inicio=(qtdMaior-qtdMenor);
+	bool val=saida.eMenorQue(menor);
+	saida.zerar();
+	d=inicio;/*A abordagem já desloca algumas casas diretamente para poupar trabalho braçal mas isso era um tanto nebulo nesse algoritmo.Mas agora faz sentido*/
+
+	while(val)
+	{
+		for(c=inicio,k=0;c<qtdMaior && c>-1;c++,k++)
+			saida.setDigito(k,maior.getDigito(c));
+		val=saida.eMenorQue(menor);
+		if(val)
+		{
+			inicio--;
+			d++;
+		}
+		else
+			break;
+	}
+
+	return d;
 
 }
 void Lovelace::concatenaNumeros(const Lovelace &maisSignificativo,const Lovelace &menosSignificativo,Lovelace &saida)
-{	long long int c;
-	saida.zerar();//O compilador está dando erro, mas não faz sentido...
+{	long long int c,qtdMais=maisSignificativo.getQuantidadeAlgarismos(),qtdMenos=menosSignificativo.getQuantidadeAlgarismos();
+	saida.zerar();
 
-	for(c=0;c<menosSignificativo.getQuantidadeAlgarismos(); c++)
+	for(c=0; c<qtdMenos ; c++)
 		saida.setDigito(c,menosSignificativo.getDigito(c));
-	for(;(c-menosSignificativo.getQuantidadeAlgarismos()) < maisSignificativo.getQuantidadeAlgarismos(); c++)
-		saida.setDigito(c,maisSignificativo.getDigito(c-menosSignificativo.getQuantidadeAlgarismos()));
+	for(;(c-qtdMenos) < qtdMais; c++)
+		saida.setDigito(c,maisSignificativo.getDigito(c-qtdMenos));
 }
 void Lovelace::inverteNumero(const Lovelace &entrada, Lovelace &saida)
 {	long long int c,k,qtdAlg=entrada.getQuantidadeAlgarismos();
@@ -487,14 +514,43 @@ void Lovelace::dividir(Lovelace &A, Lovelace &B,Lovelace &quociente,Lovelace &re
 	}
 	else if (A.eMaiorQue(B))
 	{
+		Lovelace aux,aux2(A);
+		int	q,d,k=0;
 		while(A.eMaiorQue(B))
 		{
 
+			q=d=A.getMenorDivisao(aux2,B,aux);
+
+			while(d--)
+				aux2.reduzirAlgarismos();
+			if(k)
+				while(q--)
+					quociente.setDigito(k++,0);//Caso do deslocamento após a primeira
+
+
+
+
+
+			for(q=0; aux.eMaiorOuIgualA(B); q++)
+				aux-=B;
+
+			quociente.setDigito(k++,q);
+			aux.removeZerosNaoSignificativos();
+
+			if(!aux.eZero())//Caso com resto
+				A.concatenaNumeros(aux,aux2,aux2);
+			else//caso sem
+			{
+				d=aux2.removeZerosNaoSignificativos();
+
+				while(d--)//Sobra de zeros não significativos
+					quociente.setDigito(k++,0);
+			}
+
 		}
 
-
-
-
+		quociente.inverteNumero(quociente,quociente);
+		resto=aux2;
 
 	}
 }
