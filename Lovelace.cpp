@@ -147,7 +147,7 @@ void Lovelace::getBitwise(long long int Posicao,char &A, char &B) const{
 	}
 }
 
-char Lovelace::getDigito(long long int Posicao){
+char Lovelace::getDigito(long long int Posicao) const{
 	if (Posicao>=0 && Posicao < getQuantidadeAlgarismos()){//Tinha bug aqui, bug maldito kkkkkkkkk
 		char A,B;
 		getBitwise(Posicao/2,A,B);
@@ -456,16 +456,14 @@ void Lovelace::getMenorDivisao(const Lovelace &deA, Lovelace &paraB)
 {
 
 }
-void Lovelace::concatenaNumeros(const Lovelace &maisSiginificativo,const Lovelace &menosSignificativo,Lovelace &saida)
+void Lovelace::concatenaNumeros(const Lovelace &maisSignificativo,const Lovelace &menosSignificativo,Lovelace &saida)
 {	long long int c;
 	saida.zerar();//O compilador está dando erro, mas não faz sentido...
 
 	for(c=0;c<menosSignificativo.getQuantidadeAlgarismos(); c++)
 		saida.setDigito(c,menosSignificativo.getDigito(c));
-	for(;(c-menosSignificativo.getQuantidadeAlgarismos)< maisSignificativo.getQuantidadeAlgarismos ; c++)
-		saida.setDigito(c,maisSignificativo.getDigito((c-menosSignificativo.getQuantidadeAlgarismos)));
-
-
+	for(;(c-menosSignificativo.getQuantidadeAlgarismos()) < maisSignificativo.getQuantidadeAlgarismos(); c++)
+		saida.setDigito(c,maisSignificativo.getDigito(c-menosSignificativo.getQuantidadeAlgarismos()));
 }
 void Lovelace::inverteNumero(const Lovelace &entrada, Lovelace &saida)
 {	long long int c,k,qtdAlg=entrada.getQuantidadeAlgarismos();

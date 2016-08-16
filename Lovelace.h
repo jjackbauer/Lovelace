@@ -38,7 +38,7 @@ class Lovelace{//Representa numero natural
 		void imprimirInfo(int opcao = 0) const;
 		void getBitwise(long long int Posicao,char &A, char &B) const;//Correção do diagrama: setor desnecessário
 		void setBitwise(long long int Posicao,char A, char B);//Faltou parametro posição no UML.
-		char getDigito(long long int Posicao);
+		char getDigito(long long int Posicao) const;
 		void setDigito(long long int Posicao, char Digito);
 		long long int getTamanho() const;
 		void setTamanho(long long int novoTamanho);
