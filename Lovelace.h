@@ -11,6 +11,7 @@ class Lovelace{//Representa numero natural
 		void inicializar();
 		void zerar();
 		void copiarAlgarismos(const Lovelace &deA, Lovelace &paraB);
+		void errorMessage(string mesage);
 	private:
 		long long int tamanho;
 		long long int quantidadeAlgarismos;

@@ -9,7 +9,7 @@ using namespace std;
 
 char Lovelace::TabelaDeConversao[] = {'0','1','2','3','4','5','6','7','8','9'};
 long long int Lovelace::algarismosExibicao = -1;
-void errorMessage(string mesage)
+void Lovelace::errorMessage(string mesage)
 {
 	cout<<mesage<<endl;
 	pause;

@@ -1,5 +1,5 @@
 #include "InteiroLovelace.h"
-
+const InteiroLovelace ZERO;
 InteiroLovelace::InteiroLovelace(){
 	inicializar();
 }
@@ -39,12 +39,12 @@ bool InteiroLovelace::getSinal() const{
 void InteiroLovelace::setSinal(bool novoSinal){
 	sinal = novoSinal;
 }
-void toLovelace(const InteiroLovelace &entrada,Lovelace &saida)
+void InteiroLovelace::toLovelace(const InteiroLovelace &entrada,Lovelace &saida)
 {
 	Lovelace aux(entrada.algarismos,entrada.getTamanho(),entrada.getQuantidadeAlgarismos(),entrada.eZero());
 	saida.atribuir(aux);
 }
-InteiroLovelace 	InteiroLovelace::somar(InteiroLovelace &A, InteiroLovelace &B)
+InteiroLovelace 	InteiroLovelace::somar( InteiroLovelace &A, InteiroLovelace &B)
 {
 	Lovelace auxA,auxB;
 	bool sinalMaior;
@@ -102,14 +102,38 @@ InteiroLovelace 	InteiroLovelace::multiplicar(InteiroLovelace &A, InteiroLovelac
 	return resultado;
 }
 void     			InteiroLovelace::dividir(InteiroLovelace &A, InteiroLovelace &B,InteiroLovelace &resultado,InteiroLovelace &resto)
-{
-
+{	Lovelace auxA,auxB;
+	bool sinaisIguais=(A.getSinal()==B.getSinal());
+	{
+		InteiroLovelace result(auxA.dividir_burro(auxA,auxB));
+		result.setSinal(sinaisIguais);
+		resultado=result;//Mudar para atribuição
+	}
+	{
+		InteiroLovelace rest(auxA.dividir_burro(auxA,auxB,false));
+		rest.setSinal(sinaisIguais);//Essa lógica tem que ser revista
+		resultado=rest;//Mudar para atribuição
+	}
 }
-InteiroLovelace		InteiroLovelace::exponenciar(InteiroLovelace &A, Lovelace &X)
+InteiroLovelace		InteiroLovelace::exponenciar(InteiroLovelace &A, InteiroLovelace &X)
 {
-	InteiroLovelace resultado;
+	if(!A.eZero() && X.eMaiorQue(ZERO))
+	{
+		Lovelace auxA,auxX;
+		A.toLovelace(A,auxA);
+		X.toLovelace(X,auxX);
 
-	return resultado;
+		InteiroLovelace resultado(auxA.exponenciar(auxA,auxX));
+		if(!A.getSinal() && X.eImpar())
+			resultado.setSinal(false);
+
+		return resultado;
+	}
+	else
+	{
+		errorMessage("Operação inválida de exponenciação!");
+
+	}
 }
 
 InteiroLovelace 	InteiroLovelace::incrementar()
@@ -140,7 +164,7 @@ InteiroLovelace& 	InteiroLovelace::atribuir(const int &numero)
 
 
 InteiroLovelace	InteiroLovelace::fatorial(){
-	if (!getSinal())
+	if (getSinal())
 		return Lovelace::fatorial();
 }
 
@@ -152,7 +176,7 @@ InteiroLovelace& InteiroLovelace::inverterSinal(){
 }
 
 
-bool InteiroLovelace::eIgualA(InteiroLovelace &B){
+bool InteiroLovelace::eIgualA(const InteiroLovelace &B){
 	if (this == &B)
 		return true;
 	if (this->getSinal() != B.getSinal())
@@ -169,18 +193,18 @@ bool InteiroLovelace::eIgualA(InteiroLovelace &B){
 	return true;
 }
 
-bool InteiroLovelace::eDiferenteDe(InteiroLovelace &B){
+bool InteiroLovelace::eDiferenteDe(const InteiroLovelace &B){
 	return !(this->eIgualA(B));
 }
 
-bool InteiroLovelace::eMaiorQue(InteiroLovelace &B){
+bool InteiroLovelace::eMaiorQue(const InteiroLovelace &B){
 	if (this == &B)
 		return false;
 	if (this->getSinal() != B.getSinal()){
 		if (this->getSinal())
-			return false;
-		else
 			return true;
+		else
+			return false;
 	}
 	if (this->getQuantidadeAlgarismos() > B.getQuantidadeAlgarismos()){
 		return true;
@@ -201,14 +225,14 @@ bool InteiroLovelace::eMaiorQue(InteiroLovelace &B){
 	return true;
 }
 
-bool InteiroLovelace::eMenorQue(InteiroLovelace &B){
+bool InteiroLovelace::eMenorQue(const InteiroLovelace &B){
 	if (this == &B)
 		return false;
 	if (this->getSinal() != B.getSinal()){
 		if (this->getSinal())
-			return true;
-		else
 			return false;
+		else
+			return true;
 	}
 	if (this->getQuantidadeAlgarismos() < B.getQuantidadeAlgarismos()){
 		return true;
@@ -229,11 +253,11 @@ bool InteiroLovelace::eMenorQue(InteiroLovelace &B){
 	return true;
 }
 
-bool InteiroLovelace::eMaiorOuIgualA(InteiroLovelace &B){
+bool InteiroLovelace::eMaiorOuIgualA(const InteiroLovelace &B){
 	return (this->eIgualA(B) || this->eMaiorQue(B));
 }
 
-bool InteiroLovelace::eMenorOuIgualA(InteiroLovelace &B){
+bool InteiroLovelace::eMenorOuIgualA(const InteiroLovelace &B){
 	return (this->eIgualA(B) || this->eMenorQue(B));
 }
 
