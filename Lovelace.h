@@ -19,6 +19,7 @@ class Lovelace{//Representa numero natural
 		void reduzirAlgarismos();
 		bool vefEhZeroBF();
 		int	removeZerosNaoSignificativos();
+
 		int getMenorDivisao(Lovelace &maior,Lovelace &menor,Lovelace &saida);
 		void concatenaNumeros(const Lovelace &maisSiginificativo,const Lovelace &menosSignificativo,Lovelace &saida);
 		void inverteNumero(const Lovelace &entrada, Lovelace &saida);
@@ -28,9 +29,6 @@ class Lovelace{//Representa numero natural
 
 	public:
 		//Ex membros privados que devem ser publicos para serem reutilizados nas subclasses
-		void inicializar();
-		void zerar();
-		void copiarAlgarismos(const Lovelace &deA, Lovelace &paraB);
 
 		static char TabelaDeConversao[10];
 

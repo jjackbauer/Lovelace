@@ -111,12 +111,7 @@ InteiroLovelace		InteiroLovelace::exponenciar(InteiroLovelace &A, Lovelace &X)
 
 	return resultado;
 }
-InteiroLovelace& 	InteiroLovelace::inversaoDeSinal(InteiroLovelace A)
-{
-	InteiroLovelace resultado;
 
-	return resultado;
-}
 InteiroLovelace 	InteiroLovelace::incrementar()
 {
 	InteiroLovelace resultado;
@@ -142,33 +137,6 @@ InteiroLovelace& 	InteiroLovelace::atribuir(const int &numero)
 	return resultado;
 }
 
-InteiroLovelace InteiroLovelace::somar(InteiroLovelace &A, InteiroLovelace &B){
-
-}
-
-InteiroLovelace InteiroLovelace::subtrair(InteiroLovelace &A, InteiroLovelace &B){
-
-}
-
-InteiroLovelace InteiroLovelace::multiplicar_burro(Lovelace &A, InteiroLovelace &B){
-
-}
-
-InteiroLovelace InteiroLovelace::multiplicar(InteiroLovelace &A, InteiroLovelace &B){
-
-}
-
-void  InteiroLovelace::dividir(InteiroLovelace &A, InteiroLovelace &B,InteiroLovelace &resultado,InteiroLovelace &resto){
-
-}
-
-InteiroLovelace InteiroLovelace::dividir_burro(InteiroLovelace &A, InteiroLovelace &B, bool quocienteOuResto){
-
-}
-
-InteiroLovelace	InteiroLovelace::exponenciar(Lovelace &A, Lovelace &X){ /* Tivemos uma idéia para melhorar a exponenciação*/
-
-}
 
 
 InteiroLovelace	InteiroLovelace::fatorial(){
@@ -183,22 +151,6 @@ InteiroLovelace& InteiroLovelace::inverterSinal(){
 	return resultado;
 }
 
-
-InteiroLovelace InteiroLovelace::incrementar(){
-
-}
-
-InteiroLovelace InteiroLovelace::decrementar(){
-
-}
-
-InteiroLovelace& InteiroLovelace::atribuir(unsigned long long int &numero){
-
-}
-
-InteiroLovelace& InteiroLovelace::atribuir(const int &numero){
-
-}
 
 bool InteiroLovelace::eIgualA(InteiroLovelace &B){
 	if (this == &B)
@@ -403,6 +355,4 @@ std::ostream &operator<<(std::ostream &out,InteiroLovelace &A){
 std::istream &operator>>(std::istream &in,InteiroLovelace &A){
 
 }
-
-
 

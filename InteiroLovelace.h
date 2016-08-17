@@ -13,6 +13,7 @@ class InteiroLovelace: public Lovelace
 	public:
 		InteiroLovelace();
 		InteiroLovelace(const InteiroLovelace &copiarInteiroLovelace);
+		InteiroLovelace(const Lovelace &copiarLovelace);
 		//	~InteiroLovelace();	// Não é necessário
 
 		bool getSinal() const;
@@ -80,4 +81,4 @@ class InteiroLovelace: public Lovelace
 };
 
 
-#endif /* INTEIROInteiroLovelace_H_ */
+#endif
