@@ -1,17 +1,12 @@
 #include "Lovelace.h"
-#include <iostream>
-#include <cstdlib>
-#include <cstdio>
-#include <utility>
-#define pause cout<<"Aperte enter para continuar..."<<endl; getchar();
-#define pauseclear pause system(clear || cls);
+
 using namespace std;
 
 char Lovelace::TabelaDeConversao[] = {'0','1','2','3','4','5','6','7','8','9'};
 long long int Lovelace::algarismosExibicao = -1;
 
-void Lovelace::errorMessage(string mesage) const{
-	cout<<mesage<<endl;
+void Lovelace::errorMessage(string message) const{
+	cout << message << endl;
 	pause;
 	exit(1);
 }

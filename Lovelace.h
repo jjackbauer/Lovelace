@@ -2,6 +2,12 @@
 #define LOVELACE_H
 #include <iostream>
 #include <cstdlib>
+#include <cstdio>
+#include <utility>
+#include <string>
+
+#define pause cout<<"Aperte enter para continuar..."<<endl; getchar();
+#define pauseclear pause system(clear || cls);
 
 using namespace std;
 
@@ -11,7 +17,7 @@ class Lovelace{//Representa numero natural
 		void inicializar();
 		void zerar();
 		void copiarAlgarismos(const Lovelace &deA, Lovelace &paraB);
-		void errorMessage(string mesage);
+		void errorMessage(string message) const;
 	private:
 		long long int tamanho;
 		long long int quantidadeAlgarismos;
@@ -35,7 +41,6 @@ class Lovelace{//Representa numero natural
 
 		static long long int getAlgarismosExibicao();
 		static void setAlgarismosExibicao(long long int novoAlgarismosExibicao);
-		void errorMessage(string mesage) const;
 
 		Lovelace();
 		Lovelace(const Lovelace &copiarLovelace);
