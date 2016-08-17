@@ -26,7 +26,7 @@ class InteiroLovelace: public Lovelace
 		InteiroLovelace 	dividir_burro(InteiroLovelace &A, InteiroLovelace &B, bool quocienteOuResto = true);
 		InteiroLovelace		exponenciar(Lovelace &A, Lovelace &X); /* Tivemos uma idéia para melhorar a exponenciação*/
 		InteiroLovelace		fatorial();
-		InteiroLovelace& 	inversaoDeSinal(InteiroLovelace A);
+		InteiroLovelace& 	inverterSinal();
 		InteiroLovelace 	incrementar();
 		InteiroLovelace 	decrementar();
 		InteiroLovelace& 	atribuir(unsigned long long int &numero);
@@ -38,8 +38,6 @@ class InteiroLovelace: public Lovelace
 		bool eMenorQue(InteiroLovelace &B);
 		bool eMaiorOuIgualA(InteiroLovelace &B);
 		bool eMenorOuIgualA(InteiroLovelace &B);
-		bool ePar();
-		bool eImpar();
 
 		InteiroLovelace& operator=(InteiroLovelace &B);
 		InteiroLovelace& operator=(const InteiroLovelace &B); 	// Tem que ser implementado para

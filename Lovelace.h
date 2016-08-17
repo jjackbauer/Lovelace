@@ -6,8 +6,12 @@
 using namespace std;
 
 class Lovelace{//Representa numero natural
-	private:
+	protected:
 		char *algarismos;
+		void inicializar();
+		void zerar();
+		void copiarAlgarismos(const Lovelace &deA, Lovelace &paraB);
+	private:
 		long long int tamanho;
 		long long int quantidadeAlgarismos;
 		bool zero;	//Alterada para melhor uso;
@@ -15,13 +19,10 @@ class Lovelace{//Representa numero natural
 		void reduzirAlgarismos();
 		bool vefEhZeroBF();
 		int	removeZerosNaoSignificativos();
-		void copiarAlgarismos(const Lovelace &deA, Lovelace &paraB);
 		int getMenorDivisao(Lovelace &maior,Lovelace &menor,Lovelace &saida);
 		void concatenaNumeros(const Lovelace &maisSiginificativo,const Lovelace &menosSignificativo,Lovelace &saida);
 		void inverteNumero(const Lovelace &entrada, Lovelace &saida);
 
-		void inicializar();
-		void zerar();
 		static long long int algarismosExibicao;
 		static long long int Precisao;
 
