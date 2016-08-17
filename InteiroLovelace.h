@@ -18,48 +18,48 @@ class InteiroLovelace: public Lovelace
 
 		bool getSinal() const;
 		void setSinal(bool novoSinal);
-		void toLovelace(const InteiroLovelace &entrada,Lovelace &saida);
+		void toLovelace(Lovelace &saida) const;
 
-		InteiroLovelace 	somar(InteiroLovelace &A, InteiroLovelace &B);
-		InteiroLovelace 	subtrair(InteiroLovelace &A, InteiroLovelace &B);
-		//InteiroLovelace 	multiplicar_burro(Lovelace &A, InteiroLovelace &B); //Não se faz burrice duas vezes kkkk
-		InteiroLovelace 	multiplicar(InteiroLovelace &A, InteiroLovelace &B);
-		void     			dividir(InteiroLovelace &A, InteiroLovelace &B,InteiroLovelace &resultado,InteiroLovelace &resto);
-		//InteiroLovelace 	dividir_burro(InteiroLovelace &A, InteiroLovelace &B, bool quocienteOuResto = true); //eu espero!
-		InteiroLovelace		exponenciar(InteiroLovelace &A, Lovelace &X); /* Tivemos uma idéia para melhorar a exponenciação*/
-		InteiroLovelace		fatorial();
-		InteiroLovelace& 	inverterSinal();
+		InteiroLovelace 	somar(const InteiroLovelace &B) const;
+		InteiroLovelace 	subtrair(const InteiroLovelace &B) const;
+		//InteiroLovelace 	multiplicar_burro(const InteiroLovelace &B) const; //Não se faz burrice duas vezes kkkk
+		InteiroLovelace 	multiplicar(const InteiroLovelace &B) const;
+		void     			dividir(const InteiroLovelace &B,InteiroLovelace &resultado,InteiroLovelace &resto) const;
+		//InteiroLovelace 	dividir_burro(const InteiroLovelace &B, bool quocienteOuResto = true) const; //eu espero!
+		InteiroLovelace		exponenciar(const InteiroLovelace &X) const; /* Tivemos uma idéia para melhorar a exponenciação*/
+		InteiroLovelace		fatorial() const;
+		InteiroLovelace 	inverterSinal() const;
 		InteiroLovelace 	incrementar();
 		InteiroLovelace 	decrementar();
-		InteiroLovelace& 	atribuir(unsigned long long int &numero);
+		InteiroLovelace& 	atribuir(const long long int &numero);
 		InteiroLovelace& 	atribuir(const int &numero);
 
-		bool eIgualA(InteiroLovelace &B);
-		bool eDiferenteDe(InteiroLovelace &B);
-		bool eMaiorQue(InteiroLovelace &B);
-		bool eMenorQue(InteiroLovelace &B);
-		bool eMaiorOuIgualA(InteiroLovelace &B);
-		bool eMenorOuIgualA(InteiroLovelace &B);
+		bool eIgualA(const InteiroLovelace &B) const;
+		bool eDiferenteDe(const InteiroLovelace &B) const;
+		bool eMaiorQue(const InteiroLovelace &B) const;
+		bool eMenorQue(const InteiroLovelace &B) const;
+		bool eMaiorOuIgualA(const InteiroLovelace &B) const;
+		bool eMenorOuIgualA(const InteiroLovelace &B) const;
 
 		InteiroLovelace& operator=(InteiroLovelace &B);
 		InteiroLovelace& operator=(const InteiroLovelace &B); 	// Tem que ser implementado para
 											//	copiar os conteúdos de *algarismos
-		InteiroLovelace& operator=(unsigned long long int &numero);
+		InteiroLovelace& operator=(const long long int &numero);
 		InteiroLovelace& operator=(const int &numero);
-		InteiroLovelace& operator+=(InteiroLovelace &B);
-		InteiroLovelace& operator-=(InteiroLovelace &B);
-		InteiroLovelace& operator*=(InteiroLovelace &B);
-		InteiroLovelace& operator/=(InteiroLovelace &B);
-		InteiroLovelace& operator%=(InteiroLovelace &B);
-		InteiroLovelace& operator^=(InteiroLovelace &B);
+		InteiroLovelace& operator+=(const InteiroLovelace &B);
+		InteiroLovelace& operator-=(const InteiroLovelace &B);
+		InteiroLovelace& operator*=(const InteiroLovelace &B);
+		InteiroLovelace& operator/=(const InteiroLovelace &B);
+		InteiroLovelace& operator%=(const InteiroLovelace &B);
+		InteiroLovelace& operator^=(const InteiroLovelace &B);
 
 		/*	Operações Aritméticas 	*/
-		InteiroLovelace operator+(InteiroLovelace &B);
-		InteiroLovelace operator-(InteiroLovelace &B);
-		InteiroLovelace operator*(InteiroLovelace &B);
-		InteiroLovelace operator/(InteiroLovelace &B);
-		InteiroLovelace operator%(InteiroLovelace &B);
-		InteiroLovelace operator^(InteiroLovelace &B);
+		InteiroLovelace operator+(const InteiroLovelace &B) const;
+		InteiroLovelace operator-(const InteiroLovelace &B) const;
+		InteiroLovelace operator*(const InteiroLovelace &B) const;
+		InteiroLovelace operator/(const InteiroLovelace &B) const;
+		InteiroLovelace operator%(const InteiroLovelace &B) const;
+		InteiroLovelace operator^(const InteiroLovelace &B) const;
 
 		/*	Operações Inc/Dec 	*/
 		InteiroLovelace& operator++();
@@ -68,15 +68,15 @@ class InteiroLovelace: public Lovelace
 		InteiroLovelace operator--(int semuso);
 
 		/* 	Operações de Comparação 	*/
-		friend bool operator==(InteiroLovelace &A, InteiroLovelace &B);
-		friend bool operator!=(InteiroLovelace &A, InteiroLovelace &B);
-		friend bool operator>(InteiroLovelace &A, InteiroLovelace &B);
-		friend bool operator<(InteiroLovelace &A, InteiroLovelace &B);
-		friend bool operator>=(InteiroLovelace &A, InteiroLovelace &B);
-		friend bool operator<=(InteiroLovelace &A, InteiroLovelace &B);
+		friend bool operator==(const InteiroLovelace &A, const InteiroLovelace &B);
+		friend bool operator!=(const InteiroLovelace &A, const InteiroLovelace &B);
+		friend bool operator>(const InteiroLovelace &A, const InteiroLovelace &B);
+		friend bool operator<(const InteiroLovelace &A, const InteiroLovelace &B);
+		friend bool operator>=(const InteiroLovelace &A, const InteiroLovelace &B);
+		friend bool operator<=(const InteiroLovelace &A, const InteiroLovelace &B);
 
 		/*	Operações de Ext/Ins de Fluxo 	*/
-		friend std::ostream &operator<<(std::ostream &out,InteiroLovelace &A);
+		friend std::ostream &operator<<(std::ostream &out,const InteiroLovelace &A);
 		friend std::istream &operator>>(std::istream &in,InteiroLovelace &A);
 };
 

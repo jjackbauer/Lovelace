@@ -20,9 +20,9 @@ class Lovelace{//Representa numero natural
 		bool vefEhZeroBF();
 		int	removeZerosNaoSignificativos();
 
-		int getMenorDivisao(Lovelace &maior,Lovelace &menor,Lovelace &saida);
-		void concatenaNumeros(const Lovelace &maisSiginificativo,const Lovelace &menosSignificativo,Lovelace &saida);
-		void inverteNumero(const Lovelace &entrada, Lovelace &saida);
+		int getMenorDivisao(const Lovelace &maior,const Lovelace &menor,Lovelace &saida) const;
+		void concatenaNumeros(const Lovelace &maisSiginificativo,const Lovelace &menosSignificativo,Lovelace &saida) const;
+		void inverteNumero(Lovelace &saida) const;
 
 		static long long int algarismosExibicao;
 		static long long int Precisao;
@@ -34,13 +34,14 @@ class Lovelace{//Representa numero natural
 
 		static long long int getAlgarismosExibicao();
 		static void setAlgarismosExibicao(long long int novoAlgarismosExibicao);
+		void errorMessage(string mesage) const;
 
 		Lovelace();
 		Lovelace(const Lovelace &copiarLovelace);
 		Lovelace(const char*,int tamanho,int quantidadeAlgarismos,bool zero);
 
 		~Lovelace();
-		void imprimir()const;
+		void imprimir() const;
 		void imprimir(char separador) const;
 		void imprimirInfo(int opcao = 0) const;
 		void getBitwise(long long int Posicao,char &A, char &B) const;//Correção do diagrama: setor desnecessário
@@ -53,55 +54,54 @@ class Lovelace{//Representa numero natural
 		void setQuantidadeAlgarismos(long long int novaQuantidadeAlgarismos);
 		bool eZero() const; 	// Nome Redefinido de VerificarEZero para eZero
 						// Nome redefinido por possuir nome conflitante com atributo no diagrama UML.
-		bool naoEZero();
+		bool naoEZero() const;
 		void setZero(bool novoValor);
-		Lovelace somar(Lovelace &A, Lovelace &B);
-		Lovelace subtrair(Lovelace &A, Lovelace &B);
-		Lovelace multiplicar_burro(Lovelace &A, Lovelace &B);
-		Lovelace multiplicar(Lovelace &A, Lovelace &B);
-	    void     dividir(Lovelace &A, Lovelace &B,Lovelace &resultado,Lovelace &resto);
-		Lovelace dividir_burro(Lovelace &A, Lovelace &B, bool quocienteOuResto = true);
+		Lovelace somar(const Lovelace &B) const;
+		Lovelace subtrair(const Lovelace &B) const;
+		Lovelace multiplicar_burro(const Lovelace &B) const;
+		Lovelace multiplicar(const Lovelace &B) const;
+	    void     dividir(const Lovelace &B,Lovelace &resultado,Lovelace &resto) const;
+		Lovelace dividir_burro(const Lovelace &B, bool quocienteOuResto = true) const;
 		/*Lovelace resto(Lovelace &A, Lovelace &B);
 		Lovelace resto_burro(Lovelace &A, Lovelace &B);*/
-		Lovelace exponenciar(Lovelace &A, Lovelace &X); /* Tivemos uma idéia para melhorar a exponenciação*/
-		Lovelace fatorial();
+		Lovelace exponenciar(const Lovelace &X) const; /* Tivemos uma idéia para melhorar a exponenciação*/
+		Lovelace fatorial() const;
 		Lovelace incrementar();
 		Lovelace decrementar();
-		Lovelace& atribuir(unsigned long long int &numero);
+		Lovelace& atribuir(unsigned long long int numero);
 		Lovelace& atribuir(const int &numero);
 		Lovelace& atribuir(const Lovelace& numero);
 
-
-		bool eIgualA(Lovelace &B);
-		bool eDiferenteDe(Lovelace &B);
-		bool eMaiorQue(Lovelace &B);
-		bool eMenorQue(Lovelace &B);
-		bool eMaiorOuIgualA(Lovelace &B);
-		bool eMenorOuIgualA(Lovelace &B);
-		bool ePar();
-		bool eImpar();
+		bool eIgualA(const Lovelace &B) const;
+		bool eDiferenteDe(const Lovelace &B) const;
+		bool eMaiorQue(const Lovelace &B) const;
+		bool eMenorQue(const Lovelace &B) const;
+		bool eMaiorOuIgualA(const Lovelace &B) const;
+		bool eMenorOuIgualA(const Lovelace &B) const;
+		bool ePar() const;
+		bool eImpar() const;
 
 		/*	Sobrecarga de Operadores	*/
 
 		Lovelace& operator=(Lovelace &B);//Porque tem essas duas implementações?
 		Lovelace& operator=(const Lovelace &B); 	// Tem que ser implementado para
 											//	copiar os conteúdos de *algarismos
-		Lovelace& operator=(unsigned long long int &numero);
+		Lovelace& operator=(const unsigned long long int &numero);
 		Lovelace& operator=(const int &numero);
-		Lovelace& operator+=(Lovelace &B);
-		Lovelace& operator-=(Lovelace &B);
-		Lovelace& operator*=(Lovelace &B);
-		Lovelace& operator/=(Lovelace &B);
-		Lovelace& operator%=(Lovelace &B);
-		Lovelace& operator^=(Lovelace &B);
+		Lovelace& operator+=(const Lovelace &B);
+		Lovelace& operator-=(const Lovelace &B);
+		Lovelace& operator*=(const Lovelace &B);
+		Lovelace& operator/=(const Lovelace &B);
+		Lovelace& operator%=(const Lovelace &B);
+		Lovelace& operator^=(const Lovelace &B);
 
 		/*	Operações Aritméticas 	*/
-		Lovelace operator+(Lovelace &B);
-		Lovelace operator-(Lovelace &B);
-		Lovelace operator*(Lovelace &B);
-		Lovelace operator/(Lovelace &B);
-		Lovelace operator%(Lovelace &B);
-		Lovelace operator^(Lovelace &B);
+		Lovelace operator+(const Lovelace &B) const;
+		Lovelace operator-(const Lovelace &B) const;
+		Lovelace operator*(const Lovelace &B) const;
+		Lovelace operator/(const Lovelace &B) const;
+		Lovelace operator%(const Lovelace &B) const;
+		Lovelace operator^(const Lovelace &B) const;
 
 		/*	Operações Inc/Dec 	*/
 		Lovelace& operator++();
@@ -110,16 +110,16 @@ class Lovelace{//Representa numero natural
 		Lovelace operator--(int semuso);
 
 		/* 	Operações de Comparação 	*/
-		friend bool operator==(Lovelace &A, Lovelace &B);
-		friend bool operator!=(Lovelace &A, Lovelace &B);
-		friend bool operator>(Lovelace &A, Lovelace &B);
-		friend bool operator<(Lovelace &A, Lovelace &B);
-		friend bool operator>=(Lovelace &A, Lovelace &B);
-		friend bool operator<=(Lovelace &A, Lovelace &B);
+		friend bool operator==(const Lovelace &A,const Lovelace &B);
+		friend bool operator!=(const Lovelace &A,const Lovelace &B);
+		friend bool operator>(const Lovelace &A,const Lovelace &B);
+		friend bool operator<(const Lovelace &A,const Lovelace &B);
+		friend bool operator>=(const Lovelace &A,const Lovelace &B);
+		friend bool operator<=(const Lovelace &A,const Lovelace &B);
 
 		/*	Operações de Ext/Ins de Fluxo 	*/
-		friend std::ostream &operator<<(std::ostream &out,Lovelace &A);
+		friend std::ostream &operator<<(std::ostream &out,const Lovelace &A);
 		friend std::istream &operator>>(std::istream &in,Lovelace &A);
 };
 
-#endif
+#endif /* LOVELACE_H_ */

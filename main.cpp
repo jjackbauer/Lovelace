@@ -162,7 +162,7 @@ void testes_Lovelace(){
 		case 5:		//	Multiplicação Burra
 			for (c1 = 0; c1 < quantidadeDeNumerosParaTestes; c1++){
 				for (c2 = 0; c2 < quantidadeDeNumerosParaTestes; c2++){
-					res = numero[c1].multiplicar_burro(numero[c1],numero[c2]);
+					res = numero[c1].multiplicar_burro(numero[c2]);
 					cout << letra[c1] << '*' << letra[c2] << " = " << res << endl;
 				}
 			}
@@ -186,7 +186,7 @@ void testes_Lovelace(){
 		case 8:		//	Divisão e Resto da Divisão
 			for (c1 = 0; c1 < quantidadeDeNumerosParaTestes; c1++){
 				for (c2 = 0; c2 < quantidadeDeNumerosParaTestes; c2++){
-					res.dividir(numero[c1],numero[c2],res,rr);
+					numero[c1].dividir(numero[c2],res,rr);
 					cout << letra[c1] << '/' << letra[c2] << " = " << res <<
 							letra[c1] << '%' << letra[c2] << " = " << rr << endl;
 				}
