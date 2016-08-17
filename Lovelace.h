@@ -27,6 +27,11 @@ class Lovelace{//Representa numero natural
 		static long long int Precisao;
 
 	public:
+		//Ex membros privados que devem ser publicos para serem reutilizados nas subclasses
+		void inicializar();
+		void zerar();
+		void copiarAlgarismos(const Lovelace &deA, Lovelace &paraB);
+
 		static char TabelaDeConversao[10];
 
 		static long long int getAlgarismosExibicao();
@@ -34,6 +39,8 @@ class Lovelace{//Representa numero natural
 
 		Lovelace();
 		Lovelace(const Lovelace &copiarLovelace);
+		Lovelace(const char*,int tamanho,int quantidadeAlgarismos,bool zero);
+
 		~Lovelace();
 		void imprimir()const;
 		void imprimir(char separador) const;
@@ -64,6 +71,7 @@ class Lovelace{//Representa numero natural
 		Lovelace decrementar();
 		Lovelace& atribuir(unsigned long long int &numero);
 		Lovelace& atribuir(const int &numero);
+		Lovelace& atribuir(const Lovelace& numero);
 
 
 		bool eIgualA(Lovelace &B);
@@ -77,7 +85,7 @@ class Lovelace{//Representa numero natural
 
 		/*	Sobrecarga de Operadores	*/
 
-		Lovelace& operator=(Lovelace &B);
+		Lovelace& operator=(Lovelace &B);//Porque tem essas duas implementações?
 		Lovelace& operator=(const Lovelace &B); 	// Tem que ser implementado para
 											//	copiar os conteúdos de *algarismos
 		Lovelace& operator=(unsigned long long int &numero);

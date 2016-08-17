@@ -3,12 +3,18 @@
 #include <cstdlib>
 #include <cstdio>
 #include <utility>
-
+#define pause cout<<"Aperte enter para continuar..."<<endl; getchar();
+#define pauseclear pause system(clear || cls);
 using namespace std;
 
 char Lovelace::TabelaDeConversao[] = {'0','1','2','3','4','5','6','7','8','9'};
 long long int Lovelace::algarismosExibicao = -1;
-
+void errorMessage(string mesage)
+{
+	cout<<mesage<<endl;
+	pause;
+	exit(1);
+}
 void Lovelace::expandirAlgarismos(){
 	char *saida= new char[getTamanho()+1];
 	if (!saida) {
@@ -112,7 +118,29 @@ Lovelace::Lovelace(const Lovelace &copiarLovelace){
 		copiarAlgarismos(copiarLovelace, *this);
 }
 //*/
+Lovelace::Lovelace(const char *algarismos,int tamanho,int quantidadeAlgarismos,bool zero)
+{
+	if(tamanho>0)
+	{
+		this->algarismos = new char[tamanho];
 
+		if(!this->algarismos)
+			errorMessage("Não foi possível alocar esta instância Lovelace");
+		else
+		{
+			setTamanho(tamanho);
+			setQuantidadeAlgarismos(quantidadeAlgarismos);
+			setZero(zero);
+			for(int c=0;c<tamanho;c++)
+				this->algarismos[c]=algarismos[c];
+		}
+
+	}
+	else
+	{
+		setZero(zero);
+	}
+}
 Lovelace::~Lovelace(){
 	if(!eZero())
 		free(algarismos);
@@ -315,7 +343,21 @@ Lovelace& Lovelace::atribuir(const int &numero){
 	unsigned long long int aux=numero;
 	return atribuir(aux);
 }
-
+Lovelace& Lovelace::atribuir(const Lovelace& B)
+{
+	if (&B != this){
+		if (!zero)
+			delete this->algarismos;
+		if (B.zero)
+			this->algarismos = NULL;
+		else
+			copiarAlgarismos(B,*this);
+		this->setQuantidadeAlgarismos(B.getQuantidadeAlgarismos());
+		this->setTamanho(B.getTamanho());
+		this->setZero(B.eZero());
+	}
+	return (*this);
+}
 Lovelace Lovelace::somar(Lovelace &A, Lovelace &B){
 	Lovelace resultado;
 	if (A.eZero()){
@@ -753,18 +795,7 @@ Lovelace& Lovelace::operator=(Lovelace &B){
 }
 
 Lovelace& Lovelace::operator=(const Lovelace &B){
-	if (&B != this){
-		if (!zero)
-			delete this->algarismos;
-		if (B.zero)
-			this->algarismos = NULL;
-		else
-			copiarAlgarismos(B,*this);
-		this->setQuantidadeAlgarismos(B.getQuantidadeAlgarismos());
-		this->setTamanho(B.getTamanho());
-		this->setZero(B.eZero());
-	}
-	return (*this);
+	return this->atribuir(B);
 }
 
 Lovelace& Lovelace::operator=(unsigned long long int &numero){
