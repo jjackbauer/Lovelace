@@ -40,10 +40,12 @@ bool InteiroLovelace::getSinal() const{
 void InteiroLovelace::setSinal(bool novoSinal){
 	sinal = novoSinal;
 }
+
 void InteiroLovelace::toLovelace(Lovelace &saida) const{
 	Lovelace aux(this->algarismos,this->getTamanho(),this->getQuantidadeAlgarismos(),this->eZero());
 	saida.atribuir(aux);
 }
+
 InteiroLovelace 	InteiroLovelace::somar(const InteiroLovelace &B) const{
 	Lovelace auxA,auxB;
 	bool sinalMaior;
@@ -62,6 +64,7 @@ InteiroLovelace 	InteiroLovelace::somar(const InteiroLovelace &B) const{
 		return resultado;
 	}
 }
+
 InteiroLovelace 	InteiroLovelace::subtrair(const InteiroLovelace &B) const{
 	Lovelace auxA,auxB;
 	bool sinalMaior;
@@ -114,6 +117,7 @@ void     InteiroLovelace::dividir(const InteiroLovelace &B,InteiroLovelace &resu
 		resultado=rest;//Mudar para atribuição
 	}
 }
+
 InteiroLovelace		InteiroLovelace::exponenciar(const InteiroLovelace &X) const{
 	if(!this->eZero() && X.eMaiorQue(ZERO)){
 		Lovelace auxA,auxX;
@@ -168,7 +172,6 @@ InteiroLovelace InteiroLovelace::inverterSinal() const{
 	return resultado;
 }
 
-
 bool InteiroLovelace::eIgualA(const InteiroLovelace &B) const{
 	if (this == &B)
 		return true;
@@ -185,6 +188,7 @@ bool InteiroLovelace::eIgualA(const InteiroLovelace &B) const{
 	}
 	return true;
 }
+
 
 bool InteiroLovelace::eDiferenteDe(const InteiroLovelace &B) const{
 	return !(this->eIgualA(B));
@@ -217,6 +221,7 @@ bool InteiroLovelace::eMaiorQue(const InteiroLovelace &B) const{
 		return false;
 	return true;
 }
+
 
 bool InteiroLovelace::eMenorQue(const InteiroLovelace &B) const{
 	if (this == &B)

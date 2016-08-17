@@ -2,6 +2,7 @@
 #define INTEIROLOVELACE_H
 #include "Lovelace.h"
 
+
 using namespace std;
 
 class InteiroLovelace: public Lovelace
@@ -29,10 +30,12 @@ class InteiroLovelace: public Lovelace
 		InteiroLovelace		exponenciar(const InteiroLovelace &X) const; /* Tivemos uma idéia para melhorar a exponenciação*/
 		InteiroLovelace		fatorial() const;
 		InteiroLovelace 	inverterSinal() const;
+
 		InteiroLovelace 	incrementar();
 		InteiroLovelace 	decrementar();
 		InteiroLovelace& 	atribuir(const long long int &numero);
 		InteiroLovelace& 	atribuir(const int &numero);
+
 
 		bool eIgualA(const InteiroLovelace &B) const;
 		bool eDiferenteDe(const InteiroLovelace &B) const;
@@ -46,6 +49,7 @@ class InteiroLovelace: public Lovelace
 											//	copiar os conteúdos de *algarismos
 		InteiroLovelace& operator=(const long long int &numero);
 		InteiroLovelace& operator=(const int &numero);
+
 		InteiroLovelace& operator+=(const InteiroLovelace &B);
 		InteiroLovelace& operator-=(const InteiroLovelace &B);
 		InteiroLovelace& operator*=(const InteiroLovelace &B);
