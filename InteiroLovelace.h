@@ -22,11 +22,11 @@ class InteiroLovelace: public Lovelace
 
 		InteiroLovelace 	somar(InteiroLovelace &A, InteiroLovelace &B);
 		InteiroLovelace 	subtrair(InteiroLovelace &A, InteiroLovelace &B);
-		InteiroLovelace 	multiplicar_burro(Lovelace &A, InteiroLovelace &B);
+		//InteiroLovelace 	multiplicar_burro(Lovelace &A, InteiroLovelace &B); //Não se faz burrice duas vezes kkkk
 		InteiroLovelace 	multiplicar(InteiroLovelace &A, InteiroLovelace &B);
 		void     			dividir(InteiroLovelace &A, InteiroLovelace &B,InteiroLovelace &resultado,InteiroLovelace &resto);
-		InteiroLovelace 	dividir_burro(InteiroLovelace &A, InteiroLovelace &B, bool quocienteOuResto = true);
-		InteiroLovelace		exponenciar(Lovelace &A, Lovelace &X); /* Tivemos uma idéia para melhorar a exponenciação*/
+		//InteiroLovelace 	dividir_burro(InteiroLovelace &A, InteiroLovelace &B, bool quocienteOuResto = true); //eu espero!
+		InteiroLovelace		exponenciar(InteiroLovelace &A, Lovelace &X); /* Tivemos uma idéia para melhorar a exponenciação*/
 		InteiroLovelace		fatorial();
 		InteiroLovelace& 	inversaoDeSinal(InteiroLovelace A);
 		InteiroLovelace 	incrementar();
