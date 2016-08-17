@@ -1,72 +1,34 @@
 #include "InteiroLovelace.h"
 
-InteiroLovelace::InteiroLovelace()
-{
-
+InteiroLovelace::InteiroLovelace(){
+	inicializar();
 }
-InteiroLovelace::~InteiroLovelace()
-{
 
+InteiroLovelace::InteiroLovelace(const InteiroLovelace &copiarInteiroLovelace){
+	setTamanho(copiarInteiroLovelace.getTamanho());
+	setQuantidadeAlgarismos(copiarInteiroLovelace.getQuantidadeAlgarismos());
+	setZero(copiarInteiroLovelace.eZero());
+	setSinal(copiarInteiroLovelace.getSinal());
+	if (!copiarInteiroLovelace.eZero())
+		copiarAlgarismos(copiarInteiroLovelace, *this);
 }
-InteiroLovelace& InteiroLovelace::Atribuicao(int A)
-{
-	InteiroLovelace *res=(InteiroLovelace*)malloc(sizeof(InteiroLovelace));
 
-	return *res;
+void InteiroLovelace::inicializar(){
+	Lovelace::inicializar();
+	setSinal(false);
 }
-InteiroLovelace& InteiroLovelace::Atribuicao(InteiroLovelace &A, InteiroLovelace B)
-{
-	InteiroLovelace *res=(InteiroLovelace*)malloc(sizeof(InteiroLovelace));
 
-	return *res;
+void InteiroLovelace::zerar(){
+	Lovelace::zerar();
+	setSinal(false);
 }
-InteiroLovelace& InteiroLovelace::Soma(InteiroLovelace A, InteiroLovelace B)
-{
-	InteiroLovelace *res=(InteiroLovelace*)malloc(sizeof(InteiroLovelace));
 
-	return *res;
+bool InteiroLovelace::getSinal() const{
+	return sinal;
 }
-InteiroLovelace& InteiroLovelace::Subtracao(InteiroLovelace A, InteiroLovelace B)
-{
-	InteiroLovelace *res=(InteiroLovelace*)malloc(sizeof(InteiroLovelace));
 
-	return *res;
-}
-InteiroLovelace& InteiroLovelace::Multiplicacao(InteiroLovelace A, InteiroLovelace B)
-{
-	InteiroLovelace *res=(InteiroLovelace*)malloc(sizeof(InteiroLovelace));
-
-	return *res;
-}
-InteiroLovelace& InteiroLovelace::Divisao(InteiroLovelace A, InteiroLovelace B)
-{
-	InteiroLovelace *res=(InteiroLovelace*)malloc(sizeof(InteiroLovelace));
-
-	return *res;
-}
-InteiroLovelace& InteiroLovelace::InversaoDeSinal(InteiroLovelace A)
-{
-	InteiroLovelace *res=(InteiroLovelace*)malloc(sizeof(InteiroLovelace));
-
-	return *res;
-}
-InteiroLovelace& InteiroLovelace::Inversao(InteiroLovelace A)
-{
-	InteiroLovelace *res=(InteiroLovelace*)malloc(sizeof(InteiroLovelace));
-
-				return *res;
-}
-InteiroLovelace& InteiroLovelace::Exponenciacao(InteiroLovelace A, InteiroLovelace X)
-{
-	InteiroLovelace *res=(InteiroLovelace*)malloc(sizeof(InteiroLovelace));
-
-	return *res;
-}
-InteiroLovelace& InteiroLovelace::Fatorial(InteiroLovelace N)
-{
-	InteiroLovelace *res=(InteiroLovelace*)malloc(sizeof(InteiroLovelace));
-
-	return *res;
+void InteiroLovelace::setSinal(bool novoSinal){
+	sinal = novoSinal;
 }
 
 
