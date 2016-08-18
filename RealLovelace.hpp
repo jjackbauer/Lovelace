@@ -9,6 +9,8 @@ class RealLovelace: public InteiroLovelace{
 	private:
 		long long int expoente;
 		static long long int casasDecimaisExibicao;
+		InteiroLovelace& toInteiroLovelace(long long int zeros=0);
+		void digitosToBitwise(long long int tamanho,char * entrada,char* saida);
 	public:
 
 		//Construtores

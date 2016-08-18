@@ -16,6 +16,9 @@ class InteiroLovelace: public Lovelace
 		InteiroLovelace();
 		InteiroLovelace(const InteiroLovelace &copiarInteiroLovelace);
 		InteiroLovelace(const Lovelace &copiarLovelace);
+		InteiroLovelace(const char *algarismos,int tamanho,int quantidadeAlgarismos,bool zero,bool sinal);
+
+
 		//	~InteiroLovelace();	// Não é necessário
 
 		void imprimir() const;

@@ -22,7 +22,12 @@ InteiroLovelace::InteiroLovelace(const Lovelace &copiarLovelace)
 	if (!copiarLovelace.eZero())
 		copiarAlgarismos(copiarLovelace, *this);
 }
+InteiroLovelace::InteiroLovelace(const char *algarismos,int tamanho,int quantidadeAlgarismos,bool zero,bool sinal)
+: Lovelace(algarismos,tamanho,quantidadeAlgarismos,zero)
+{
+	setSinal(sinal);
 
+}
 void InteiroLovelace::inicializar(){
 	Lovelace::inicializar();
 	setSinal(true);
