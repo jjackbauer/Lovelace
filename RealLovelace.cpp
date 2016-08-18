@@ -176,6 +176,7 @@ void RealLovelace::imprimir() const
 	for(int c=getQuantidadeAlgarismos()-1;c>-1;c--)
 	{
 		//teste
+		//teste2
 	}
 }
 void RealLovelace::ler()
