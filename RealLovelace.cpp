@@ -171,7 +171,12 @@ RealLovelace RealLovelace::exponenciar(RealLovelace X) const
 }
 void RealLovelace::imprimir() const
 {
+	cout<<getSinal()?"+":"-";
 
+	for(int c=getQuantidadeAlgarismos()-1;c>-1;c--)
+	{
+		//teste
+	}
 }
 void RealLovelace::ler()
 {
