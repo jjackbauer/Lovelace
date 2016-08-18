@@ -15,8 +15,36 @@ void testes_VetorLovelace();
 void testes_VetorMultidimensionalLovelace();
 
 int main(){
-	while (char opcao = 1){
-		testes_Lovelace();
+	char opcao = 1;
+	while (opcao != '0'){
+		cout << "Selecione qual Classe Lovelace deseja testar: " << endl;
+		cout << "[1] - Lovelace" << endl;
+		cout << "[2] - InteiroLovelace" << endl;
+		cout << "[3] - RealLovelace" << endl;
+		cout << "[4] - VetorLovelace" << endl;
+		cout << "[5] - VetorMultidimensionalLovelace" << endl;
+		cout << ": ";
+		cin >> opcao;
+		switch(opcao){
+			case '1':
+				testes_Lovelace();
+				break;
+			case '2':
+				testes_InteiroLovelace();
+				break;
+			case '3':
+				//testes_RealLovelace();
+				break;
+			case '4':
+				//testes_VetorLovelace();
+				break;
+			case '5':
+				//testes_VetorMultidimensionalLovelace();
+				break;
+			default:
+				testes_Lovelace();
+				break;
+		}
 		cout << "Deseja fazer outro teste? [0] Sair [1] Sim." << endl;
 		cin >> opcao;
 	}
@@ -192,7 +220,7 @@ void testes_Lovelace(){
 			for (c1 = 0; c1 < quantidadeDeNumerosParaTestes; c1++){
 				for (c2 = 0; c2 < quantidadeDeNumerosParaTestes; c2++){
 					numero[c1].dividir(numero[c2],res,rr);
-					cout << letra[c1] << '/' << letra[c2] << " = " << res <<
+					cout << letra[c1] << '/' << letra[c2] << " = " << res << "  " <<
 							letra[c1] << '%' << letra[c2] << " = " << rr << endl;
 				}
 			}
@@ -229,40 +257,31 @@ void testes_InteiroLovelace(){
 	cout << "[1] Teste 1 - 		[-]	Subtração" << endl;
 	cout << "[2] Teste 2 - 		[>]	Comparações" << endl;
 	cout << "[3] Teste 3 - 		[+]	Adição" << endl;
-	cout << "[4] Teste 4 - 		[*]	Multiplicação Burra" << endl;
-	cout << "[5] Teste 5 - 		[*]	Multiplicação" << endl;
-	cout << "[6] Teste 6 - 		[^]	Exponenciação" << endl;
-	cout << "[7] Teste 7 - 		[/]	Divisão Burra" << endl;
-	cout << "[8] Teste 8 - 		[/]	Divisão e Resto" << endl;
-	cout << "[9] Teste 9 - 		[!]	Fatorial" << endl;
-	cout << "[10] Teste 10 - 	[%]	Resto da Divisão Burra" << endl;
-	cout << "[11] Teste 11 - 	[%]	Resto da Divisão" << endl;
+	cout << "[4] Teste 4 - 		[*]	Multiplicação" << endl;
+	cout << "[5] Teste 5 - 		[^]	Exponenciação" << endl;
+	cout << "[6] Teste 6 - 		[/]	Divisão e Resto" << endl;
+	cout << "[7] Teste 7 - 		[!]	Fatorial" << endl;
+	cout << "[8] Teste 8 - 		[%]	Resto da Divisão" << endl;
 
 	map<int, string> cabecalhos;
 	map<int, char> operadores;
 	map<int, char> letra;
 	cabecalhos[1] = "1 - Subtração de Valores";
-	cabecalhos[1] = "2 - Comparação de Valores";
+	cabecalhos[2] = "2 - Comparação de Valores";
 	cabecalhos[3] = "3 - Adição de Valores";
-	cabecalhos[4] = "4 - Multiplicação Burra de Valores";
-	cabecalhos[5] = "5 - Multiplicação de Valores";
-	cabecalhos[6] = "6 - Exponenciação de Valores";
-	cabecalhos[7] = "7 - Divisão Burra de Valores";
-	cabecalhos[8] = "8 - Divisão e Resto da Divisão de Valores";
-	cabecalhos[9] = "9 - Fatorial de Valores";
-	cabecalhos[10] = "10 - Resto da Divisão Burra de Valores";
-	cabecalhos[11] = "11 - Resto da Divisão de Valores";
+	cabecalhos[4] = "4 - Multiplicação de Valores";
+	cabecalhos[5] = "5 - Exponenciação de Valores";
+	cabecalhos[6] = "6 - Divisão e Resto da Divisão de Valores";
+	cabecalhos[7] = "7 - Fatorial de Valores";
+	cabecalhos[8] = "8 - Resto da Divisão de Valores";
 	operadores[1] = '-';
 	operadores[2] = '>';
 	operadores[3] = '+';
 	operadores[4] = '*';
-	operadores[5] = '*';
-	operadores[6] = '^';
-	operadores[7] = '/';
-	operadores[8] = '/';
-	operadores[9] = '!';
-	operadores[10] = '%';
-	operadores[11] = '%';
+	operadores[5] = '^';
+	operadores[6] = '/';
+	operadores[7] = '!';
+	operadores[8] = '%';
 	letra[0] = 'A';
 	letra[1] = 'B';
 	letra[2] = 'C';
@@ -311,7 +330,7 @@ void testes_InteiroLovelace(){
 			cout << endl;
 			for (c1 = 0; c1 < quantidadeDeNumerosParaTestes; c1++){
 				for (c2 = 0; c2 < quantidadeDeNumerosParaTestes; c2++){
-					cout << letra[c1] << " (" << numero[c1] << ")" <<
+					cout << letra[c1] << " (" << numero[c1] << ") " <<
 							((numero[c1]!=numero[c2])?"":"nao ") <<
 							"eh diferente de " << letra[c2] <<  " (" << numero[c2] << ")" << endl;
 				}
@@ -319,7 +338,7 @@ void testes_InteiroLovelace(){
 			cout << endl;
 			for (c1 = 0; c1 < quantidadeDeNumerosParaTestes; c1++){
 				for (c2 = 0; c2 < quantidadeDeNumerosParaTestes; c2++){
-					cout << letra[c1] << " (" << numero[c1] << ")" <<
+					cout << letra[c1] << " (" << numero[c1] << ") " <<
 							((numero[c1]>numero[c2])?"":"nao ") <<
 							"eh maior que " << letra[c2] <<  " (" << numero[c2] << ")" << endl;
 				}
@@ -327,7 +346,7 @@ void testes_InteiroLovelace(){
 			cout << endl;
 			for (c1 = 0; c1 < quantidadeDeNumerosParaTestes; c1++){
 				for (c2 = 0; c2 < quantidadeDeNumerosParaTestes; c2++){
-					cout << letra[c1] << " (" << numero[c1] << ")" <<
+					cout << letra[c1] << " (" << numero[c1] << ") " <<
 							((numero[c1]<numero[c2])?"":"nao ") <<
 							"eh menor que " << letra[c2] <<  " (" << numero[c2] << ")" << endl;
 				}
@@ -335,7 +354,7 @@ void testes_InteiroLovelace(){
 			cout << endl;
 			for (c1 = 0; c1 < quantidadeDeNumerosParaTestes; c1++){
 				for (c2 = 0; c2 < quantidadeDeNumerosParaTestes; c2++){
-					cout << letra[c1] << " (" << numero[c1] << ")" <<
+					cout << letra[c1] << " (" << numero[c1] << ") " <<
 							((numero[c1]>=numero[c2])?"":"nao ") <<
 							"eh maior ou igual a " << letra[c2] <<  " (" << numero[c2] << ")" << endl;
 				}
@@ -343,7 +362,7 @@ void testes_InteiroLovelace(){
 			cout << endl;
 			for (c1 = 0; c1 < quantidadeDeNumerosParaTestes; c1++){
 				for (c2 = 0; c2 < quantidadeDeNumerosParaTestes; c2++){
-					cout << letra[c1] << " (" << numero[c1] << ")" <<
+					cout << letra[c1] << " (" << numero[c1] << ") " <<
 							((numero[c1]<=numero[c2])?"":"nao ") <<
 							"eh menor ou igual a " << letra[c2] <<  " (" << numero[c2] << ")" << endl;
 				}
@@ -365,15 +384,7 @@ void testes_InteiroLovelace(){
 				}
 			}
 			break;
-		case 5:		//	Multiplicação Burra
-			for (c1 = 0; c1 < quantidadeDeNumerosParaTestes; c1++){
-				for (c2 = 0; c2 < quantidadeDeNumerosParaTestes; c2++){
-					res = numero[c1].multiplicar_burro(numero[c2]);
-					cout << letra[c1] << '*' << letra[c2] << " = " << res << endl;
-				}
-			}
-			break;
-		case 6:		//	Exponenciação
+		case 5:		//	Exponenciação
 			for (c1 = 0; c1 < quantidadeDeNumerosParaTestes; c1++){
 				for (c2 = 0; c2 < quantidadeDeNumerosParaTestes; c2++){
 					res = numero[c1]^numero[c2];
@@ -381,30 +392,22 @@ void testes_InteiroLovelace(){
 				}
 			}
 			break;
-		case 7:		//	Divisão Burra
-			for (c1 = 0; c1 < quantidadeDeNumerosParaTestes; c1++){
-				for (c2 = 0; c2 < quantidadeDeNumerosParaTestes; c2++){
-					res = numero[c1]/numero[c2];
-					cout << letra[c1] << '/' << letra[c2] << " = " << res << endl;
-				}
-			}
-			break;
-		case 8:		//	Divisão e Resto da Divisão
+		case 6:		//	Divisão e Resto da Divisão
 			for (c1 = 0; c1 < quantidadeDeNumerosParaTestes; c1++){
 				for (c2 = 0; c2 < quantidadeDeNumerosParaTestes; c2++){
 					numero[c1].dividir(numero[c2],res,rr);
-					cout << letra[c1] << '/' << letra[c2] << " = " << res <<
+					cout << letra[c1] << '/' << letra[c2] << " = " << res <<  "  " <<
 							letra[c1] << '%' << letra[c2] << " = " << rr << endl;
 				}
 			}
 			break;
-		case 9:		//	Fatorial
+		case 7:		//	Fatorial
 			for (c1 = 0; c1 < quantidadeDeNumerosParaTestes; c1++){
 					res = numero[c1].fatorial();
 					cout << letra[c1] <<  "! = " << res << endl;
 			}
 			break;
-		case 10:	//	Resto da Divisão
+		case 8:	//	Resto da Divisão
 			for (c1 = 0; c1 < quantidadeDeNumerosParaTestes; c1++){
 				for (c2 = 0; c2 < quantidadeDeNumerosParaTestes; c2++){
 					res = numero[c1]%numero[c2];

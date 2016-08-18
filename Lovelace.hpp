@@ -27,6 +27,7 @@ class Lovelace{//Representa numero natural
 		bool vefEhZeroBF();
 		int	removeZerosNaoSignificativos();
 
+
 		int getMenorDivisao(const Lovelace &maior,const Lovelace &menor,Lovelace &saida) const;
 		void concatenaNumeros(const Lovelace &maisSiginificativo,const Lovelace &menosSignificativo,Lovelace &saida) const;
 		void inverteNumero(Lovelace &saida) const;
@@ -76,7 +77,8 @@ class Lovelace{//Representa numero natural
 		Lovelace decrementar();
 		Lovelace& atribuir(unsigned long long int numero);
 		Lovelace& atribuir(const int &numero);
-		Lovelace& atribuir(const Lovelace& numero);
+		Lovelace& atribuir(const Lovelace &B);
+		Lovelace& atribuir(string numeroEmString);
 
 		bool eIgualA(const Lovelace &B) const;
 		bool eDiferenteDe(const Lovelace &B) const;

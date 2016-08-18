@@ -172,6 +172,8 @@ void Lovelace::getBitwise(long long int Posicao,char &A, char &B) const{
 }
 
 char Lovelace::getDigito(long long int Posicao) const{
+	if (eZero())
+		return TabelaDeConversao[0];
 	if (Posicao>=0 && Posicao < getQuantidadeAlgarismos()){//Tinha bug aqui, bug maldito kkkkkkkkk
 		char A,B;
 		getBitwise(Posicao/2,A,B);
@@ -182,9 +184,7 @@ char Lovelace::getDigito(long long int Posicao) const{
 		//cout<<"Acesso Invalido Digito"<<endl;
 		return 0;
 	}
-
 	return 0;
-
 }
 void Lovelace::setDigito(long long int Posicao, char Digito){
 		//	Validar também para aceitar somente dígitos entre 0 9?
@@ -309,7 +309,7 @@ void Lovelace::imprimirInfo(int opcao) const{
 
 Lovelace Lovelace::incrementar(){
 	Lovelace aux;
-	aux.setDigito(0,1);//aux=1; Equivalente apÃ³s sobrecarga //Remover depois de fazer a base pro java!
+	aux.setDigito(0,1);//aux=1; Equivalente após sobrecarga //Remover depois de fazer a base pro java!
 	return ((*this) = somar(aux));
 }
 
@@ -320,12 +320,12 @@ Lovelace Lovelace::decrementar(){
 }
 
 Lovelace& Lovelace::atribuir(unsigned long long int numero){
-	int c,k;
-	unsigned long long int aux=10;
 	if (numero == 0) {
 		this->inicializar();
 	}
 	else {
+		int c,k;
+		unsigned long long int aux=10;
 		for(c=0;c<20 && numero ;c++,aux*=10){
 			k = numero%aux;
 			numero-=k;
@@ -335,16 +335,17 @@ Lovelace& Lovelace::atribuir(unsigned long long int numero){
 	}
 	return (*this);
 }
+
 Lovelace& Lovelace::atribuir(const int &numero){
 	unsigned long long int aux=numero;
 	return atribuir(aux);
 }
-Lovelace& Lovelace::atribuir(const Lovelace& B)
-{
+
+Lovelace& Lovelace::atribuir(const Lovelace& B){
 	if (&B != this){
-		if (!zero)
+		if (naoEZero())
 			delete this->algarismos;
-		if (B.zero)
+		if (B.eZero())
 			this->algarismos = NULL;
 		else
 			copiarAlgarismos(B,*this);
@@ -354,6 +355,31 @@ Lovelace& Lovelace::atribuir(const Lovelace& B)
 	}
 	return (*this);
 }
+
+Lovelace& Lovelace::atribuir(string numeroEmString){
+	unsigned long long int tamanho;
+
+	string::iterator it=numeroEmString.begin();
+
+	for (tamanho = 0; it!=numeroEmString.end() && numeroEmString[tamanho] >= '0' && numeroEmString[tamanho] <= '9';tamanho++, ++it){
+		if (!tamanho && numeroEmString[tamanho] == '0')
+			tamanho--;
+	}
+
+	if (tamanho == 0){
+		this->zerar();
+	}
+	else {
+		long long int c;
+		tamanho--;
+
+		for(c=tamanho;c>-1;c--)
+			this->setDigito(tamanho-c,numeroEmString[c]-'0');
+	}
+
+	return (*this);
+}
+
 Lovelace Lovelace::somar(const Lovelace &B) const{
 	Lovelace resultado;
 	if (this->eZero()){
@@ -400,7 +426,7 @@ Lovelace Lovelace::subtrair(const Lovelace &B) const{
 	else if (B.eZero()){
 		resultado = (*this);
 	}
-	else if (!this->eIgualA(B)){
+	else if (this->eDiferenteDe(B)){
 		Lovelace Aaux,Baux;
 		long long int c,diferenca;
 		if (this->eMaiorQue(B)){
@@ -540,22 +566,17 @@ void Lovelace::inverteNumero(Lovelace &saida) const{
 void Lovelace::dividir(const Lovelace &B,Lovelace &quociente,Lovelace &resto) const{
 	quociente.zerar();
 	resto = *this;
-	if (B.eZero())
-	{
+	if (B.eZero()){
 		cout << "ERRO! OPERAÇÃO INVÁLIDA! Não é possível dividir por zero." << endl;
 	}
-	else if(this->eIgualA(B))
-	{
+	else if(this->eIgualA(B)){
 		quociente.setDigito(0,1);
 		resto.zerar();
 	}
-	else if (this->eMaiorQue(B))
-	{
+	else if (this->eMaiorQue(B)){
 		Lovelace aux,aux2(*this);
 		int	q,d,k=0;
-		while(this->eMaiorQue(B))
-		{
-
+		while(this->eMaiorQue(B)){
 			q=d=this->getMenorDivisao(aux2,B,aux);
 
 			while(d--)
@@ -563,8 +584,6 @@ void Lovelace::dividir(const Lovelace &B,Lovelace &quociente,Lovelace &resto) co
 			if(k)
 				while(q--)
 					quociente.setDigito(k++,0);//Caso do deslocamento após a primeira
-
-
 
 
 
@@ -588,7 +607,6 @@ void Lovelace::dividir(const Lovelace &B,Lovelace &quociente,Lovelace &resto) co
 
 		quociente.inverteNumero(quociente);
 		resto=aux2;
-
 	}
 }
 
@@ -596,7 +614,7 @@ void Lovelace::dividir(const Lovelace &B,Lovelace &quociente,Lovelace &resto) co
 Lovelace Lovelace::dividir_burro(const Lovelace &B, bool quocienteOuResto) const{
 	Lovelace resto, quociente;
 	if (B.eZero()){
-		cout << "ERRO! NÃ£o Ã© possÃ­vel dividir por zero." << endl;
+		cout << "ERRO! Não é possível dividir por zero." << endl;
 	}
 	else if (this->eIgualA(B)){
 		quociente.setDigito(0,1);
@@ -629,7 +647,7 @@ Lovelace Lovelace::resto(Lovelace &A, Lovelace &B){
 Lovelace Lovelace::resto_burro(Lovelace &A, Lovelace &B){
 	Lovelace resultado;
 	if (B.eZero()){
-		cout << "ERRO! NÃ£o Ã© possÃ­vel dividir por zero." << endl;
+		cout << "ERRO! Não é possível dividir por zero." << endl;
 	}
 	else if (A.naoEZero()){
 		if (A.eMenorQue(B)){
@@ -879,13 +897,12 @@ Lovelace Lovelace::operator--(int semuso){
 }
 
 std::ostream &operator<<(std::ostream &out,const Lovelace &A){
-	long long int c;
-	char a, b;
-
-	if (A.eZero()) {
+	if (A.eZero())
 		out << Lovelace::TabelaDeConversao[0];
-	}
 	else {
+		long long int c;
+		char a, b;
+
 		A.getBitwise(A.getTamanho()-1,a,b);
 		if(!(A.getQuantidadeAlgarismos()%2))
 			out << Lovelace::TabelaDeConversao[(int)b] << A.TabelaDeConversao[(int)a];
@@ -896,7 +913,6 @@ std::ostream &operator<<(std::ostream &out,const Lovelace &A){
 			out << Lovelace::TabelaDeConversao[(int)b] << Lovelace::TabelaDeConversao[(int)a];
 		}
 	}
-
 	return out;
 }
 
@@ -974,29 +990,12 @@ std::istream &operator>>(std::istream &in,Lovelace &A){
 	return in;
 }
 //*/
-//*	InserÃ§Ã£o de fluxo por string
+//*	Inserção de fluxo por string
 std::istream &operator>>(std::istream &in,Lovelace &A){
 	string entrada;
-	unsigned long long int tamanho;
 	while(!entrada[0])
 		getline(in, entrada);
-	string::iterator it=entrada.begin();
-
-	for (tamanho = 0; it!=entrada.end() && entrada[tamanho] >= '0' && entrada[tamanho] <= '9';tamanho++, ++it){
-		if (!tamanho && entrada[tamanho] == '0')
-			tamanho--;
-	}
-
-	if (tamanho == 0){
-		A.zerar();
-	}
-	else {
-		long long int c;
-		tamanho--;
-
-		for(c=tamanho;c>-1;c--)
-			A.setDigito(tamanho-c,entrada[c]-'0');
-	}
+	A.atribuir(entrada);
 
 	return in;
 }

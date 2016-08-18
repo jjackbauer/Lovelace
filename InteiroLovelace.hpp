@@ -1,4 +1,3 @@
-
 #ifndef INTEIROLOVELCE_HPP_
 #define INTEIROLOVELACE_HPP_
 #include "Lovelace.hpp"
@@ -16,6 +15,9 @@ class InteiroLovelace: public Lovelace
 		InteiroLovelace();
 		InteiroLovelace(const InteiroLovelace &copiarInteiroLovelace);
 		InteiroLovelace(const Lovelace &copiarLovelace);
+		InteiroLovelace(const char *algarismos,int tamanho,int quantidadeAlgarismos,bool zero,bool sinal);
+
+
 		//	~InteiroLovelace();	// Não é necessário
 
 		void imprimir() const;
@@ -30,7 +32,8 @@ class InteiroLovelace: public Lovelace
 		InteiroLovelace 	subtrair(const InteiroLovelace &B) const;
 		//InteiroLovelace 	multiplicar_burro(const InteiroLovelace &B) const; //Não se faz burrice duas vezes kkkk
 		InteiroLovelace 	multiplicar(const InteiroLovelace &B) const;
-		void     			dividir(const InteiroLovelace &B,InteiroLovelace &resultado,InteiroLovelace &resto) const;
+		void     			dividir(const InteiroLovelace &B,InteiroLovelace &quociente,InteiroLovelace &resto) const;
+		InteiroLovelace 	dividir(const InteiroLovelace &B, bool quocienteOuResto = true) const;
 		//InteiroLovelace 	dividir_burro(const InteiroLovelace &B, bool quocienteOuResto = true) const; //eu espero!
 		InteiroLovelace		exponenciar(const InteiroLovelace &X) const; /* Tivemos uma idéia para melhorar a exponenciação*/
 		InteiroLovelace		fatorial() const;
@@ -38,8 +41,10 @@ class InteiroLovelace: public Lovelace
 
 		InteiroLovelace 	incrementar();
 		InteiroLovelace 	decrementar();
-		InteiroLovelace& 	atribuir(const long long int &numero);
+		InteiroLovelace& 	atribuir(long long int numero);
 		InteiroLovelace& 	atribuir(const int &numero);
+		InteiroLovelace& 	atribuir(const InteiroLovelace &B);
+		InteiroLovelace&    atribuir(string numeroEmString);
 
 
 		bool eIgualA(const InteiroLovelace &B) const;

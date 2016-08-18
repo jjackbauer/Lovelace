@@ -1,5 +1,7 @@
 #include "InteiroLovelace.hpp"
+
 const InteiroLovelace ZERO;
+
 InteiroLovelace::InteiroLovelace(){
 	inicializar();
 }
@@ -13,8 +15,7 @@ InteiroLovelace::InteiroLovelace(const InteiroLovelace &copiarInteiroLovelace){
 		copiarAlgarismos(copiarInteiroLovelace, *this);
 }
 
-InteiroLovelace::InteiroLovelace(const Lovelace &copiarLovelace)
-{
+InteiroLovelace::InteiroLovelace(const Lovelace &copiarLovelace){
 	setTamanho(copiarLovelace.getTamanho());
 	setQuantidadeAlgarismos(copiarLovelace.getQuantidadeAlgarismos());
 	setZero(copiarLovelace.eZero());
@@ -22,7 +23,12 @@ InteiroLovelace::InteiroLovelace(const Lovelace &copiarLovelace)
 	if (!copiarLovelace.eZero())
 		copiarAlgarismos(copiarLovelace, *this);
 }
+InteiroLovelace::InteiroLovelace(const char *algarismos,int tamanho,int quantidadeAlgarismos,bool zero,bool sinal)
+: Lovelace(algarismos,tamanho,quantidadeAlgarismos,zero)
+{
+	setSinal(sinal);
 
+}
 void InteiroLovelace::inicializar(){
 	Lovelace::inicializar();
 	setSinal(true);
@@ -62,18 +68,17 @@ void InteiroLovelace::toLovelace(Lovelace &saida) const{
 
 InteiroLovelace 	InteiroLovelace::somar(const InteiroLovelace &B) const{
 	Lovelace auxA,auxB;
-	bool sinalMaior;
 	toLovelace(auxA);
 	B.toLovelace(auxB);
 
-	if(this->getSinal() && B.getSinal())
-	{
+	if (this->getSinal() == B.getSinal()){
 		InteiroLovelace resultado(auxA.somar(auxB));
+		resultado.setSinal(this->getSinal());
 		return resultado;
 	}
 	else {
 		InteiroLovelace resultado(auxA.subtrair(auxB));
-		sinalMaior = auxA.eMaiorQue(B)?this->getSinal():B.getSinal();
+		bool sinalMaior = auxA.eMaiorQue(B)?this->getSinal():B.getSinal();
 		resultado.setSinal(sinalMaior);
 		return resultado;
 	}
@@ -81,26 +86,20 @@ InteiroLovelace 	InteiroLovelace::somar(const InteiroLovelace &B) const{
 
 InteiroLovelace 	InteiroLovelace::subtrair(const InteiroLovelace &B) const{
 	Lovelace auxA,auxB;
-	bool sinalMaior;
 	toLovelace(auxA);
 	B.toLovelace(auxB);
 
-	if((this->getSinal() && !B.getSinal()) ||(!this->getSinal() && B.getSinal()))// é possível fazer xor com expressões lógicas?
-	{
+	if(this->getSinal() != B.getSinal()){
 		InteiroLovelace resultado(auxA.somar(auxB));
 		resultado.setSinal(this->getSinal());
 		return resultado;
 	}
-	else
-	if(this->getSinal() && B.getSinal())
-	{
+	else if(this->ePositivo() && B.ePositivo()){
 		InteiroLovelace resultado(auxA.subtrair(auxB));
 		resultado.setSinal(auxB.eMenorOuIgualA(auxA));
 		return resultado;
 	}
-	else
-	if(!this->getSinal() && !B.getSinal())
-	{
+	else if(this->eNegativo() && B.eNegativo()){
 		InteiroLovelace resultado(auxA.subtrair(auxB));
 		resultado.setSinal(auxA.eMenorOuIgualA(auxB));
 		return resultado;
@@ -109,27 +108,38 @@ InteiroLovelace 	InteiroLovelace::subtrair(const InteiroLovelace &B) const{
 
 InteiroLovelace 	InteiroLovelace::multiplicar(const InteiroLovelace &B) const{
 	Lovelace auxA,auxB;
-	bool sinaisIguais=(this->getSinal()==B.getSinal());
 	toLovelace(auxA);
 	B.toLovelace(auxB);
 	InteiroLovelace resultado(auxA.multiplicar(auxB));
-	resultado.setSinal(sinaisIguais);
+	resultado.setSinal(this->getSinal()==B.getSinal());
 	return resultado;
 }
 
-void     InteiroLovelace::dividir(const InteiroLovelace &B,InteiroLovelace &resultado,InteiroLovelace &resto) const{
+void     InteiroLovelace::dividir(const InteiroLovelace &B,InteiroLovelace &quociente,InteiroLovelace &resto) const{
 	Lovelace auxA,auxB;
+	toLovelace(auxA);
+	B.toLovelace(auxB);
 	bool sinaisIguais=(this->getSinal()==B.getSinal());
 	{
 		InteiroLovelace result(auxA.dividir_burro(auxB));
 		result.setSinal(sinaisIguais);
-		resultado=result;//Mudar para atribuição
+		quociente.atribuir(result);
 	}
 	{
 		InteiroLovelace rest(auxA.dividir_burro(auxB,false));
 		rest.setSinal(sinaisIguais);//Essa lógica tem que ser revista
-		resultado=rest;//Mudar para atribuição
+		resto.atribuir(rest);
 	}
+}
+InteiroLovelace 	InteiroLovelace::dividir(const InteiroLovelace &B, bool quocienteOuResto) const{
+	Lovelace auxA,auxB;
+	toLovelace(auxA);
+	B.toLovelace(auxB);
+
+	InteiroLovelace resultado(auxA.dividir_burro(auxB,quocienteOuResto));
+	resultado.setSinal(this->getSinal()==B.getSinal());
+
+	return resultado;
 }
 
 InteiroLovelace		InteiroLovelace::exponenciar(const InteiroLovelace &X) const{
@@ -148,28 +158,75 @@ InteiroLovelace		InteiroLovelace::exponenciar(const InteiroLovelace &X) const{
 		errorMessage("Operação inválida de exponenciação!");
 }
 
-InteiroLovelace 	InteiroLovelace::incrementar()
-{
-	InteiroLovelace resultado;
-
-	return resultado;
+InteiroLovelace 	InteiroLovelace::incrementar(){
+	InteiroLovelace aux;
+	aux.setDigito(0,1);//aux=1; Equivalente após sobrecarga //Remover depois de fazer a base pro java!
+	return ((*this) = somar(aux));
 }
 InteiroLovelace 	InteiroLovelace::decrementar(){
-	InteiroLovelace resultado;
-
-	return resultado;
+	InteiroLovelace aux;
+	aux.setDigito(0,1);
+	return ((*this) = subtrair(aux));
 }
 
-InteiroLovelace& 	InteiroLovelace::atribuir(const long long int &numero){
-	InteiroLovelace resultado;
-
-	return resultado;
+InteiroLovelace& 	InteiroLovelace::atribuir(long long int numero){
+	unsigned long long int n = numero;
+	Lovelace::atribuir(n);
+	if (numero >= 0)
+		setSinal(true);
+	else
+		setSinal(false);
+	return (*this);
 }
 
 InteiroLovelace& 	InteiroLovelace::atribuir(const int &numero){
-	InteiroLovelace resultado;
+	long long int aux = numero;
+	return atribuir(aux);
+}
 
-	return resultado;
+InteiroLovelace& 	InteiroLovelace::atribuir(const InteiroLovelace &B){
+	if (&B != this){
+		if (naoEZero())
+			delete this->algarismos;
+		if (B.eZero())
+			this->algarismos = NULL;
+		else
+			copiarAlgarismos(B,*this);
+		this->setQuantidadeAlgarismos(B.getQuantidadeAlgarismos());
+		this->setTamanho(B.getTamanho());
+		this->setZero(B.eZero());
+		this->setSinal(B.getSinal());
+	}
+	return (*this);
+}
+
+InteiroLovelace&    InteiroLovelace::atribuir(string numeroEmString){
+	long long int inicio, tamanho;
+	string::iterator it=numeroEmString.begin();
+
+	for (tamanho = 0, inicio = 0; it!=numeroEmString.end() && ((numeroEmString[tamanho] >= '0' && numeroEmString[tamanho] <= '9') || numeroEmString[tamanho] == '-');++tamanho, ++it){
+		if (!tamanho) {
+			if (numeroEmString[tamanho] == '0')
+				inicio++;
+			else if (numeroEmString[tamanho] == '-'){
+				setSinal(false);
+				inicio++;
+			}
+		}
+	}
+
+	if (tamanho-inicio == 0){
+		this->zerar();
+	}
+	else {
+		long long int c;
+		tamanho--;
+
+		for(c=tamanho;c>=inicio;c--)
+			this->setDigito(tamanho-c,numeroEmString[c]-'0');
+	}
+
+	return (*this);
 }
 
 InteiroLovelace	InteiroLovelace::fatorial() const{
@@ -211,15 +268,8 @@ bool InteiroLovelace::eDiferenteDe(const InteiroLovelace &B) const{
 bool InteiroLovelace::eMaiorQue(const InteiroLovelace &B) const{
 	if (this == &B)
 		return false;
-	if (this->getSinal() != B.getSinal()){
-		if (this->getSinal())
-			return true;
-		else
-			return false;
-	}
-	if (this->getQuantidadeAlgarismos() > B.getQuantidadeAlgarismos()){
-		return true;
-	}
+	if (this->getSinal() != B.getSinal())
+		return ePositivo();
 	else if (this->getQuantidadeAlgarismos() == B.getQuantidadeAlgarismos()){
 		if (this->eZero() && B.eZero())
 			return false;
@@ -227,12 +277,14 @@ bool InteiroLovelace::eMaiorQue(const InteiroLovelace &B) const{
 		for (c = this->getQuantidadeAlgarismos();c && this->getDigito(c) == B.getDigito(c);c--);
 
 		if (this->getDigito(c) > B.getDigito(c))
-			return true;
+			return ePositivo();
 		else
-			return false;
+			return eNegativo();
 	}
+	else if (this->getQuantidadeAlgarismos() > B.getQuantidadeAlgarismos())
+		return this->ePositivo();
 	else
-		return false;
+		return this->eNegativo();
 	return true;
 }
 
@@ -240,15 +292,8 @@ bool InteiroLovelace::eMaiorQue(const InteiroLovelace &B) const{
 bool InteiroLovelace::eMenorQue(const InteiroLovelace &B) const{
 	if (this == &B)
 		return false;
-	if (this->getSinal() != B.getSinal()){
-		if (this->getSinal())
-			return false;
-		else
-			return true;
-	}
-	if (this->getQuantidadeAlgarismos() < B.getQuantidadeAlgarismos()){
-		return true;
-	}
+	if (this->getSinal() != B.getSinal())
+		return eNegativo();
 	else if (this->getQuantidadeAlgarismos() == B.getQuantidadeAlgarismos()){
 		if (this->eZero() && B.eZero())
 			return false;
@@ -256,12 +301,14 @@ bool InteiroLovelace::eMenorQue(const InteiroLovelace &B) const{
 		for (c = this->getQuantidadeAlgarismos();c && this->getDigito(c) == B.getDigito(c);c--);
 
 		if (this->getDigito(c) < B.getDigito(c))
-			return true;
+			return ePositivo();
 		else
-			return false;
+			return eNegativo();
 	}
+	else if (this->getQuantidadeAlgarismos() < B.getQuantidadeAlgarismos())
+		return this->ePositivo();
 	else
-		return false;
+		return this->eNegativo();
 	return true;
 }
 
@@ -282,35 +329,48 @@ bool InteiroLovelace::eNegativo() const{
 }
 
 InteiroLovelace& InteiroLovelace::operator=(InteiroLovelace &B){
-
+	if (&B != this){
+		if (naoEZero())
+			delete this->algarismos;
+		if (B.eZero())
+			this->algarismos = NULL;
+		else
+			copiarAlgarismos(B,*this);
+		this->setQuantidadeAlgarismos(B.getQuantidadeAlgarismos());
+		this->setTamanho(B.getTamanho());
+		this->setZero(B.eZero());
+		this->setSinal(B.getSinal());
+	}
+	return (*this);
 }
 
 InteiroLovelace& InteiroLovelace::operator=(const InteiroLovelace &B){
-
+	this->atribuir(B);
+	return (*this);
 }
 
 InteiroLovelace& InteiroLovelace::operator=(const long long int &numero){
-
+	return atribuir(numero);
 }
 
 InteiroLovelace& InteiroLovelace::operator=(const int &numero){
-
+	return atribuir(numero);
 }
 
 InteiroLovelace& InteiroLovelace::operator+=(const InteiroLovelace &B){
-
+	return ((*this) = somar(B));
 }
 
 InteiroLovelace& InteiroLovelace::operator-=(const InteiroLovelace &B){
-
+	return ((*this) = subtrair(B));
 }
 
 InteiroLovelace& InteiroLovelace::operator*=(const InteiroLovelace &B){
-
+	return ((*this) = multiplicar(B));
 }
 
 InteiroLovelace& InteiroLovelace::operator/=(const InteiroLovelace &B){
-
+	return ((*this) = dividir(B));
 }
 
 InteiroLovelace& InteiroLovelace::operator%=(const InteiroLovelace &B){
@@ -426,6 +486,11 @@ std::ostream &operator<<(std::ostream &out,const InteiroLovelace &A){
 }
 
 std::istream &operator>>(std::istream &in,InteiroLovelace &A){
+	string entrada;
+	while(!entrada[0])
+		getline(in, entrada);
+	A.atribuir(entrada);
 
+	return in;
 }
 
