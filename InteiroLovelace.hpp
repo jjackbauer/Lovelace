@@ -1,6 +1,7 @@
-#ifndef INTEIROLOVELCE_H
-#define INTEIROLOVELACE_H
-#include "Lovelace.h"
+
+#ifndef INTEIROLOVELCE_HPP_
+#define INTEIROLOVELACE_HPP_
+#include "Lovelace.hpp"
 
 
 using namespace std;
@@ -16,6 +17,10 @@ class InteiroLovelace: public Lovelace
 		InteiroLovelace(const InteiroLovelace &copiarInteiroLovelace);
 		InteiroLovelace(const Lovelace &copiarLovelace);
 		//	~InteiroLovelace();	// Não é necessário
+
+		void imprimir() const;
+		void imprimir(char separador) const;
+		void imprimirInfo(int opcao = 0) const;
 
 		bool getSinal() const;
 		void setSinal(bool novoSinal);
@@ -43,6 +48,8 @@ class InteiroLovelace: public Lovelace
 		bool eMenorQue(const InteiroLovelace &B) const;
 		bool eMaiorOuIgualA(const InteiroLovelace &B) const;
 		bool eMenorOuIgualA(const InteiroLovelace &B) const;
+		bool ePositivo() const;
+		bool eNegativo() const;
 
 		InteiroLovelace& operator=(InteiroLovelace &B);
 		InteiroLovelace& operator=(const InteiroLovelace &B); 	// Tem que ser implementado para
@@ -85,4 +92,4 @@ class InteiroLovelace: public Lovelace
 };
 
 
-#endif
+#endif /* INTEIROLOVELACE_HPP_ */

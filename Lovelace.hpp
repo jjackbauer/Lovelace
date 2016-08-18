@@ -1,5 +1,5 @@
-#ifndef LOVELACE_H
-#define LOVELACE_H
+#ifndef LOVELACE_HPP_
+#define LOVELACE_HPP_
 #include <iostream>
 #include <cstdlib>
 #include <cstdio>
@@ -128,4 +128,4 @@ class Lovelace{//Representa numero natural
 		friend std::istream &operator>>(std::istream &in,Lovelace &A);
 };
 
-#endif /* LOVELACE_H_ */
+#endif /* LOVELACE_HPP_ */

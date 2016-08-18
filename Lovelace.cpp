@@ -1,4 +1,4 @@
-#include "Lovelace.h"
+#include "Lovelace.hpp"
 
 using namespace std;
 
@@ -744,7 +744,10 @@ bool Lovelace::eMenorOuIgualA(const Lovelace &B) const{
 	return (this->eIgualA(B) || this->eMenorQue(B));
 }
 bool Lovelace::eImpar() const{	//Fazendo essa treta sem precisar de divisÃ£o
-	return ((this->algarismos[0]>>4)&1);
+	if (eZero())
+		return false;
+	else
+		return ((this->algarismos[0]>>4)&1);
 }
 bool Lovelace::ePar() const{
 	return (!eImpar());
@@ -878,8 +881,9 @@ Lovelace Lovelace::operator--(int semuso){
 std::ostream &operator<<(std::ostream &out,const Lovelace &A){
 	long long int c;
 	char a, b;
-	if (A.zero) {
-			out << Lovelace::TabelaDeConversao[0];
+
+	if (A.eZero()) {
+		out << Lovelace::TabelaDeConversao[0];
 	}
 	else {
 		A.getBitwise(A.getTamanho()-1,a,b);

@@ -1,4 +1,4 @@
-#include "InteiroLovelace.h"
+#include "InteiroLovelace.hpp"
 const InteiroLovelace ZERO;
 InteiroLovelace::InteiroLovelace(){
 	inicializar();
@@ -31,6 +31,20 @@ void InteiroLovelace::inicializar(){
 void InteiroLovelace::zerar(){
 	Lovelace::zerar();
 	setSinal(true);
+}
+void InteiroLovelace::imprimir() const{
+	imprimir(0);
+}
+
+void InteiroLovelace::imprimir(char separador) const{
+	if (eNegativo())
+		cout << '-';
+	Lovelace::imprimir(separador);
+}
+
+void InteiroLovelace::imprimirInfo(int opcao) const{
+	cout << "sinal              : " << getSinal() << endl;
+	Lovelace::imprimirInfo(opcao);
 }
 
 bool InteiroLovelace::getSinal() const{
@@ -259,6 +273,13 @@ bool InteiroLovelace::eMenorOuIgualA(const InteiroLovelace &B) const{
 	return (this->eIgualA(B) || this->eMenorQue(B));
 }
 
+bool InteiroLovelace::ePositivo() const{
+	return getSinal();
+}
+
+bool InteiroLovelace::eNegativo() const{
+	return !getSinal();
+}
 
 InteiroLovelace& InteiroLovelace::operator=(InteiroLovelace &B){
 
@@ -381,7 +402,27 @@ bool operator<=(const InteiroLovelace &A, const InteiroLovelace &B){
 
 /*	Operações de Ext/Ins de Fluxo 	*/
 std::ostream &operator<<(std::ostream &out,const InteiroLovelace &A){
+	long long int c;
+	char a, b;
 
+	if (A.eNegativo())
+		cout << '-';
+	if (A.eZero()) {
+		out << Lovelace::TabelaDeConversao[0];
+	}
+	else {
+		A.getBitwise(A.getTamanho()-1,a,b);
+		if(!(A.getQuantidadeAlgarismos()%2))
+			out << Lovelace::TabelaDeConversao[(int)b] << A.TabelaDeConversao[(int)a];
+		else
+			out << Lovelace::TabelaDeConversao[(int)a];
+		for(c=A.getTamanho()-2;c>-1;c--) {
+			A.getBitwise(c,a,b);
+			out << Lovelace::TabelaDeConversao[(int)b] << Lovelace::TabelaDeConversao[(int)a];
+		}
+	}
+
+	return out;
 }
 
 std::istream &operator>>(std::istream &in,InteiroLovelace &A){
