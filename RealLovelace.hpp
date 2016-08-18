@@ -17,6 +17,7 @@ class RealLovelace: public InteiroLovelace{
 		RealLovelace(const double A);
 		RealLovelace(string A);
 		RealLovelace(const RealLovelace &A);
+		RealLovelace(const InteiroLovelace &A);
 		//Sets e Gets
 		void setExpoente(long long int X);
 		long long int getExpoente() const;
@@ -30,6 +31,7 @@ class RealLovelace: public InteiroLovelace{
 		RealLovelace subtrair(RealLovelace B) const;
 		RealLovelace multiplicar(RealLovelace B) const;
 		RealLovelace dividir(RealLovelace B) const;
+		RealLovelace inverterSinal();
 		RealLovelace inverter() const;
 		RealLovelace exponenciar(RealLovelace X) const;
 		//Entrada e Saída

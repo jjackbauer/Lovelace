@@ -49,6 +49,14 @@ RealLovelace::RealLovelace(const RealLovelace &A)
 {
 	atribuir(A);
 }
+RealLovelace::RealLovelace(const InteiroLovelace &A)
+{
+	copiarAlgarismos(A,(*this));
+	setExpoente(0);
+	setSinal(A.getSinal());
+	setTamanho(A.getTamanho());
+	setQuantidadeAlgarismos(A.getQuantidadeAlgarismos());
+}
 void RealLovelace::setExpoente(long long int X)
 {
 	expoente=X;
@@ -80,60 +88,74 @@ RealLovelace & RealLovelace::atribuir(const RealLovelace &A)
 	this->setZero(A.eZero());
 	this->setExpoente(A.getExpoente());
 	this->setSinal(A.getSinal());
+	return (*this);
 }
 RealLovelace RealLovelace::somar(const RealLovelace B) const
 {
 	if(this->getExpoente()==B.getExpoente())
 	{
-		InteiroLovelace auxA((toInteiroLovelace(0)));//Bug estranho, checar!
-		InteiroLovelace auxB(B.toInteiroLovelace(0));
-		return auxA.somar(B);//Tem que converter esse resultado
+		InteiroLovelace auxA;//((toInteiroLovelace((long long int)0)));//Bug estranho, checar!!!!!!!!!!!!
+		InteiroLovelace auxB;//(B.toInteiroLovelace(0));
+		auxA.atribuir(auxA.somar(B));
+		RealLovelace resultado;
+		resultado.copiarAlgarismos(auxA,resultado);//Como é que isso o compilador aceita isso e aquilo acima não?
+		resultado.setExpoente(getExpoente());
+		resultado.setQuantidadeAlgarismos(auxA.getQuantidadeAlgarismos());
+		resultado.setTamanho(auxA.getTamanho());
+		resultado.setSinal(auxA.getSinal());
+		resultado.setZero(auxA.eZero());
+		return resultado;
+
 	}
 	if(this->getExpoente()>B.getExpoente())
 	{
 		long long int zeros = (this->getExpoente()-B.getExpoente());
-		InteiroLovelace auxA((toInteiroLovelace(zeros)));
-		InteiroLovelace auxB(B.toInteiroLovelace(0));
-		return auxA.somar(B);
+		InteiroLovelace auxA;//((toInteiroLovelace(zeros)));
+		InteiroLovelace auxB;//(B.toInteiroLovelace(0));
+		auxA.atribuir(auxA.somar(B));
+		RealLovelace resultado;
+		resultado.copiarAlgarismos(auxA,resultado);//Como é que isso o compilador aceita isso e aquilo acima não?
+		resultado.setExpoente(B.getExpoente());
+		resultado.setQuantidadeAlgarismos(auxA.getQuantidadeAlgarismos());
+		resultado.setTamanho(auxA.getTamanho());
+		resultado.setSinal(auxA.getSinal());
+		resultado.setZero(auxA.eZero());
+		return resultado;
 	}
 	else
 	{
-		long long int zeros = (this->getExpoente()-B.getExpoente());
-		InteiroLovelace auxA((toInteiroLovelace(0)));
-		InteiroLovelace auxB(B.toInteiroLovelace(zeros));
-		return auxA.somar(B);
+		long long int zeros = (B.getExpoente()-this->getExpoente());
+		InteiroLovelace auxA;//((toInteiroLovelace(0)));
+		InteiroLovelace auxB;//(B.toInteiroLovelace(zeros));
+		auxA.atribuir(auxA.somar(B));
+		RealLovelace resultado;
+		resultado.copiarAlgarismos(auxA,resultado);//Como é que isso o compilador aceita isso e aquilo acima não?
+		resultado.setExpoente(getExpoente());
+		resultado.setQuantidadeAlgarismos(auxA.getQuantidadeAlgarismos());
+		resultado.setTamanho(auxA.getTamanho());
+		resultado.setSinal(auxA.getSinal());
+		resultado.setZero(auxA.eZero());
+		return resultado;
 	}
 }
-
+RealLovelace RealLovelace::inverterSinal()
+{
+	InteiroLovelace::inverterSinal();
+	return (*this);
+}
 RealLovelace RealLovelace::subtrair(RealLovelace B) const
 {
-	if(this->getExpoente()==B.getExpoente())
-	{
-		InteiroLovelace auxA((toInteiroLovelace(0)));
-		InteiroLovelace auxB(B.toInteiroLovelace(0));
-		return auxA.subtrair(B);
-	}
-	if(this->getExpoente()>B.getExpoente())
-	{
-		long long int zeros = (this->getExpoente()-B.getExpoente());
-		InteiroLovelace auxA((toInteiroLovelace(zeros)));
-		InteiroLovelace auxB(B.toInteiroLovelace(0));
-		return auxA.subtrair(B);
-	}
-	else
-	{
-		long long int zeros = (this->getExpoente()-B.getExpoente());
-		InteiroLovelace auxA((toInteiroLovelace(0)));
-		InteiroLovelace auxB(B.toInteiroLovelace(zeros));
-		return auxA.subtrair(B);
-	}
+	B.atribuir(B.inverterSinal());
+	return somar(B);
+
 }
 RealLovelace RealLovelace::multiplicar(RealLovelace B) const
 {
-	InteiroLovelace auxA((toInteiroLovelace(0)));
-	InteiroLovelace auxB(B.toInteiroLovelace(0));
-
-
+	InteiroLovelace auxA;//((toInteiroLovelace(0)));
+	InteiroLovelace auxB;//(B.toInteiroLovelace(0));
+	RealLovelace resultado(auxA.multiplicar(auxB));
+	resultado.setExpoente((this->getExpoente()+B.getExpoente()));
+	return resultado;
 }
 RealLovelace RealLovelace::dividir(RealLovelace B) const
 {
