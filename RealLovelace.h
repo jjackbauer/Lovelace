@@ -3,40 +3,40 @@
 #include <iostream>
 #include<cstdlib>
 using namespace std;
-#include "Lovelace.h"
+#include "InteiroLovelace.h"
 
-class RealLovelace: public Lovelace
+class RealLovelace: public InteiroLovelace
 {
 private:
-	char *AlgarismosDecimais;
-	long long int TamanhoDecimais;
 
+	long long int expoente;
+	static long long int casasDecimaisExibicao;
 public:
-	static long long int CasasDecimaisExibicao;
 	
+	//Construtores
 	RealLovelace();
-	~RealLovelace();
-	
-	void SetAlgarismoDecimal(long long int Posicao, char Algarismo);
-	void SetTamanhoDecimais(long long int TamanhoVirgual);
-	void SetCasasDecimaisExibicao(long long int Numero);
+	RealLovelace(const double A);
+	RealLovelace(string A);
+	RealLovelace(const RealLovelace A);
+	//Sets e Gets
+	void setExpoente(long long int X);
+	long long int getExpoente();
+	static void setCasasDecimaisExibicao(long long int Numero);
+	static long long int getCasasDecimaisExibicao();
+	//Operações Aritiméticas
+	RealLovelace & atribuir(const double A);
+	RealLovelace & atribuir(const string A);
+	RealLovelace & atribuir(const RealLovelace &A);
+	RealLovelace & somar(const RealLovelace B);
+	RealLovelace & subtrair(RealLovelace B);
+	RealLovelace & multiplicar(RealLovelace B);
+	RealLovelace & dividir(RealLovelace B);
+	RealLovelace & Inversao();
+	RealLovelace & Exponenciacao(RealLovelace X);
+	//Entrada e Saída
+	void imprimir();
+	void ler();
 
-	char GetAlgarismoDecimal(long long int Posicao);
-	long long int GetTamanhoDecimais();
-	long long int GetCasasDecimaisExibicao();
-	
-
-	RealLovelace & Atribuicao(double A);
-	RealLovelace & Atribuicao(RealLovelace &A, RealLovelace B);
-	RealLovelace & Soma(RealLovelace A, RealLovelace B);
-	RealLovelace & Subtracao(RealLovelace A, RealLovelace B);
-	RealLovelace & Multiplicacao(RealLovelace A, RealLovelace B);
-	RealLovelace & Divisao(RealLovelace A, RealLovelace B);
-	RealLovelace & InversaoDeSinal(RealLovelace A);
-	RealLovelace & Inversao(RealLovelace A);
-	RealLovelace & Exponenciacao(RealLovelace A, RealLovelace X);
-
-	void Imprime();
 
 	
 
