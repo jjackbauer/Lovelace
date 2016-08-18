@@ -14,7 +14,7 @@ void Lovelace::errorMessage(string message) const{
 void Lovelace::expandirAlgarismos(){
 	char *saida= new char[getTamanho()+1];
 	if (!saida) {
-		cout << "ERRO! NÃ£o foi possÃ­vel alocar memÃ³ria para saida" << endl;
+		cout << "ERRO! Não foi possível alocar memória para a saída." << endl;
 		exit(1);
 	}
 
@@ -114,29 +114,23 @@ Lovelace::Lovelace(const Lovelace &copiarLovelace){
 		copiarAlgarismos(copiarLovelace, *this);
 }
 //*/
-Lovelace::Lovelace(const char *algarismos,int tamanho,int quantidadeAlgarismos,bool zero)
-{
-	if(tamanho>0)
-	{
+Lovelace::Lovelace(const char *algarismos,int tamanho,int quantidadeAlgarismos,bool zero){
+	if(tamanho>0){
 		this->algarismos = new char[tamanho];
-
 		if(!this->algarismos)
 			errorMessage("Não foi possível alocar esta instância Lovelace");
-		else
-		{
+		else{
 			setTamanho(tamanho);
 			setQuantidadeAlgarismos(quantidadeAlgarismos);
 			setZero(zero);
 			for(int c=0;c<tamanho;c++)
 				this->algarismos[c]=algarismos[c];
 		}
-
 	}
 	else
-	{
-		setZero(zero);
-	}
+		inicializar();
 }
+
 Lovelace::~Lovelace(){
 	if(!eZero())
 		free(algarismos);

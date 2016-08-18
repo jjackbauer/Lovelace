@@ -12,7 +12,6 @@ class RealLovelace: public InteiroLovelace{
 		InteiroLovelace& toInteiroLovelace(long long int zeros=0);
 		void digitosToBitwise(long long int tamanho,char * entrada,char* saida);
 	public:
-
 		//Construtores
 		RealLovelace();
 		RealLovelace(const double A);
