@@ -82,7 +82,8 @@ RealLovelace & RealLovelace::atribuir(const RealLovelace &A)
 	this->setSinal(A.getSinal());
 }
 RealLovelace RealLovelace::somar(const RealLovelace B) const
-{	if(this->getExpoente()==B.getExpoente())
+{
+	if(this->getExpoente()==B.getExpoente())
 	{
 		InteiroLovelace auxA((toInteiroLovelace(0)));//Bug estranho, checar!
 		InteiroLovelace auxB(B.toInteiroLovelace(0));
@@ -103,6 +104,7 @@ RealLovelace RealLovelace::somar(const RealLovelace B) const
 		return auxA.somar(B);
 	}
 }
+
 RealLovelace RealLovelace::subtrair(RealLovelace B) const
 {
 	if(this->getExpoente()==B.getExpoente())
