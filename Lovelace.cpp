@@ -11,42 +11,16 @@ void Lovelace::errorMessage(string message) const{
 	exit(1);
 }
 
-void Lovelace::expandirAlgarismos(){
-	char *saida= new char[getTamanho()+1];
-	if (!saida) {
-		cout << "ERRO! Não foi possível alocar memória para a saída." << endl;
-		exit(1);
-	}
-
-	for (int c=0;c<getTamanho();c++){
-		saida[c]=algarismos[c];
-	}
-	setTamanho(getTamanho()+1);
-
-	if(algarismos)
-		free(algarismos);
-
-	algarismos=saida;
-
+void Lovelace::expandirAlgarismos()
+{	char a=12;
+	algarismos.push_back(a);
 	return;
 }
 
 void Lovelace::reduzirAlgarismos(){
-	if (getQuantidadeAlgarismos()%2){
-		char *saida= new char[getTamanho()-1];
-		if (!saida){
-			cout << "ERRO! NÃ£o foi possÃ­vel alocar memÃ³ria para saida" << endl;
-			exit(1);
-		}
-		for (int c=0;c<getTamanho()-1;c++){
-			saida[c]=algarismos[c];
-		}
-		setTamanho(getTamanho()-1);
-
-		if (algarismos)
-			free(algarismos);
-
-		algarismos=saida;
+	if (getQuantidadeAlgarismos()%2)
+	{
+		algarismos.pop_back();	
 	}
 	else {
 		char a,b;
@@ -58,32 +32,28 @@ void Lovelace::reduzirAlgarismos(){
 	return;
 }
 
+void Lovelace::liberarAlgarismos()
+{	
+	if(this->algarismos.size())
+		this->algarismos.clear();
+	return;
+}
 void Lovelace::copiarAlgarismos(const Lovelace &deA, Lovelace &paraB){
-	if ((&deA != &paraB) && (!deA.zero)){
-		paraB.algarismos = new char[deA.getTamanho()];
-		if (!paraB.algarismos){
-			cout << "ERRO! NÃ£o foi possÃ­vel alocar memÃ³ria para algarismos." << endl <<
-					"FunÃ§Ã£o: operator=(Lovelace &B)" << endl;
-			exit(1);
-		}
-		long long int c;
-		for (c = deA.getTamanho()-1;c;c--)
-			paraB.algarismos[c] = deA.algarismos[c];
-		paraB.algarismos[c] = deA.algarismos[c];
+	if ((&deA != &paraB) && (!deA.zero))
+	{
+		paraB.algarismos = deA.algarismos;
 	}
 	return;
 }
 
 void Lovelace::inicializar(){
-	this->algarismos = NULL;
-	this->setTamanho(0);
 	this->setQuantidadeAlgarismos(0);
 	this->setZero(true);
 }
 
 void Lovelace::zerar(){
 	if (naoEZero()){
-		delete this->algarismos;
+		liberarAlgarismos();
 		this->inicializar();
 	}
 }
@@ -107,7 +77,6 @@ Lovelace::Lovelace(){
 }
 //*
 Lovelace::Lovelace(const Lovelace &copiarLovelace){
-	setTamanho(copiarLovelace.getTamanho());
 	setQuantidadeAlgarismos(copiarLovelace.getQuantidadeAlgarismos());
 	setZero(copiarLovelace.eZero());
 	if (!copiarLovelace.eZero())
@@ -116,24 +85,19 @@ Lovelace::Lovelace(const Lovelace &copiarLovelace){
 //*/
 Lovelace::Lovelace(const char *algarismos,int tamanho,int quantidadeAlgarismos,bool zero){
 	if(tamanho>0){
-		this->algarismos = new char[tamanho];
-		if(!this->algarismos)
-			errorMessage("Não foi possível alocar esta instância Lovelace");
-		else{
-			setTamanho(tamanho);
+			this->algarismos.reserve(tamanho);
 			setQuantidadeAlgarismos(quantidadeAlgarismos);
 			setZero(zero);
 			for(int c=0;c<tamanho;c++)
 				this->algarismos[c]=algarismos[c];
-		}
+		
 	}
 	else
 		inicializar();
 }
 
 Lovelace::~Lovelace(){
-	if(!eZero())
-		free(algarismos);
+	algarismos.clear();
 }
 
 void Lovelace::setBitwise(long long int Posicao,char A, char B){
@@ -205,12 +169,8 @@ void Lovelace::setDigito(long long int Posicao, char Digito){
 	}
 }
 
-void Lovelace::setTamanho(long long int novoTamanho){
-	tamanho=novoTamanho;
-}
-
 long long int Lovelace::getTamanho() const{
-	return tamanho;
+	return algarismos.size();
 }
 
 long long int Lovelace::getQuantidadeAlgarismos() const{
@@ -320,6 +280,7 @@ Lovelace& Lovelace::atribuir(unsigned long long int numero){
 	else {
 		int c,k;
 		unsigned long long int aux=10;
+		liberarAlgarismos();
 		for(c=0;c<20 && numero ;c++,aux*=10){
 			k = numero%aux;
 			numero-=k;
@@ -338,13 +299,12 @@ Lovelace& Lovelace::atribuir(const int &numero){
 Lovelace& Lovelace::atribuir(const Lovelace& B){
 	if (&B != this){
 		if (naoEZero())
-			delete this->algarismos;
+			liberarAlgarismos();
 		if (B.eZero())
-			this->algarismos = NULL;
+			this->algarismos.clear();
 		else
 			copiarAlgarismos(B,*this);
 		this->setQuantidadeAlgarismos(B.getQuantidadeAlgarismos());
-		this->setTamanho(B.getTamanho());
 		this->setZero(B.eZero());
 	}
 	return (*this);
@@ -792,13 +752,12 @@ bool operator<=(const Lovelace &A, const Lovelace &B){
 Lovelace& Lovelace::operator=(Lovelace &B){
 	if (&B != this){
 		if (!zero)
-			delete this->algarismos;
+			this->algarismos.clear();
 		if (B.zero)
-			this->algarismos = NULL;
+			this->algarismos.clear();
 		else
 			copiarAlgarismos(B,*this);
 		this->setQuantidadeAlgarismos(B.getQuantidadeAlgarismos());
-		this->setTamanho(B.getTamanho());
 		this->setZero(B.eZero());
 	}
 	return (*this);
@@ -941,7 +900,7 @@ std::istream &operator>>(std::istream &in,Lovelace &A){
 			aux[0] = alg;
 			for (tamanho--;tamanho+1;tamanho--)
 				aux[tamanho+1] = algarismos[tamanho];
-			free(algarismos);
+			delete(algarismos);
 			algarismos = aux;
 		}
 		else {
@@ -962,7 +921,7 @@ std::istream &operator>>(std::istream &in,Lovelace &A){
 		aux[0] = alg;
 		for (tamanho--;tamanho+1;tamanho--)
 			aux[tamanho+1] = algarismos[tamanho];
-		free(algarismos);
+		delete(algarismos);
 		algarismos = aux;
 	}
 

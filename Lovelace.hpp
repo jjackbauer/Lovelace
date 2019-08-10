@@ -5,6 +5,7 @@
 #include <cstdio>
 #include <utility>
 #include <string>
+#include <vector>
 
 #define pause cout<<"Aperte enter para continuar..."<<endl; getchar();
 #define pauseclear pause system(clear || cls);
@@ -13,7 +14,7 @@ using namespace std;
 
 class Lovelace{//Representa numero natural
 	protected:
-		char *algarismos;
+		std::vector<char> algarismos;
 		void inicializar();
 		void zerar();
 		void copiarAlgarismos(const Lovelace &deA, Lovelace &paraB);
@@ -24,6 +25,7 @@ class Lovelace{//Representa numero natural
 		bool zero;	//Alterada para melhor uso;
 		void expandirAlgarismos();
 		void reduzirAlgarismos();
+		void liberarAlgarismos();
 		bool vefEhZeroBF();
 		int	removeZerosNaoSignificativos();
 
