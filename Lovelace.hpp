@@ -12,7 +12,8 @@
 
 using namespace std;
 
-class Lovelace{//Representa numero natural
+class Lovelace
+{//Representa numero natural
 	protected:
 		std::vector<char> algarismos;
 		void inicializar();
