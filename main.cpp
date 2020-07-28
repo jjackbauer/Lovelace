@@ -3,7 +3,7 @@
 #include <map>
 #include <string>
 
-#include "InteiroLovelace.hpp"
+//#include "InteiroLovelace.hpp"
 #include "Lovelace.hpp"
 #define quantidadeDeNumerosParaTestes 3
 using namespace std;
@@ -30,7 +30,7 @@ int main(){
 				testes_Lovelace();
 				break;
 			case '2':
-				testes_InteiroLovelace();
+				//testes_InteiroLovelace();
 				break;
 			case '3':
 				//testes_RealLovelace();
@@ -251,7 +251,7 @@ void testes_Lovelace(){
 	for (int cont = 0; cont < quantidadeDeNumerosParaTestes; cont++)
 		numero[cont].imprimirInfo();
 }
-
+/*
 void testes_InteiroLovelace(){
 	cout << "Selecione o teste que deseja fazer:" << endl;
 	cout << "[1] Teste 1 - 		[-]	Subtração" << endl;
@@ -427,3 +427,4 @@ void testes_InteiroLovelace(){
 	for (int cont = 0; cont < quantidadeDeNumerosParaTestes; cont++)
 		numero[cont].imprimirInfo();
 }
+*/
