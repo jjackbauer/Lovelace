@@ -420,9 +420,9 @@ Lovelace Lovelace::somar(const Lovelace &B) const
 		if (overflow)
 			resultado.setDigito(c,overflow);
 
-		for (c=resultado.getQuantidadeAlgarismos()-1;c > -1 && !resultado.getDigito(c);c--);
+		for (c=resultado.getQuantidadeAlgarismos()-1;c > -1 && !resultado.getDigito(c);c--);//Conta zeros não significativos
 
-		if (int aux = (resultado.getQuantidadeAlgarismos()-1 - c))
+		if (int aux = (resultado.getQuantidadeAlgarismos()-1 - c))//remove zeros não significativos
 		{
 			while(aux--)
 				resultado.reduzirAlgarismos();
@@ -445,7 +445,7 @@ Lovelace Lovelace::subtrair(const Lovelace &B) const
 	else if (this->eDiferenteDe(B))
 	{
 		Lovelace Aaux,Baux;
-		long long int c,diferenca;
+		long long int c,digitoAtual,carry;
 		if (this->eMaiorQue(B))
 		{
 			Aaux = (*this);
@@ -457,25 +457,13 @@ Lovelace Lovelace::subtrair(const Lovelace &B) const
 			Baux = (*this);
 		}
 
-		for(c=0;c<Aaux.getQuantidadeAlgarismos();c++)
+		for(c=0,carry=1;c<Aaux.getQuantidadeAlgarismos();c++)
 		{
-			diferenca=Aaux.getDigito(c)-Baux.getDigito(c);
-			if(diferenca<0)//Caso haja divida na subtracao
-			{
-				long long int diferencaAux,cAux;
-
-				for(diferencaAux=-1,cAux=c+1; diferencaAux<0;cAux++)
-				{
-					if (Aaux.getDigito(cAux) > 0)
-						Aaux.setDigito(cAux,diferencaAux=(Aaux.getDigito(cAux)-1));
-					else
-						Aaux.setDigito(cAux,9);
-				}
-
-				diferenca+=10;
-			}
-			resultado.setDigito(c,diferenca);
+			digitoAtual=(10+Aaux.getDigito(c)-Baux.getDigito(c)-(1-carry));
+			carry = digitoAtual/10;
+			resultado.setDigito(c,digitoAtual%10);
 		}
+
 		for (c=resultado.getQuantidadeAlgarismos()-1;c > -1 && !resultado.getDigito(c);c--);
 
 		if (long long int aux = (resultado.getQuantidadeAlgarismos()-1 - c))
